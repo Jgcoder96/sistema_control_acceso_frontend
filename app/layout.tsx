@@ -1,8 +1,8 @@
-// app/layout.tsx
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Providers } from "./providers";
+import { Geist, Geist_Mono } from "next/font/google";
+import type { Metadata } from "next";
+
+import { Providers } from "./components/lib/providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,11 +25,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    /**
-     * data-theme="light": Indica a Chakra v3 que use el tema claro.
-     * style={{ colorScheme: 'light' }}: Informa al navegador que esta web es solo clara.
-     * suppressHydrationWarning: Evita errores de consola por el manejo de temas de Chakra.
-     */
     <html
       lang="es"
       suppressHydrationWarning
@@ -38,13 +33,9 @@ export default function RootLayout({
     >
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        /**
-         * Aplicamos el fondo gris muy claro de React.dev (#f6f7f9)
-         * y el color de texto principal (#23272f) globalmente.
-         */
         style={{
-          backgroundColor: "#f6f7f9",
-          color: "#23272f",
+          backgroundColor: "#f6f7f9", // Esto coincide con tu token 'reactBg'
+          color: "#23272f", // Esto coincide con tu token 'reactText'
           minHeight: "100vh",
         }}
       >

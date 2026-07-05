@@ -1,39 +1,52 @@
-"use client"; // Importante: los componentes de Chakra v3 necesitan ser Client Components
+"use client";
 
-import { Button, Container, Heading, Text, Stack, Box } from "@chakra-ui/react";
+import { Flex, Center, Container, Stack, Button, Box } from "@chakra-ui/react";
+import Link from "next/link";
 
-export default function Home() {
+import { AppFooter, PageTransition } from "./components";
+import { HomeHeader, HeroSection, AuthorDetails } from "./components/home";
+
+export default function HomePage() {
   return (
-    <Container maxW="container.md" py={20}>
-      {/* 
-          CAMBIO CLAVE: 
-          'spacing' ahora es 'gap'
-      */}
-      <Stack gap={8} align="center" textAlign="center">
-        <Box>
-          <Heading size="2xl" mb={4}>
-            ¡Chakra UI v3 funcionando!
-          </Heading>
-          <Text fontSize="lg" color="gray.600">
-            Next.js App Router detectado. Los errores de spacing han sido
-            corregidos usando gap.
-          </Text>
-        </Box>
+    <PageTransition>
+      <Flex
+        direction="column"
+        h={{ base: "100dvh", md: "100vh" }}
+        w="100vw"
+        overflow="hidden"
+        bg="white"
+      >
+        <HomeHeader />
 
-        {/* 
-            CAMBIO CLAVE: 
-            En v3 se recomienda usar 'colorPalette' en lugar de 'colorScheme' 
-        */}
-        <Stack direction="row" gap={4}>
-          <Button colorPalette="blue" variant="solid" size="lg">
-            Empezar ahora
-          </Button>
+        <Center flex="1" px={8}>
+          <Container maxW="4xl">
+            <Stack gap={{ base: 10, md: 10 }} align="center" textAlign="center">
+              <HeroSection />
 
-          <Button colorPalette="gray" variant="outline" size="lg">
-            Documentación
-          </Button>
-        </Stack>
-      </Stack>
-    </Container>
+              <AuthorDetails />
+
+              <Box pt={4}>
+                <Button
+                  size="lg"
+                  bg="#087ea4"
+                  color="white"
+                  px={10}
+                  height={{ base: "54px", md: "56px" }}
+                  borderRadius="full"
+                  fontWeight="bold"
+                  boxShadow="0 8px 20px rgba(8, 126, 164, 0.15)"
+                  _hover={{ bg: "#066583", transform: "translateY(-2px)" }}
+                  asChild
+                >
+                  <Link href="/login">Acceder al Sistema</Link>
+                </Button>
+              </Box>
+            </Stack>
+          </Container>
+        </Center>
+
+        <AppFooter />
+      </Flex>
+    </PageTransition>
   );
 }

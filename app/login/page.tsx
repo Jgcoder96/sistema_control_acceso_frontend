@@ -1,24 +1,43 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import dynamic from "next/dynamic";
 import { Flex, Stack } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
 
 import { AppFooter, PageTransition } from "../../components";
-import { LoginForm, LoginModal, LoginHero, LoginHeader } from "../../components/login";
+import {
+  LoginForm,
+  LoginModal,
+  LoginHero,
+  LoginHeader,
+} from "../../components/login";
 import { useLogin } from "./hooks";
 
 function LoginPage() {
+  const router = useRouter();
   const { register, errors, isSubmitting, onSubmit, modal, closeModal } =
     useLogin();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("access_token");
+      if (token) {
+        router.replace("/inicio");
+      }
+    }
+  }, [router]);
 
   return (
     <PageTransition>
       <Flex
-        h={{ base: "100dvh", md: "100vh" }}
+        minH="100dvh"
+        minW="320px"
+        w="100%"
         direction={{ base: "column", md: "row" }}
         bg="white"
         overflow="hidden"
+        sx={{ height: "100dvh" }}
       >
         {/* Sección Visual Izquierda (PC) */}
         <LoginHero />

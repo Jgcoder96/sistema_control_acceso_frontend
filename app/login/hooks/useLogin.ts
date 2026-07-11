@@ -46,7 +46,7 @@ export function useLogin() {
         localStorage.setItem("refresh_token", result.data.tokens.refresh);
         localStorage.setItem("user_data", JSON.stringify(result.data.user));
 
-        setTimeout(() => router.push("/dashboard"), 2000);
+        setTimeout(() => router.push("/inicio"), 2000);
       } else {
         setModal({
           open: true,

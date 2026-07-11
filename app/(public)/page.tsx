@@ -11,10 +11,12 @@ export default function HomePage() {
     <PageTransition>
       <Flex
         direction="column"
-        h={{ base: "100dvh", md: "100vh" }}
-        w="100vw"
+        minH="100dvh"
+        w={{ base: "100vw", md: "100%" }}
+        minW="320px"
         overflow="hidden"
         bg="white"
+        sx={{ height: "100dvh" }}
       >
         <HomeHeader />
 

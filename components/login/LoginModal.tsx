@@ -26,19 +26,16 @@ export const LoginModal = ({
     <Dialog.Positioner p="6">
       <Dialog.Content
         borderRadius="2xl"
-        p={{ base: "8", md: "10" }} // Más padding para que respire
+        p={{ base: "8", md: "10" }}
         boxShadow="2xl"
         bg="white"
         maxW={{ base: "90vw", sm: "380px" }}
         width="full"
-        // Forzamos que el contenido de la caja esté centrado
         display="flex"
         flexDirection="column"
         alignItems="center"
       >
-        {/* Usamos un Stack para centrar vertical y horizontalmente todos los hijos */}
         <Stack gap="6" width="full" align="center" textAlign="center">
-          {/* Icono Centrado */}
           <Box
             color={isSuccess ? "green.500" : "red.500"}
             bg={isSuccess ? "green.50" : "red.50"}
@@ -51,7 +48,6 @@ export const LoginModal = ({
             {isSuccess ? <CheckCircle size={48} /> : <AlertCircle size={48} />}
           </Box>
 
-          {/* Título Centrado */}
           <Dialog.Header p="0" width="full">
             <Dialog.Title
               fontSize="2xl"
@@ -64,7 +60,6 @@ export const LoginModal = ({
             </Dialog.Title>
           </Dialog.Header>
 
-          {/* Mensaje Centrado */}
           <Dialog.Body p="0" width="full">
             <Text
               color="gray.600"
@@ -77,7 +72,6 @@ export const LoginModal = ({
             </Text>
           </Dialog.Body>
 
-          {/* Botón Centrado */}
           <Dialog.Footer p="0" width="full">
             <Button
               width="full"

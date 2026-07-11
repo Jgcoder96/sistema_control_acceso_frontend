@@ -1,8 +1,7 @@
 import "./globals.css";
 import { Geist, Geist_Mono } from "next/font/google";
 import type { Metadata } from "next";
-
-import { Providers } from "./components/lib/providers";
+import { Providers } from "../components/lib/providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,29 +14,19 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Mi Aplicación",
-  description: "Desarrollada con Next.js y Chakra UI (React Style)",
+  title: "Sistema de Control de Acceso",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html
-      lang="es"
-      suppressHydrationWarning
-      data-theme="light"
-      style={{ colorScheme: "light" }}
-    >
+    <html lang="es" suppressHydrationWarning>
       <body
+        suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        style={{
-          backgroundColor: "#f6f7f9", // Esto coincide con tu token 'reactBg'
-          color: "#23272f", // Esto coincide con tu token 'reactText'
-          minHeight: "100vh",
-        }}
       >
         <Providers>{children}</Providers>
       </body>

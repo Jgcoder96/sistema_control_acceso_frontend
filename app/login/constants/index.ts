@@ -1,1 +1,1 @@
-export { ENPOINTS } from "./endpoints";
+export { ENDPOINTS } from "./ENDPOINTS";

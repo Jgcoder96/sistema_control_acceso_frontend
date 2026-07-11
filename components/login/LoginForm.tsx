@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Box, Button, Input, Stack, Field, IconButton } from "@chakra-ui/react";
+import { Box, Input, Stack, Field, IconButton } from "@chakra-ui/react";
 import { UseFormRegister, FieldErrors } from "react-hook-form";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
-import { LoginFormValues } from "../schemas/loginSchema";
+import { LoginFormValues } from "../../app/login/schemas/loginSchema";
+import { GlobalButton } from "../ui/GlobalButton";
 
 interface LoginFormProps {
   register: UseFormRegister<LoginFormValues>;
@@ -102,29 +103,13 @@ export const LoginForm = ({
           </Field.ErrorText>
         </Field.Root>
 
-        {/* Botón con el estilo exacto de tu HomePage */}
-        <Button
+        <GlobalButton
           type="submit"
-          bg="#087ea4" // Color exacto de tu home
-          color="white"
-          size="lg"
-          height="56px" // Altura idéntica al botón del home
-          borderRadius="full" // Borde redondo idéntico al home
-          fontSize="md"
-          fontWeight="bold"
           loading={isSubmitting}
           width="100%"
-          mt="4" // Margen superior para separarlo de los inputs
-          boxShadow="0 8px 20px rgba(8, 126, 164, 0.15)" // Sombra idéntica al home
-          _hover={{
-            bg: "#066583",
-            transform: "translateY(-2px)",
-            boxShadow: "0 12px 25px rgba(8, 126, 164, 0.25)",
-          }}
-          transition="all 0.3s ease" // Transición suave idéntica al home
-        >
-          Ingresar al Sistema
-        </Button>
+          mt="4"
+          label="Ingresar al Sistema"
+        />
       </Stack>
     </form>
   );

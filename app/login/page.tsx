@@ -4,8 +4,8 @@ import React from "react";
 import dynamic from "next/dynamic";
 import { Flex, Stack } from "@chakra-ui/react";
 
-import { AppFooter, PageTransition } from "../components";
-import { LoginForm, LoginModal, LoginHero, LoginHeader } from "./components";
+import { AppFooter, PageTransition } from "../../components";
+import { LoginForm, LoginModal, LoginHero, LoginHeader } from "../../components/login";
 import { useLogin } from "./hooks";
 
 function LoginPage() {

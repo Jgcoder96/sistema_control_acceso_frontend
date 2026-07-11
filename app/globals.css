@@ -1,8 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Usamos los colores que definiste en tu layout para que sean consistentes */
+  --background: #f6f7f9;
+  --foreground: #23272f;
+
+  /* Forzamos a que el navegador sepa que preferimos modo claro inicialmente */
+  color-scheme: light;
 }
 
 @theme inline {
@@ -12,15 +16,24 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* 
+   Si Chakra UI v3 maneja el modo oscuro, es mejor que este bloque 
+   coincida con la lógica de Chakra para evitar saltos de hidratación.
+*/
 @media (prefers-color-scheme: dark) {
   :root {
+    /* Opcional: Colores para modo oscuro si decides usarlos */
     --background: #0a0a0a;
     --foreground: #ededed;
   }
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* Usamos las variables de fuente de Next.js que definiste en el layout */
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }

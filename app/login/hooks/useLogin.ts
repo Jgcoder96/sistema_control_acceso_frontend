@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ENDPOINTS } from "../constants/ENDPOINTS";
 
 import { loginSchema, LoginFormValues } from "../schemas";
 
@@ -25,7 +26,7 @@ export function useLogin() {
 
   const onSubmit = async (values: LoginFormValues) => {
     try {
-      const res = await fetch("http://localhost:3000/api/users/login", {
+      const res = await fetch(ENDPOINTS.LOGIN, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),

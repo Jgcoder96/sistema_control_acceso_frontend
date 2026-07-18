@@ -37,7 +37,7 @@ function LoginPage() {
         direction={{ base: "column", md: "row" }}
         bg="white"
         overflow="hidden"
-        sx={{ height: "100dvh" }}
+        height="100dvh"
       >
         {/* Sección Visual Izquierda (PC) */}
         <LoginHero />

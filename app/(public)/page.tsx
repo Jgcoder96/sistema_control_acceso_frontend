@@ -16,7 +16,7 @@ export default function HomePage() {
         minW="320px"
         overflow="hidden"
         bg="white"
-        sx={{ height: "100dvh" }}
+        height="100dvh"
       >
         <HomeHeader />
 

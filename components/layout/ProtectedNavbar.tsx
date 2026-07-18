@@ -6,8 +6,6 @@ import {
   Drawer,
   Flex,
   IconButton,
-  Menu,
-  Portal,
   Stack,
   Text,
 } from "@chakra-ui/react";

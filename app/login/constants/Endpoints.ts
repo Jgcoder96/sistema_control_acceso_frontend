@@ -1,3 +1,0 @@
-export const ENDPOINTS = {
-  LOGIN: "http://localhost:3000/api/users/login",
-};

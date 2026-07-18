@@ -1,7 +1,9 @@
+"use client";
+
 import { Dialog, Box, Text, Button, Stack } from "@chakra-ui/react";
 import { CheckCircle, AlertCircle } from "lucide-react";
 
-interface LoginModalProps {
+interface StatusModalProps {
   open: boolean;
   onClose: () => void;
   title: string;
@@ -9,13 +11,13 @@ interface LoginModalProps {
   isSuccess: boolean;
 }
 
-export const LoginModal = ({
+export const StatusModal = ({
   open,
   onClose,
   title,
   message,
   isSuccess,
-}: LoginModalProps) => (
+}: StatusModalProps) => (
   <Dialog.Root
     open={open}
     onOpenChange={(e) => onClose()}
@@ -84,7 +86,7 @@ export const LoginModal = ({
               _hover={{ opacity: 0.9 }}
               onClick={onClose}
             >
-              {isSuccess ? "Cargando..." : "Intentar de nuevo"}
+              {isSuccess ? "Entendido" : "Intentar de nuevo"}
             </Button>
           </Dialog.Footer>
         </Stack>

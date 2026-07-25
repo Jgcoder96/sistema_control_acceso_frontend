@@ -1,19 +1,20 @@
-// utils/apiClient.ts
-// Centralized fetch wrapper that automatically includes the access token,
-// handles token expiration by refreshing the access token via the backend,
-// and logs out the user if the refresh fails.
-
 import { API_CONFIG } from "@/config/api";
 import { logout } from "./auth";
 
+/** Opciones extendidas para la función fetch nativa */
 type RequestOptions = RequestInit & {
-  // optional flag to skip auto‑auth (e.g., login endpoint)
+  /** 
+   * Bandera opcional para omitir la inyección automática del token de acceso 
+   * (útil para endpoints de login o públicos)
+   */
   skipAuth?: boolean;
 };
 
 /**
- * Perform a fetch request with automatic Authorization header handling.
- * If a 401 response is received, attempts to refresh the token and retry.
+ * Envoltorio centralizado para peticiones de red (Fetch API).
+ * Inyecta automáticamente el token JWT de acceso (`access_token`) en las cabeceras.
+ * Si recibe un error 401 (No Autorizado), intenta renovar el token usando el `refresh_token`
+ * y reintenta la petición original. Si la renovación falla, cierra la sesión.
  */
 export async function apiFetch(
   input: string,

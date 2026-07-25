@@ -65,7 +65,7 @@ export const getUserColumns = (
         <IconButton
           variant="ghost"
           size="sm"
-          color="gray.400"
+          colorPalette="blue"
           aria-label="Ver Info"
           onClick={() => onAction(u, "view")}
         >
@@ -74,7 +74,7 @@ export const getUserColumns = (
         <IconButton
           variant="ghost"
           size="sm"
-          color="gray.400"
+          colorPalette="orange"
           aria-label="Editar"
           onClick={() => onAction(u, "edit")}
         >
@@ -83,7 +83,7 @@ export const getUserColumns = (
         <IconButton
           variant="ghost"
           size="sm"
-          color="gray.400"
+          colorPalette="purple"
           aria-label="Asignar Rol"
           onClick={() => onAction(u, "assign_roles")}
         >
@@ -92,7 +92,7 @@ export const getUserColumns = (
         <IconButton
           variant="ghost"
           size="sm"
-          color="gray.400"
+          colorPalette="red"
           aria-label="Eliminar"
           onClick={() => onAction(u, "delete")}
         >

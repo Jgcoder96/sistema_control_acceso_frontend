@@ -12,7 +12,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   House,
   Users,
@@ -24,6 +24,10 @@ import {
   X,
 } from "lucide-react";
 
+/**
+ * Configuración estática de los ítems de navegación del Dashboard.
+ * Permite anidar rutas hijas bajo un mismo módulo (ej. Accesos -> Usuarios, Roles, Permisos).
+ */
 const navItems = [
   { label: "Inicio", href: "/inicio", icon: House },
   {
@@ -52,18 +56,9 @@ const navItems = [
   { label: "Logs", href: "/logs", icon: FileText },
 ];
 
-/** Estructura tipada para los datos del usuario en sesión extraídos de LocalStorage */
-type UserSession = {
-  nombre?: string;
-  apellido?: string;
-  correo_electronico?: string;
-  foto_url?: string;
-  roles?: string[];
-};
-
 /**
  * Barra de navegación principal del Dashboard.
- * Gestiona el menú responsivo (escritorio y móvil), el control de la sesión (logout) 
+ * Gestiona el menú responsivo (escritorio y móvil), el control de la sesión (logout)
  * y la navegación por las rutas internas protegiendo el acceso.
  */
 export default function ProtectedNavbar() {
@@ -74,26 +69,16 @@ export default function ProtectedNavbar() {
   const [openDesktopSubmenu, setOpenDesktopSubmenu] = useState<string | null>(
     null,
   );
-  const [user, setUser] = useState<UserSession>({});
+  const [prevPathname, setPrevPathname] = useState(pathname);
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const storedUser = localStorage.getItem("user_data");
-    if (storedUser) {
-      try {
-        setUser(JSON.parse(storedUser));
-      } catch {
-        setUser({});
-      }
-    }
-  }, []);
-
-  useEffect(() => {
+  // Sincronizar el estado del menú con la ruta actual (Derived State en fase de render)
+  // Esto previene el error "Calling setState synchronously within an effect"
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
     setOpenDesktopSubmenu(null);
     setOpenSubmenu(null);
     setIsDrawerOpen(false);
-  }, [pathname]);
+  }
 
   const handleLogout = () => {
     localStorage.removeItem("access_token");

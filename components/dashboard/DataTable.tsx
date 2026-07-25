@@ -29,6 +29,11 @@ interface DataTableProps<T> {
   filterBar?: React.ReactNode;
   tableHeight?: string | number;
   loading?: boolean;
+  serverPagination?: {
+    currentPage: number;
+    totalPages: number;
+    onPageChange: (page: number) => void;
+  };
 }
 
 export function DataTable<T>({
@@ -38,6 +43,7 @@ export function DataTable<T>({
   filterBar,
   tableHeight = "500px",
   loading = false,
+  serverPagination,
 }: DataTableProps<T>) {
   const [currentPage, setCurrentPage] = useState(1);
   const [prevData, setPrevData] = useState(data);
@@ -47,9 +53,20 @@ export function DataTable<T>({
     setCurrentPage(1);
   }
 
-  const totalPages = Math.ceil(data.length / pageSize);
-  const startIndex = (currentPage - 1) * pageSize;
-  const currentData = data.slice(startIndex, startIndex + pageSize);
+  const isServer = !!serverPagination;
+  const actualCurrentPage = isServer ? serverPagination.currentPage : currentPage;
+  const totalPages = isServer ? serverPagination.totalPages : Math.ceil(data.length / pageSize);
+  const currentData = isServer
+    ? data
+    : data.slice((actualCurrentPage - 1) * pageSize, actualCurrentPage * pageSize);
+
+  const handlePageChange = (p: number) => {
+    if (isServer) {
+      serverPagination.onPageChange(p);
+    } else {
+      setCurrentPage(p);
+    }
+  };
 
   return (
     <Box w="full" display="flex" flexDirection="column" gap={4}>
@@ -67,9 +84,20 @@ export function DataTable<T>({
         overflow="hidden"
       >
         {/* Contenedor principal con scroll horizontal sincronizado y comportamiento flexible */}
-        <Box overflowX="auto" w="full" flex="1" display="flex" flexDirection="column">
-          <Box minW="1000px" display="flex" flexDirection="column" flex="1" overflow="hidden">
-            
+        <Box
+          overflowX="auto"
+          w="full"
+          flex="1"
+          display="flex"
+          flexDirection="column"
+        >
+          <Box
+            minW="1000px"
+            display="flex"
+            flexDirection="column"
+            flex="1"
+            overflow="hidden"
+          >
             {/* Tabla para Encabezado (Estático Verticalmente) */}
             <Table.Root
               size="lg"
@@ -185,12 +213,11 @@ export function DataTable<T>({
                 </Center>
               )}
             </Box>
-
           </Box>
         </Box>
 
         {totalPages > 0 && (
-          <Box borderTop="1px solid" borderColor="gray.100" py={3} bg="white">
+          <Box borderTop="1px solid" borderColor="gray.100" py={3} bg="white" mt="auto">
             <Center>
               <HStack
                 gap={2}
@@ -204,8 +231,8 @@ export function DataTable<T>({
                   variant="ghost"
                   size="sm"
                   borderRadius="full"
-                  disabled={currentPage === 1}
-                  onClick={() => setCurrentPage((p) => p - 1)}
+                  disabled={actualCurrentPage === 1}
+                  onClick={() => handlePageChange(actualCurrentPage - 1)}
                 >
                   <ChevronLeft size={18} />
                 </IconButton>
@@ -214,14 +241,14 @@ export function DataTable<T>({
                     <Button
                       key={i}
                       size="sm"
-                      variant={currentPage === i + 1 ? "solid" : "ghost"}
-                      bg={currentPage === i + 1 ? "brand.500" : "transparent"}
-                      color={currentPage === i + 1 ? "white" : "gray.600"}
+                      variant={actualCurrentPage === i + 1 ? "solid" : "ghost"}
+                      bg={actualCurrentPage === i + 1 ? "brand.500" : "transparent"}
+                      color={actualCurrentPage === i + 1 ? "white" : "gray.600"}
                       borderRadius="full"
                       minW="32px"
                       h="32px"
                       fontSize="xs"
-                      onClick={() => setCurrentPage(i + 1)}
+                      onClick={() => handlePageChange(i + 1)}
                     >
                       {i + 1}
                     </Button>
@@ -231,8 +258,8 @@ export function DataTable<T>({
                   variant="ghost"
                   size="sm"
                   borderRadius="full"
-                  disabled={currentPage === totalPages}
-                  onClick={() => setCurrentPage((p) => p - 1)}
+                  disabled={actualCurrentPage === totalPages}
+                  onClick={() => handlePageChange(actualCurrentPage + 1)}
                 >
                   <ChevronRight size={18} />
                 </IconButton>

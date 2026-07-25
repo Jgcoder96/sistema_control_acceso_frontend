@@ -31,10 +31,12 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   }
 
   return (
-    <Box minH="100dvh" h="100dvh" bg="gray.50" minW="320px" overflow="hidden">
+    <Box minH="100dvh" h="100dvh" bg="gray.50" minW="320px" overflow="hidden" display="flex" flexDirection="column">
       <ProtectedNavbar />
-      <Box p={{ base: 4, md: 6 }} minW="0" minH={0} flex="1" overflow="auto">
-        {children}
+      <Box minW="0" minH={0} flex="1" overflow="auto" w="full">
+        <Box w="full" px={{ base: 4, md: 6, lg: 8 }} py={{ base: 4, md: 6 }}>
+          {children}
+        </Box>
       </Box>
     </Box>
   );

@@ -13,11 +13,18 @@ import {
 } from "@chakra-ui/react";
 import { Camera, Eye, Pencil, Trash2, UserPlus, UserCog } from "lucide-react";
 import { BaseModal } from "@/components";
-import { Usuario, RolUsuario, RolesApiResponse } from "@/app/(dashboard)/accesos/usuarios/types/Usuario";
+import {
+  Usuario,
+  RolUsuario,
+  RolesApiResponse,
+} from "@/app/(dashboard)/accesos/usuarios/types/Usuario";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { createUserSchema, updateUserSchema, UserFormValues } from "@/app/(dashboard)/accesos/usuarios/schemas";
+import {
+  createUserSchema,
+  updateUserSchema,
+  UserFormValues,
+} from "@/app/(dashboard)/accesos/usuarios/schemas";
 import { API_CONFIG } from "@/config/api";
 
 import { UserForm } from "./UserForm";
@@ -32,7 +39,9 @@ interface UserActionModalProps {
   mode: ModalMode;
   open: boolean;
   onClose: () => void;
-  onAction: (data: FormData | string | { userId: string; rolesIds: string[] }) => Promise<void>;
+  onAction: (
+    data: FormData | string | { userId: string; rolesIds: string[] },
+  ) => Promise<void>;
 }
 
 export const UserActionModal = ({
@@ -79,8 +88,6 @@ export const UserActionModal = ({
     },
   };
 
-  const schema = (mode === "create" ? createUserSchema : updateUserSchema) as z.Schema<UserFormValues, any, any>;
-
   const {
     register,
     handleSubmit,
@@ -89,7 +96,9 @@ export const UserActionModal = ({
     watch,
     formState: { errors },
   } = useForm<UserFormValues>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(
+      mode === "create" ? createUserSchema : updateUserSchema,
+    ),
     mode: "onTouched",
   });
 
@@ -138,14 +147,12 @@ export const UserActionModal = ({
 
   const fetchUserRoles = async (userId: string) => {
     setLoadingRoles(true);
+    setRoles([]);
     try {
       const token = localStorage.getItem("access_token");
-      const res = await fetch(
-        API_CONFIG.ENDPOINTS.USER_ROLES(userId),
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
+      const res = await fetch(API_CONFIG.ENDPOINTS.USER_ROLES(userId), {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       const result: RolesApiResponse = await res.json();
       if (result.success) setRoles(result.data);
     } catch (err) {
@@ -160,9 +167,12 @@ export const UserActionModal = ({
     try {
       const token = localStorage.getItem("access_token");
       const searchParam = search ? `&search=${encodeURIComponent(search)}` : "";
-      const res = await fetch(`${API_CONFIG.ENDPOINTS.ROLES}?limit=100${searchParam}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await fetch(
+        `${API_CONFIG.ENDPOINTS.ROLES}?limit=100&status=active${searchParam}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
       const result = await res.json();
       if (result.success) {
         setAllRoles(result.data);
@@ -223,7 +233,12 @@ export const UserActionModal = ({
       colorPalette={currentConfig.color}
       size="lg"
       headerExtra={
-        <HStack gap={6} align="center">
+        <HStack
+          gap={{ base: 4, sm: 6 }}
+          align="center"
+          flexDirection={{ base: "column", sm: "row" }}
+          textAlign={{ base: "center", sm: "left" }}
+        >
           <Box position="relative">
             <Avatar.Root
               size="2xl"
@@ -265,7 +280,7 @@ export const UserActionModal = ({
               }}
             />
           </Box>
-          <VStack align="start" gap={1}>
+          <VStack align={{ base: "center", sm: "start" }} gap={1}>
             <Text
               fontSize="xs"
               fontWeight="bold"
@@ -275,14 +290,23 @@ export const UserActionModal = ({
             >
               {mode === "view" ? "Detalles del Usuario" : currentConfig.title}
             </Text>
-            <Text fontSize="2xl" fontWeight="bold" color="gray.850" lineHeight="1.2">
+            <Text
+              fontSize="2xl"
+              fontWeight="bold"
+              color="gray.850"
+              lineHeight="1.2"
+            >
               {mode === "create"
                 ? "Registrar Usuario"
                 : `${nombreVal || user?.nombre || ""} ${apellidoVal || user?.apellido || ""}`}
             </Text>
             <HStack gap={2} mt={1}>
               <Badge
-                colorPalette={user?.estado === "activo" || mode === "create" ? "green" : "red"}
+                colorPalette={
+                  user?.estado === "activo" || mode === "create"
+                    ? "green"
+                    : "red"
+                }
                 variant="solid"
                 borderRadius="full"
               >
@@ -295,7 +319,12 @@ export const UserActionModal = ({
                   borderRadius="full"
                   textTransform="none"
                 >
-                  ID: {user.id}
+                  <Text as="span" display={{ base: "none", sm: "inline" }}>
+                    ID: {user.id}
+                  </Text>
+                  <Text as="span" display={{ base: "inline", sm: "none" }}>
+                    ID: {user.id.substring(0, 8)}...
+                  </Text>
                 </Badge>
               )}
             </HStack>
@@ -303,7 +332,13 @@ export const UserActionModal = ({
         </HStack>
       }
       showFooter={true}
-      confirmText={mode === "delete" ? "Eliminar" : mode === "assign_roles" ? "Asignar Roles" : "Confirmar"}
+      confirmText={
+        mode === "delete"
+          ? "Eliminar"
+          : mode === "assign_roles"
+            ? "Asignar Roles"
+            : "Confirmar"
+      }
       cancelText="Cancelar"
       onConfirm={
         mode === "delete"

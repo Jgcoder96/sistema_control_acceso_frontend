@@ -16,6 +16,7 @@ export default function UsuariosPage() {
     loading,
     filters,
     setFilters,
+    totalPages,
     statusModal,
     setStatusModal,
     createUser,
@@ -56,11 +57,10 @@ export default function UsuariosPage() {
 
   return (
     <Box
-      p={{ base: 4, md: 6 }}
       bg="gray.50/40"
-      h="calc(100vh - 75px)"
       display="flex"
       flexDirection="column"
+      h="full"
     >
       {/* CORRECCIÓN AQUÍ: Eliminado el 'open' duplicado */}
       <StatusModal
@@ -89,6 +89,11 @@ export default function UsuariosPage() {
         pageSize={filters.limit}
         tableHeight="calc(100vh - 180px)"
         loading={loading}
+        serverPagination={{
+          currentPage: filters.page,
+          totalPages: totalPages,
+          onPageChange: (page) => setFilters((prev) => ({ ...prev, page })),
+        }}
       />
     </Box>
   );

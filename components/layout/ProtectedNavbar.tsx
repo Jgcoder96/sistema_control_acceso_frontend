@@ -120,6 +120,7 @@ export default function ProtectedNavbar() {
         <Box key={item.href} position="relative">
           <Button
             size="sm"
+            h="36px"
             borderRadius="full"
             variant={active ? "solid" : "ghost"}
             bg={active ? "brand.500" : "transparent"}
@@ -200,6 +201,7 @@ export default function ProtectedNavbar() {
         key={item.href}
         asChild
         size="sm"
+        h="36px"
         borderRadius="full"
         variant={active ? "solid" : "ghost"}
         bg={active ? "brand.500" : "transparent"}
@@ -314,11 +316,11 @@ export default function ProtectedNavbar() {
       minW="320px"
     >
       <Flex
-        maxW="7xl"
-        mx="auto"
+        w="full"
         align="center"
         justify="space-between"
-        p={{ base: 4, md: 5 }}
+        px={{ base: 4, md: 6, lg: 8 }}
+        py={{ base: 4, md: 5 }}
         gap={{ base: 3, md: 4 }}
         minW="0"
       >
@@ -346,6 +348,7 @@ export default function ProtectedNavbar() {
         <Box display={{ base: "none", md: "flex" }}>
           <Button
             size="sm"
+            h="36px"
             borderRadius="full"
             colorScheme="red"
             variant="solid"
@@ -354,8 +357,9 @@ export default function ProtectedNavbar() {
             _hover={{ bg: "red.600" }}
             _active={{ bg: "red.700" }}
             onClick={handleLogout}
+            px={5}
           >
-            <Flex align="center" gap={2}>
+            <Flex align="center" justify="center" gap={2}>
               <LogOut size={16} />
               <Text fontSize="sm" fontWeight="semibold">
                 Cerrar sesión
@@ -395,6 +399,8 @@ export default function ProtectedNavbar() {
             <Drawer.Footer>
               <Button
                 width="full"
+                size="sm"
+                h="36px"
                 colorScheme="red"
                 variant="solid"
                 bg="red.500"
@@ -402,7 +408,7 @@ export default function ProtectedNavbar() {
                 _hover={{ bg: "red.600" }}
                 onClick={handleLogout}
               >
-                <Flex align="center" gap={2}>
+                <Flex align="center" justify="center" gap={2}>
                   <LogOut size={16} />
                   <Text>Cerrar sesión</Text>
                 </Flex>

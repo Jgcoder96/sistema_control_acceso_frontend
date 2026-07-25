@@ -4,7 +4,10 @@ import { Usuario } from "@/app/(dashboard)/accesos/usuarios/types/Usuario";
 import { ColumnConfig } from "@/components/dashboard/DataTable";
 
 export const getUserColumns = (
-  onAction: (u: Usuario, mode: "view" | "edit" | "delete" | "assign_roles") => void,
+  onAction: (
+    u: Usuario,
+    mode: "view" | "edit" | "delete" | "assign_roles",
+  ) => void,
 ): ColumnConfig<Usuario>[] => [
   {
     header: "Usuario",

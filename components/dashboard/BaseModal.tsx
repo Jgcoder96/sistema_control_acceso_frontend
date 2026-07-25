@@ -10,12 +10,12 @@ export interface BaseModalProps {
   subtitle?: string;
   size?: "xs" | "sm" | "md" | "lg" | "xl" | "full" | "cover";
   colorPalette?: string; // e.g. "blue", "green", "orange", "red"
-  
+
   // Custom Header elements
   headerIcon?: React.ReactNode;
   headerBadge?: React.ReactNode;
   headerExtra?: React.ReactNode; // Overrides the default header layout completely if provided
-  
+
   // Footer options
   showFooter?: boolean;
   confirmText?: string;
@@ -62,6 +62,9 @@ export const BaseModal = ({
           bg="white"
           overflow="hidden"
           boxShadow="2xl"
+          maxH="90vh"
+          display="flex"
+          flexDirection="column"
         >
           {/* Cabecera del Modal */}
           <Box
@@ -69,11 +72,17 @@ export const BaseModal = ({
             p="8"
             borderBottom="1px solid"
             borderColor="gray.100"
+            flexShrink={0}
           >
             {headerExtra ? (
               headerExtra
             ) : (
-              <HStack gap={4} width="full" justify="space-between" align="center">
+              <HStack
+                gap={4}
+                width="full"
+                justify="space-between"
+                align="center"
+              >
                 <HStack gap={4} align="center">
                   {headerIcon && (
                     <Box color={`${colorPalette}.500`} display="inline-flex">
@@ -81,7 +90,11 @@ export const BaseModal = ({
                     </Box>
                   )}
                   <VStack align="start" gap={0}>
-                    <Dialog.Title fontSize="2xl" fontWeight="bold" color="gray.800">
+                    <Dialog.Title
+                      fontSize="2xl"
+                      fontWeight="bold"
+                      color="gray.800"
+                    >
                       {title}
                     </Dialog.Title>
                     {subtitle && (
@@ -97,7 +110,7 @@ export const BaseModal = ({
           </Box>
 
           {/* Cuerpo del Modal */}
-          <Dialog.Body p="8">
+          <Dialog.Body p="8" display="flex" flexDirection="column" overflow="hidden">
             {children}
           </Dialog.Body>
 
@@ -108,6 +121,7 @@ export const BaseModal = ({
               borderTop="1px solid"
               borderColor="gray.100"
               bg="gray.50/50"
+              flexShrink={0}
             >
               {customFooter ? (
                 customFooter

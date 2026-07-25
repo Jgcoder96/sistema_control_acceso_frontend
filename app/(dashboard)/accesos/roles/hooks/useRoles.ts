@@ -2,15 +2,18 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { apiFetch } from '@/utils/apiClient';
-import {
-  Usuario,
-  UsuariosApiResponse,
-  UserQueryParams,
-} from "../types/Usuario";
+import { Role } from "../types/Role";
 import { API_CONFIG } from "@/config/api";
 
-export function useUsers() {
-  const [data, setData] = useState<Usuario[]>([]);
+export interface RoleQueryParams {
+  status: "active" | "deleted" | "all";
+  search: string;
+  page: number;
+  limit: number;
+}
+
+export function useRoles() {
+  const [data, setData] = useState<Role[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [statusModal, setStatusModal] = useState({
@@ -20,7 +23,7 @@ export function useUsers() {
     isSuccess: false,
   });
 
-  const [filters, setFilters] = useState<UserQueryParams>({
+  const [filters, setFilters] = useState<RoleQueryParams>({
     status: "all",
     search: "",
     page: 1,
@@ -31,8 +34,7 @@ export function useUsers() {
     setStatusModal({ open: true, title, message, isSuccess });
   };
 
-  const fetchUsers = useCallback(async () => {
-    const token = localStorage.getItem("access_token");
+  const fetchRoles = useCallback(async () => {
     setLoading(true);
     try {
       const params = new URLSearchParams({
@@ -42,17 +44,17 @@ export function useUsers() {
       });
       if (filters.search) params.append("search", filters.search);
 
-      const response = await apiFetch(`${API_CONFIG.ENDPOINTS.USERS}?${params.toString()}`);
+      const response = await apiFetch(`${API_CONFIG.ENDPOINTS.ROLES}?${params.toString()}`);
 
       const result: any = await response.json();
       if (result.success) {
         setData(result.data);
-        setTotalPages(result.metadata.totalPages);
+        setTotalPages(result.metadata?.totalPages || 1);
       } else {
         const errorMsg =
           result.issues?.[0]?.message ||
           result.message ||
-          "Error al obtener usuarios";
+          "Error al obtener roles";
         showStatus("Error", errorMsg, false);
       }
     } catch (error) {
@@ -66,9 +68,8 @@ export function useUsers() {
     const result = await res.json();
     if (result.success) {
       showStatus("Éxito", successMsg, true);
-      fetchUsers();
+      fetchRoles();
     } else {
-      // Tomamos el primer error de 'issues' si existe, si no, el 'message'
       const errorMsg =
         result.issues?.[0]?.message ||
         result.message ||
@@ -77,59 +78,59 @@ export function useUsers() {
     }
   };
 
-  const createUser = async (formData: FormData) => {
+  const createRole = async (formData: { nombre: string; descripcion?: string }) => {
     try {
-      const res = await apiFetch(API_CONFIG.ENDPOINTS.USERS, {
+      const res = await apiFetch(API_CONFIG.ENDPOINTS.ROLES, {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
-      await handleApiResponse(res, "Usuario creado correctamente");
+      await handleApiResponse(res, "Rol creado correctamente");
     } catch (err) {
       showStatus("Error", "Error de red", false);
     }
   };
 
-  const updateUser = async (id: string, formData: FormData) => {
+  const updateRole = async (id: string, formData: { nombre?: string; descripcion?: string }) => {
     try {
-      const res = await apiFetch(API_CONFIG.ENDPOINTS.USER_DETAIL(id), {
+      const res = await apiFetch(`${API_CONFIG.ENDPOINTS.ROLES}/${id}`, {
         method: "PUT",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
-      await handleApiResponse(res, "Usuario actualizado correctamente");
+      await handleApiResponse(res, "Rol actualizado correctamente");
     } catch (err) {
       showStatus("Error", "Error de red", false);
     }
   };
 
-  const deleteUser = async (id: string) => {
+  const deleteRole = async (id: string) => {
     try {
-      const res = await apiFetch(API_CONFIG.ENDPOINTS.USER_DETAIL(id), {
+      const res = await apiFetch(`${API_CONFIG.ENDPOINTS.ROLES}/${id}`, {
         method: "DELETE",
       });
-      await handleApiResponse(res, "Usuario eliminado");
+      await handleApiResponse(res, "Rol eliminado");
     } catch (err) {
       showStatus("Error", "Error de red", false);
     }
   };
 
-  const assignRoles = async (userId: string, rolesIds: string[]) => {
+  const assignPermissions = async (roleId: string, permisosIds: string[]) => {
     try {
-      const res = await apiFetch(API_CONFIG.ENDPOINTS.USER_ROLES(userId), {
+      const res = await apiFetch(API_CONFIG.ENDPOINTS.ROLE_PERMISSIONS(roleId), {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ rolesIds }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ permisosIds }),
       });
-      await handleApiResponse(res, "Roles asignados correctamente");
+      await handleApiResponse(res, "Permisos asignados correctamente");
     } catch (err) {
       showStatus("Error", "Error de red", false);
     }
   };
 
   useEffect(() => {
-    fetchUsers();
-  }, [fetchUsers]);
+    fetchRoles();
+  }, [fetchRoles]);
 
   return {
     data,
@@ -139,9 +140,9 @@ export function useUsers() {
     totalPages,
     statusModal,
     setStatusModal,
-    createUser,
-    updateUser,
-    deleteUser,
-    assignRoles,
+    createRole,
+    updateRole,
+    deleteRole,
+    assignPermissions,
   };
 }

@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Grid, Text, Field } from "@chakra-ui/react";
-import { FormInput } from "./FormInput";
+import { FormInput } from "@/components";
 import { UseFormRegister, FieldErrors } from "react-hook-form";
 import { UserFormValues } from "@/app/(dashboard)/accesos/usuarios/schemas";
 
@@ -20,7 +20,7 @@ export const UserForm = ({
   mode,
 }: UserFormProps) => {
   return (
-    <Grid templateColumns="repeat(2, 1fr)" gap={6}>
+    <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={6}>
       <FormInput
         label="NOMBRE"
         register={register("nombre")}

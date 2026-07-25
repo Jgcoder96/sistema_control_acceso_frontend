@@ -5,24 +5,23 @@ import { Flex, HStack, Box, Center, Input, Text } from "@chakra-ui/react";
 import { Search, Plus } from "lucide-react";
 import { GlobalButton } from "@/components/ui/GlobalButton";
 import { AnimatedDropdown } from "@/components/ui/AnimatedDropdown";
-import {
-  UserQueryParams,
-  UserStatusFilter,
-} from "@/app/(dashboard)/accesos/usuarios/types/Usuario";
+import { RoleQueryParams } from "@/app/(dashboard)/accesos/roles/hooks/useRoles";
 
-interface UserFilterBarProps {
+export type RoleStatusFilter = RoleQueryParams["status"];
+
+interface RoleFilterBarProps {
   search: string;
-  status: UserStatusFilter;
-  onFilterChange: (newFilters: Partial<UserQueryParams>) => void;
+  status: RoleStatusFilter;
+  onFilterChange: (newFilters: Partial<RoleQueryParams>) => void;
   onAddClick: () => void;
 }
 
-export const UserFilterBar = ({
+export const RoleFilterBar = ({
   search,
   status,
   onFilterChange,
   onAddClick,
-}: UserFilterBarProps) => {
+}: RoleFilterBarProps) => {
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     onFilterChange({ search: e.target.value, page: 1 });
   };
@@ -37,7 +36,7 @@ export const UserFilterBar = ({
       mb={2}
     >
       <HStack gap={4} w={{ base: "full", md: "auto" }} flex="1">
-        {/* Buscador por Cédula */}
+        {/* Buscador por Nombre */}
         <Box
           position="relative"
           flex={{ base: "1", md: "none" }}
@@ -54,7 +53,7 @@ export const UserFilterBar = ({
             <Search size={16} />
           </Center>
           <Input
-            placeholder="Buscar por cédula..."
+            placeholder="Buscar por nombre..."
             value={search}
             onChange={handleSearchChange}
             pl="11"
@@ -72,7 +71,7 @@ export const UserFilterBar = ({
           />
         </Box>
 
-        {/* Selector de Estado (Componente Reutilizable) */}
+        {/* Selector de Estado */}
         <AnimatedDropdown
           value={status}
           options={[
@@ -81,7 +80,7 @@ export const UserFilterBar = ({
             { value: "deleted", label: "Eliminados" },
           ]}
           onChange={(val) =>
-            onFilterChange({ status: val as UserStatusFilter, page: 1 })
+            onFilterChange({ status: val as RoleStatusFilter, page: 1 })
           }
         />
       </HStack>
@@ -98,7 +97,7 @@ export const UserFilterBar = ({
         <HStack gap={2} align="center">
           <Plus size={16} strokeWidth={3} />
           <Text fontSize="sm" fontWeight="bold">
-            Nuevo Usuario
+            Nuevo Rol
           </Text>
         </HStack>
       </GlobalButton>

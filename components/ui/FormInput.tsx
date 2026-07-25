@@ -28,6 +28,8 @@ export const FormInput = ({
       type={type}
       placeholder={placeholder}
       borderRadius="lg"
+      h="36px"
+      fontSize="sm"
       {...register}
     />
     {error && (

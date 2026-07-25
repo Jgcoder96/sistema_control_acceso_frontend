@@ -1,33 +1,22 @@
 "use client";
 
 import React from "react";
-import {
-  Grid,
-  VStack,
-  HStack,
-  Text,
-  Box,
-  Separator,
-  Spinner,
-} from "@chakra-ui/react";
-import { IdCard, Mail, Calendar, Clock, Shield } from "lucide-react";
+import { Grid, VStack, HStack, Text, Box, Separator, Spinner } from "@chakra-ui/react";
+import { Calendar, Clock, Text as TextIcon, Fingerprint, ShieldCheck } from "lucide-react";
 import { DetailItem } from "@/components";
-import {
-  Usuario,
-  RolUsuario,
-} from "@/app/(dashboard)/accesos/usuarios/types/Usuario";
+import { Role, AppPermission } from "@/app/(dashboard)/accesos/roles/types/Role";
 
-interface UserDetailViewProps {
-  formData: Partial<Usuario>;
-  loadingRoles: boolean;
-  roles: RolUsuario[];
+interface RoleDetailViewProps {
+  formData: Partial<Role>;
+  loadingPermissions: boolean;
+  permissions: AppPermission[];
 }
 
-export const UserDetailView = ({
+export const RoleDetailView = ({
   formData,
-  loadingRoles,
-  roles,
-}: UserDetailViewProps) => {
+  loadingPermissions,
+  permissions,
+}: RoleDetailViewProps) => {
   const formatDate = (dateStr?: string) => {
     if (!dateStr) return "-";
     try {
@@ -47,20 +36,16 @@ export const UserDetailView = ({
 
   return (
     <VStack align="start" gap={6} w="full" h="full" overflow="hidden">
-      <Grid
-        templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
-        gap={6}
-        w="full"
-      >
+      <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={6} w="full">
         <DetailItem
-          icon={<IdCard size={18} />}
-          label="Cédula"
-          value={formData.cedula || ""}
+          icon={<Fingerprint size={18} />}
+          label="Nombre del Rol"
+          value={formData.nombre || ""}
         />
         <DetailItem
-          icon={<Mail size={18} />}
-          label="Correo"
-          value={formData.correo_electronico || ""}
+          icon={<TextIcon size={18} />}
+          label="Descripción"
+          value={formData.descripcion || "Sin descripción"}
         />
         <DetailItem
           icon={<Calendar size={18} />}
@@ -75,37 +60,42 @@ export const UserDetailView = ({
       </Grid>
       <Separator />
       <VStack align="start" w="full" flex="1" minH={0} overflow="hidden">
-        <HStack color="blue.500">
-          <Shield size={20} />
+        <HStack color="green.500">
+          <ShieldCheck size={20} />
           <Text fontWeight="bold" fontSize="xs">
-            ROLES
+            PERMISOS ASIGNADOS
           </Text>
         </HStack>
-        {loadingRoles ? (
+        {loadingPermissions ? (
           <Spinner size="sm" />
-        ) : roles.length > 0 ? (
+        ) : permissions.length > 0 ? (
           <Box flex="1" minH={0} overflowY="auto" w="full" pr={2}>
             <HStack gap={2} wrap="wrap">
-              {roles.map((r) => (
+              {permissions.map((p) => (
                 <Box
-                  key={r.id}
+                  key={p.id}
                   p="2"
                   px="3"
                   borderRadius="lg"
-                  bg="blue.50"
+                  bg="green.50"
                   border="1px solid"
-                  borderColor="blue.100"
+                  borderColor="green.100"
                 >
-                  <Text fontWeight="bold" fontSize="xs" color="blue.700">
-                    {r.nombre}
+                  <Text fontWeight="bold" fontSize="xs" color="green.700">
+                    {p.slug}
                   </Text>
+                  {p.descripcion && (
+                    <Text fontSize="2xs" color="green.600" mt={0.5}>
+                      {p.descripcion}
+                    </Text>
+                  )}
                 </Box>
               ))}
             </HStack>
           </Box>
         ) : (
           <Text fontSize="sm" color="gray.400">
-            Sin roles asignados.
+            Sin permisos asignados.
           </Text>
         )}
       </VStack>

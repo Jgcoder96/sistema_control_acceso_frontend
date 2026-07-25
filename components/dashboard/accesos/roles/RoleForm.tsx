@@ -11,17 +11,20 @@ interface RoleFormProps {
   errors: FieldErrors<RoleFormValues>;
 }
 
-export const RoleForm = ({
-  register,
-  errors,
-}: RoleFormProps) => {
+/**
+ * Formulario estandarizado para la creación y edición de roles.
+ * No contiene estado interno, sus valores se gestionan desde el componente padre.
+ */
+export const RoleForm = ({ register, errors }: RoleFormProps) => {
   return (
     <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={6}>
+      {/* Campo: Nombre del rol */}
       <FormInput
         label="NOMBRE DEL ROL"
         register={register("nombre")}
         error={errors.nombre}
       />
+      {/* Campo: Descripción detallada */}
       <FormInput
         label="DESCRIPCIÓN"
         register={register("descripcion")}

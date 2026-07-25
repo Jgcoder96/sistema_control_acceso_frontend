@@ -3,6 +3,10 @@ import { Eye, Pencil, Trash2, UserCog } from "lucide-react";
 import { Usuario } from "@/app/(dashboard)/accesos/usuarios/types/Usuario";
 import { ColumnConfig } from "@/components/dashboard/DataTable";
 
+/**
+ * Genera la configuración de columnas para la tabla de Usuarios.
+ * @param onAction - Callback inyectado desde la página principal para disparar modales (ver, editar, eliminar, asignar roles).
+ */
 export const getUserColumns = (
   onAction: (
     u: Usuario,
@@ -21,7 +25,7 @@ export const getUserColumns = (
             <Avatar.Fallback name={u.nombre} />
           </Avatar.Root>
           <Box>
-            <Text fontWeight="bold" fontSize="sm">
+            <Text fontWeight="bold" fontSize="sm" whiteSpace="nowrap" overflow="hidden" textOverflow="ellipsis">
               {u.nombre} {u.apellido}
             </Text>
             <Text fontSize="xs" color="gray.400">

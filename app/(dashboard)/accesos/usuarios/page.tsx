@@ -1,16 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { Box, Center, Spinner } from "@chakra-ui/react";
-import { DataTable } from "../../../../components/dashboard/DataTable";
-import { StatusModal } from "../../../../components/dashboard/StatusModal";
+import { Box } from "@chakra-ui/react";
+import { DataTable } from "@/components/dashboard/DataTable";
+import { StatusModal } from "@/components/dashboard/StatusModal";
 import { UserActionModal, ModalMode } from "@/components/dashboard/accesos/usuarios/UserActionModal";
 import { UserFilterBar } from "@/components/dashboard/accesos/usuarios/UserFilterBar";
 import { getUserColumns } from "@/components/dashboard/accesos/usuarios/UserColumns";
 import { useUsers } from "./hooks/useUsers";
 import { Usuario, UserQueryParams } from "./types/Usuario";
 
+/**
+ * Pantalla principal para la gestión de Usuarios del sistema.
+ * Coordina la tabla, filtros, modales y paginación delegando la lógica al hook useUsers.
+ */
 export default function UsuariosPage() {
+  // Hook central que administra los datos remotos y los parámetros
   const {
     data,
     loading,
@@ -25,16 +30,23 @@ export default function UsuariosPage() {
     assignRoles,
   } = useUsers();
 
+  // Estados locales para controlar qué usuario y qué acción se va a ejecutar en el modal
   const [selectedUser, setSelectedUser] = useState<Usuario | null>(null);
   const [modalMode, setModalMode] = useState<ModalMode>("view");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
+  /**
+   * Inicializa y despliega el modal dinámico.
+   */
   const handleOpenModal = (user: Usuario | null, mode: ModalMode): void => {
     setSelectedUser(user);
     setModalMode(mode);
     setIsModalOpen(true);
   };
 
+  /**
+   * Orquesta la ejecución del submit del modal dependiendo del modo activo.
+   */
   const handleModalAction = async (
     payload: FormData | string | { userId: string; rolesIds: string[] },
   ): Promise<void> => {
@@ -49,10 +61,14 @@ export default function UsuariosPage() {
     }
   };
 
+  /**
+   * Sincroniza cambios en el input de búsqueda o dropdown y resetea a la página 1.
+   */
   const handleFilterChange = (newParams: Partial<UserQueryParams>): void => {
     setFilters((prev) => ({ ...prev, ...newParams, page: 1 }));
   };
 
+  // Pre-computa la configuración de columnas inyectando el manejador del modal
   const columnas = getUserColumns(handleOpenModal);
 
   return (
@@ -62,12 +78,13 @@ export default function UsuariosPage() {
       flexDirection="column"
       h="full"
     >
-      {/* CORRECCIÓN AQUÍ: Eliminado el 'open' duplicado */}
+      {/* Alertas flotantes globales (Errores de API, Notificaciones de Éxito) */}
       <StatusModal
         {...statusModal}
         onClose={() => setStatusModal((prev) => ({ ...prev, open: false }))}
       />
 
+      {/* Modal que muta visualmente dependiendo del modalMode (CRUD) */}
       <UserActionModal
         open={isModalOpen}
         mode={modalMode}
@@ -76,6 +93,7 @@ export default function UsuariosPage() {
         onAction={handleModalAction}
       />
 
+      {/* Controles de Búsqueda y Botón de Registro */}
       <UserFilterBar
         search={filters.search || ""}
         status={filters.status}
@@ -83,6 +101,7 @@ export default function UsuariosPage() {
         onAddClick={() => handleOpenModal(null, "create")}
       />
 
+      {/* Tabla de Usuarios (Paginación delegada al backend) */}
       <DataTable
         columns={columnas}
         data={data}

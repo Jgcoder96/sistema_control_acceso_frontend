@@ -8,9 +8,14 @@ interface PermissionDetailViewProps {
   formData: Partial<Permission>;
 }
 
+/**
+ * Vista de sólo lectura para mostrar los detalles completos de un Permiso.
+ * Organiza la información clave en una cuadrícula responsiva.
+ */
 export const PermissionDetailView = ({
   formData,
 }: PermissionDetailViewProps) => {
+  /** Parsea y formatea una fecha ISO a un formato local legible */
   const formatDate = (dateStr?: string) => {
     if (!dateStr) return "-";
     try {
@@ -24,13 +29,18 @@ export const PermissionDetailView = ({
         minute: "2-digit",
       });
     } catch {
-      return dateStr;
+      return dateStr; // Retorna el valor original si falla el parseo
     }
   };
 
   return (
     <VStack align="start" gap={6} w="full" h="full" overflow="hidden">
-      <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={6} w="full">
+      {/* Cuadrícula adaptable para organizar los atributos del permiso */}
+      <Grid
+        templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
+        gap={6}
+        w="full"
+      >
         <DetailItem
           icon={<KeyRound size={18} />}
           label="Slug"

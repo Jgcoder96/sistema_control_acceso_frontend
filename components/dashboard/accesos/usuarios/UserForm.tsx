@@ -6,6 +6,7 @@ import { FormInput } from "@/components";
 import { UseFormRegister, FieldErrors } from "react-hook-form";
 import { UserFormValues } from "@/app/(dashboard)/accesos/usuarios/schemas";
 
+/** Propiedades para inicializar el formulario de usuario */
 interface UserFormProps {
   register: UseFormRegister<UserFormValues>;
   errors: FieldErrors<UserFormValues>;
@@ -13,6 +14,10 @@ interface UserFormProps {
   mode: "create" | "edit";
 }
 
+/**
+ * Formulario estandarizado para la creación y edición de usuarios.
+ * Gestiona el mapeo visual de campos de texto y el label para el input de tipo archivo.
+ */
 export const UserForm = ({
   register,
   errors,
@@ -49,6 +54,7 @@ export const UserForm = ({
         error={errors.clave}
         placeholder="Mín 8 caracteres"
       />
+      {/* Selector de Archivo customizado para integrarse visualmente a Chakra UI */}
       <Field.Root invalid={!!errors.foto}>
         <Field.Label fontSize="xs" fontWeight="bold" color="gray.500" mb={1}>
           FOTO PERFIL

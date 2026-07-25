@@ -7,8 +7,13 @@ import type { ThemeProviderProps } from "next-themes"
 import * as React from "react"
 import { LuMoon, LuSun } from "react-icons/lu"
 
+/** Propiedades para el proveedor de modo de color de next-themes */
 export interface ColorModeProviderProps extends ThemeProviderProps {}
 
+/**
+ * Proveedor base para inyectar el modo de color (claro/oscuro) en la aplicación
+ * usando next-themes, desactivando las transiciones iniciales.
+ */
 export function ColorModeProvider(props: ColorModeProviderProps) {
   return (
     <ThemeProvider attribute="class" disableTransitionOnChange {...props} />

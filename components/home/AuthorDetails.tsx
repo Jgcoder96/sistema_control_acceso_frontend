@@ -1,5 +1,8 @@
 import { Flex, Box, Text } from "@chakra-ui/react";
 
+/**
+ * Sub-componente interno para renderizar un par clave-valor (ej. Tutor: Nombre).
+ */
 const InfoItem = ({ label, name }: { label: string; name: string }) => (
   <Box>
     <Text fontSize="9px" color="gray.400" fontWeight="bold" mb={1}>
@@ -11,6 +14,10 @@ const InfoItem = ({ label, name }: { label: string; name: string }) => (
   </Box>
 );
 
+/**
+ * Componente visual de presentación que muestra los créditos 
+ * del Trabajo Especial de Grado (Autor y Tutor).
+ */
 export const AuthorDetails = () => (
   <Flex
     gap={{ base: 10, md: 16 }}

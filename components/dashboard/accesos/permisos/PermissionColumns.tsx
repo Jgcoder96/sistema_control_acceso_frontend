@@ -2,11 +2,19 @@ import React from "react";
 import { HStack, Text, Badge, IconButton } from "@chakra-ui/react";
 import { Eye, Trash2 } from "lucide-react";
 import { Permission } from "@/app/(dashboard)/accesos/permisos/types/Permission";
+import { ColumnConfig } from "@/components/dashboard/DataTable";
 
+/**
+ * Construye y devuelve la configuración de columnas para la tabla de Permisos.
+ * Permite inyectar las acciones dinámicas (Ver y Eliminar) desde la vista principal.
+ * 
+ * @param onView Acción disparada al hacer clic en el botón de visualizar.
+ * @param onDelete Acción disparada al hacer clic en el botón de eliminar.
+ */
 export const getPermissionColumns = (
   onView: (perm: Permission) => void,
   onDelete: (perm: Permission) => void
-) => [
+): ColumnConfig<Permission>[] => [
   {
     key: "id",
     header: "ID",
@@ -29,13 +37,20 @@ export const getPermissionColumns = (
     key: "descripcion",
     header: "Descripción",
     render: (item: Permission) => (
-      <Text color="gray.600" fontSize="sm" noOfLines={1} maxW="250px">
+      <Text
+        color="gray.600"
+        fontSize="sm"
+        maxW="250px"
+        // Truncado de texto nativo compatible con todas las versiones de Chakra/React
+        whiteSpace="nowrap"
+        overflow="hidden"
+        textOverflow="ellipsis"
+      >
         {item.descripcion || "Sin descripción"}
       </Text>
     ),
   },
   {
-    key: "estado",
     header: "Estado",
     render: (item: Permission) => (
       <Badge
@@ -49,7 +64,6 @@ export const getPermissionColumns = (
     ),
   },
   {
-    key: "acciones",
     header: "Acciones",
     render: (item: Permission) => (
       <HStack gap={2} justify="center" onClick={(e) => e.stopPropagation()}>
@@ -62,6 +76,8 @@ export const getPermissionColumns = (
         >
           <Eye size={16} />
         </IconButton>
+
+        {/* Solo mostramos el botón de eliminar si el permiso no ha sido eliminado ya */}
         {!item.eliminado_el && (
           <IconButton
             aria-label="Eliminar"

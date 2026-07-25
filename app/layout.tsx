@@ -17,6 +17,11 @@ export const metadata: Metadata = {
   title: "Sistema de Control de Acceso",
 };
 
+/**
+ * Root Layout global de la aplicación (Next.js App Router).
+ * Define el cascarón HTML principal, inyecta las fuentes base (Geist) y
+ * envuelve toda la aplicación con los Providers globales (Chakra UI, Theme).
+ */
 export default function RootLayout({
   children,
 }: {

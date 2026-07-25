@@ -10,6 +10,7 @@ import {
   UserStatusFilter,
 } from "@/app/(dashboard)/accesos/usuarios/types/Usuario";
 
+/** Parámetros para operar la barra superior de filtrado y búsqueda */
 interface UserFilterBarProps {
   search: string;
   status: UserStatusFilter;
@@ -17,12 +18,17 @@ interface UserFilterBarProps {
   onAddClick: () => void;
 }
 
+/**
+ * Barra superior de controles para la tabla de Usuarios.
+ * Proporciona un buscador de texto (por cédula/nombre), un selector de estados y el botón de creación.
+ */
 export const UserFilterBar = ({
   search,
   status,
   onFilterChange,
   onAddClick,
 }: UserFilterBarProps) => {
+  /** Actualiza la búsqueda y devuelve al usuario a la página 1 */
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     onFilterChange({ search: e.target.value, page: 1 });
   };
@@ -36,8 +42,8 @@ export const UserFilterBar = ({
       flexDirection={{ base: "column", md: "row" }}
       mb={2}
     >
+      {/* Controles Izquierdos: Búsqueda y Dropdown de Estado */}
       <HStack gap={4} w={{ base: "full", md: "auto" }} flex="1">
-        {/* Buscador por Cédula */}
         <Box
           position="relative"
           flex={{ base: "1", md: "none" }}
@@ -86,6 +92,7 @@ export const UserFilterBar = ({
         />
       </HStack>
 
+      {/* Control Derecho: Botón de Alta de Usuario */}
       <GlobalButton
         color="green.600"
         hoverColor="green.700"

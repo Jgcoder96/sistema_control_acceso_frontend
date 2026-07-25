@@ -1,3 +1,6 @@
+/**
+ * Representa la estructura principal de un Permiso dentro del sistema.
+ */
 export interface Permission {
   id: string;
   slug: string;
@@ -7,6 +10,9 @@ export interface Permission {
   eliminado_el: string | null;
 }
 
+/**
+ * Estructura estándar de la respuesta paginada devuelta por la API para permisos.
+ */
 export interface PermissionsApiResponse {
   success: boolean;
   message: string;

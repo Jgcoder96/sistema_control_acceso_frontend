@@ -9,11 +9,16 @@ import {
   createToaster,
 } from "@chakra-ui/react"
 
+/** Instancia global centralizada del Toaster de Chakra UI v3 para notificaciones emergentes */
 export const toaster = createToaster({
   placement: "bottom-end",
   pauseOnPageIdle: true,
 })
 
+/**
+ * Componente envoltorio que renderiza gráficamente el contenedor de notificaciones (Toasts).
+ * Se inyecta en la raíz de la aplicación para interceptar las alertas globales.
+ */
 export const Toaster = () => {
   return (
     <Portal>

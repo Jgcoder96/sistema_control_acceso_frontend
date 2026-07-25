@@ -14,6 +14,11 @@ import {
 } from "../../components/login";
 import { useLogin } from "./hooks";
 
+/**
+ * Página raíz de Autenticación (Login).
+ * Orquesta la lógica del formulario, el manejo de sesión vía localStorage 
+ * y el redireccionamiento protegido hacia el dashboard si ya existe una sesión.
+ */
 function LoginPage() {
   const router = useRouter();
   const { register, errors, isSubmitting, onSubmit, modal, closeModal } =

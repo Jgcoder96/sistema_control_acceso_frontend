@@ -3,12 +3,17 @@
 import { Button, type ButtonProps } from "@chakra-ui/react";
 import { forwardRef } from "react";
 
+/** Extendemos ButtonProps nativo de Chakra para inyectar configuración propia y estandarizada */
 interface GlobalButtonProps extends Omit<ButtonProps, "color"> {
   label?: string;
   color?: string;
   hoverColor?: string;
 }
 
+/**
+ * Botón estandarizado de la aplicación.
+ * Pre-configurado con los estilos base de marca (sombras, animaciones hover).
+ */
 export const GlobalButton = forwardRef<HTMLButtonElement, GlobalButtonProps>(
   ({ label, color = "brand.500", hoverColor, children, ...props }, ref) => {
     return (

@@ -1,5 +1,9 @@
 import { Flex, Text } from "@chakra-ui/react";
 
+/**
+ * Pie de página global de la aplicación.
+ * Muestra información estática de los créditos de la universidad y el año actual.
+ */
 export const AppFooter = () => (
   <Flex justify="center" pb={6} pt={{ base: 4, md: 0 }}>
     <Text

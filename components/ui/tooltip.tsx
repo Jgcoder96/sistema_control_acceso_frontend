@@ -1,6 +1,7 @@
 import { Tooltip as ChakraTooltip, Portal } from "@chakra-ui/react"
 import * as React from "react"
 
+/** Propiedades para configurar y renderizar el componente Tooltip base */
 export interface TooltipProps extends ChakraTooltip.RootProps {
   showArrow?: boolean
   portalled?: boolean
@@ -10,6 +11,10 @@ export interface TooltipProps extends ChakraTooltip.RootProps {
   disabled?: boolean
 }
 
+/**
+ * Componente envoltorio abstracto de un Tooltip (información visual al hacer hover).
+ * Facilita el uso de portales y la inyección condicional de flechas de indicación.
+ */
 export const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
   function Tooltip(props, ref) {
     const {

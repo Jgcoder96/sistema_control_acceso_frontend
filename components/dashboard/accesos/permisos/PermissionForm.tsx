@@ -8,13 +8,18 @@ interface PermissionFormProps {
   errors: FieldErrors<PermissionFormValues>;
 }
 
+/**
+ * Formulario para la creación de permisos.
+ * No maneja estado interno, depende de las props inyectadas por react-hook-form.
+ */
 export const PermissionForm = ({ register, errors }: PermissionFormProps) => {
   return (
     <VStack gap={4} align="stretch" w="full">
       <Text fontSize="sm" color="gray.600" mb={2}>
         Ingresa los datos para registrar un nuevo permiso en el sistema.
       </Text>
-      
+
+      {/* Campo: Slug */}
       <Field.Root invalid={!!errors.slug}>
         <Field.Label>Slug</Field.Label>
         <Input
@@ -33,6 +38,7 @@ export const PermissionForm = ({ register, errors }: PermissionFormProps) => {
         )}
       </Field.Root>
 
+      {/* Campo: Descripción */}
       <Field.Root invalid={!!errors.descripcion}>
         <Field.Label>Descripción</Field.Label>
         <Input

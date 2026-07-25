@@ -16,12 +16,17 @@ interface RoleFilterBarProps {
   onAddClick: () => void;
 }
 
+/**
+ * Barra superior de controles para la tabla de Roles.
+ * Proporciona un buscador de texto interactivo, un selector de estados y el botón de creación.
+ */
 export const RoleFilterBar = ({
   search,
   status,
   onFilterChange,
   onAddClick,
 }: RoleFilterBarProps) => {
+  /** Actualiza la búsqueda y devuelve al usuario a la página 1 */
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     onFilterChange({ search: e.target.value, page: 1 });
   };
@@ -35,8 +40,8 @@ export const RoleFilterBar = ({
       flexDirection={{ base: "column", md: "row" }}
       mb={2}
     >
+      {/* Controles Izquierdos: Búsqueda y Dropdown de Estado */}
       <HStack gap={4} w={{ base: "full", md: "auto" }} flex="1">
-        {/* Buscador por Nombre */}
         <Box
           position="relative"
           flex={{ base: "1", md: "none" }}
@@ -71,7 +76,6 @@ export const RoleFilterBar = ({
           />
         </Box>
 
-        {/* Selector de Estado */}
         <AnimatedDropdown
           value={status}
           options={[
@@ -85,6 +89,7 @@ export const RoleFilterBar = ({
         />
       </HStack>
 
+      {/* Control Derecho: Botón de Alta de Rol */}
       <GlobalButton
         color="green.600"
         hoverColor="green.700"

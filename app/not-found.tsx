@@ -4,6 +4,11 @@ import { Box, Button, Center, Heading, Text, VStack } from "@chakra-ui/react";
 import { ArrowLeft, Compass } from "lucide-react";
 import { useRouter } from "next/navigation";
 
+/**
+ * Página personalizada de error 404 (Not Found).
+ * Renderiza una interfaz amigable cuando el usuario intenta acceder a una ruta inexistente,
+ * proporcionando un botón rápido para volver al inicio.
+ */
 export default function NotFoundPage() {
   const router = useRouter();
 

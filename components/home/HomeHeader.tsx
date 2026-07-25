@@ -1,5 +1,10 @@
 import { Box, Flex, Stack, Text, chakra } from "@chakra-ui/react";
 
+/**
+ * Cabecera institucional de la página de inicio.
+ * Contiene el membrete completo de la Universidad Central de Venezuela.
+ * Oculto automáticamente en pantallas muy pequeñas (móviles).
+ */
 export const HomeHeader = () => (
   <Box
     as="header"

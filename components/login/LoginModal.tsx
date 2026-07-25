@@ -1,6 +1,7 @@
 import { Dialog, Box, Text, Button, Stack } from "@chakra-ui/react";
 import { CheckCircle, AlertCircle } from "lucide-react";
 
+/** Propiedades para renderizar el modal transaccional del Login */
 interface LoginModalProps {
   open: boolean;
   onClose: () => void;
@@ -9,6 +10,10 @@ interface LoginModalProps {
   isSuccess: boolean;
 }
 
+/**
+ * Modal de feedback específico para la pantalla de inicio de sesión.
+ * Empleado para notificar al usuario sobre credenciales inválidas o éxito al ingresar.
+ */
 export const LoginModal = ({
   open,
   onClose,

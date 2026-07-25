@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { ChevronLeft, ChevronRight, SearchX } from "lucide-react";
 
+/** Configuración de tipado genérico y flexible para inyectar columnas de cualquier entidad */
 export interface ColumnConfig<T> {
   header: string;
   key?: keyof T;
@@ -22,6 +23,7 @@ export interface ColumnConfig<T> {
   width?: string;
 }
 
+/** Propiedades para la inicialización y comportamiento del DataTable */
 interface DataTableProps<T> {
   columns: ColumnConfig<T>[];
   data: T[];
@@ -36,6 +38,11 @@ interface DataTableProps<T> {
   };
 }
 
+/**
+ * Componente Tabla centralizado y altamente genérico con scrollbars e hileras fijas (sticky).
+ * Funciona de manera agnóstica a la entidad (no le importa si renderiza usuarios o tuercas)
+ * y soporta una hidratación local híbrida o remota estricta (serverPagination).
+ */
 export function DataTable<T>({
   columns,
   data,
@@ -48,6 +55,7 @@ export function DataTable<T>({
   const [currentPage, setCurrentPage] = useState(1);
   const [prevData, setPrevData] = useState(data);
 
+  // Truco interno de reactividad de cliente: Si mutan los datos sin un hook externo, resetea a pág 1.
   if (data !== prevData) {
     setPrevData(data);
     setCurrentPage(1);
@@ -197,7 +205,7 @@ export function DataTable<T>({
                 </Table.Body>
               </Table.Root>
 
-              {/* Capa de carga sobrepuesta únicamente en el cuerpo */}
+              {/* Capa de carga sobrepuesta únicamente en el cuerpo de la tabla */}
               {loading && (
                 <Center
                   position="absolute"

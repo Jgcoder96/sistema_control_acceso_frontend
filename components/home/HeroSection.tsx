@@ -1,5 +1,9 @@
 import { Box, Heading, Text, chakra } from "@chakra-ui/react";
 
+/**
+ * Componente principal (Hero) de la página de inicio.
+ * Muestra el título destacado del Trabajo Especial de Grado.
+ */
 export const HeroSection = () => (
   <Box>
     <Box mb={10}>

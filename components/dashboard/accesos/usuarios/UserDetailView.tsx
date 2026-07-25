@@ -17,6 +17,7 @@ import {
   RolUsuario,
 } from "@/app/(dashboard)/accesos/usuarios/types/Usuario";
 
+/** Parámetros inyectados para visualizar los metadatos y roles del usuario */
 interface UserDetailViewProps {
   formData: Partial<Usuario>;
   loadingRoles: boolean;
@@ -28,6 +29,7 @@ export const UserDetailView = ({
   loadingRoles,
   roles,
 }: UserDetailViewProps) => {
+  /** Convierte la fecha ISO devuelta por el servidor a un formato local amigable */
   const formatDate = (dateStr?: string) => {
     if (!dateStr) return "-";
     try {
@@ -47,6 +49,7 @@ export const UserDetailView = ({
 
   return (
     <VStack align="start" gap={6} w="full" h="full" overflow="hidden">
+      {/* Cuadrícula de metadatos básicos */}
       <Grid
         templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
         gap={6}
@@ -73,7 +76,10 @@ export const UserDetailView = ({
           value={formatDate(formData.actualizado_el)}
         />
       </Grid>
+
       <Separator />
+
+      {/* Sección dinámica de roles asignados */}
       <VStack align="start" w="full" flex="1" minH={0} overflow="hidden">
         <HStack color="blue.500">
           <Shield size={20} />

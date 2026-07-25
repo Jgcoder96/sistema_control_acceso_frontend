@@ -1,7 +1,16 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { Box, VStack, Text, Checkbox, Center, Spinner, Input, HStack } from "@chakra-ui/react";
+import {
+  Box,
+  VStack,
+  Text,
+  Checkbox,
+  Center,
+  Spinner,
+  Input,
+  HStack,
+} from "@chakra-ui/react";
 import { Search } from "lucide-react";
 import { AppPermission } from "@/app/(dashboard)/accesos/roles/types/Role";
 
@@ -13,6 +22,10 @@ interface RolePermissionsFormProps {
   onSearch: (term: string) => void;
 }
 
+/**
+ * Componente interactivo para asignar y desasignar permisos a un Rol.
+ * Implementa scroll propio y un buscador con técnica "debounce" para rendimiento de API.
+ */
 export const RolePermissionsForm = ({
   allPermissions,
   loadingAllPermissions,
@@ -23,6 +36,7 @@ export const RolePermissionsForm = ({
   const [searchTerm, setSearchTerm] = useState("");
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+  /** Retrasa intencionalmente la búsqueda 400ms para no saturar al servidor al escribir rápido */
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
@@ -33,9 +47,10 @@ export const RolePermissionsForm = ({
 
     timerRef.current = setTimeout(() => {
       onSearch(value);
-    }, 400); // 400ms debounce
+    }, 400);
   };
 
+  /** Apila o quita un permiso de la lista inmutable del padre */
   const handleToggle = (permissionId: string, checked: boolean) => {
     if (checked) {
       onChange([...selectedPermissionIds, permissionId]);
@@ -44,6 +59,7 @@ export const RolePermissionsForm = ({
     }
   };
 
+  // Limpieza del temporizador para evitar fugas de memoria
   useEffect(() => {
     return () => {
       if (timerRef.current) {
@@ -60,6 +76,7 @@ export const RolePermissionsForm = ({
         </Text>
       </HStack>
 
+      {/* Input de Búsqueda local o remoto (dependiendo del onSearch) */}
       <HStack
         w="full"
         bg="gray.50"
@@ -86,6 +103,7 @@ export const RolePermissionsForm = ({
         />
       </HStack>
 
+      {/* Grid de checkboxes interactivo con scroll interno para evitar alargar el modal */}
       {loadingAllPermissions ? (
         <Center h="300px">
           <Spinner color="green.500" size="lg" />
@@ -133,7 +151,9 @@ export const RolePermissionsForm = ({
               >
                 <Checkbox.Root
                   checked={isChecked}
-                  onCheckedChange={(details) => handleToggle(permission.id, !!details.checked)}
+                  onCheckedChange={(details) =>
+                    handleToggle(permission.id, !!details.checked)
+                  }
                   colorPalette="green"
                   size="md"
                 >
@@ -141,7 +161,11 @@ export const RolePermissionsForm = ({
                   <Checkbox.Control />
                   <Checkbox.Label style={{ cursor: "pointer", width: "100%" }}>
                     <VStack align="start" gap={0} pl={2}>
-                      <Text fontWeight="semibold" fontSize="sm" color="gray.700">
+                      <Text
+                        fontWeight="semibold"
+                        fontSize="sm"
+                        color="gray.700"
+                      >
                         {permission.slug}
                       </Text>
                       {permission.descripcion && (

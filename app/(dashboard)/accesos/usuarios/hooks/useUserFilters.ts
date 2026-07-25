@@ -1,10 +1,16 @@
 import { useState, useMemo } from "react";
 import { Usuario } from "../types/Usuario";
 
+/**
+ * Hook auxiliar para filtrar arreglos de usuarios en el cliente (frontend).
+ * Es útil si se tiene una lista pre-cargada y se desea buscar sin golpear la API.
+ * (Nota: El sistema principal de la pantalla de usuarios usa paginación en backend vía useUsers).
+ */
 export function useUserFilters(usuarios: Usuario[]) {
   const [busqueda, setBusqueda] = useState("");
   const [estadoFiltro, setEstadoFiltro] = useState("todos");
 
+  /** Lista computada y memorizada de usuarios que coinciden con los filtros actuales */
   const filteredData = useMemo(() => {
     if (!usuarios) return [];
 

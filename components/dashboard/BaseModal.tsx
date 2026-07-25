@@ -3,18 +3,19 @@
 import React from "react";
 import { Dialog, Box, HStack, VStack, Text, Button } from "@chakra-ui/react";
 
+/** Propiedades de configuración para el BaseModal */
 export interface BaseModalProps {
   open: boolean;
   onClose: () => void;
   title: string;
   subtitle?: string;
   size?: "xs" | "sm" | "md" | "lg" | "xl" | "full" | "cover";
-  colorPalette?: string; // e.g. "blue", "green", "orange", "red"
+  colorPalette?: string;
 
   // Custom Header elements
   headerIcon?: React.ReactNode;
   headerBadge?: React.ReactNode;
-  headerExtra?: React.ReactNode; // Overrides the default header layout completely if provided
+  headerExtra?: React.ReactNode;
 
   // Footer options
   showFooter?: boolean;
@@ -23,11 +24,16 @@ export interface BaseModalProps {
   onConfirm?: () => void | Promise<void>;
   confirmLoading?: boolean;
   confirmDisabled?: boolean;
-  customFooter?: React.ReactNode; // Overrides the default footer layout completely if provided
+  customFooter?: React.ReactNode;
 
   children: React.ReactNode;
 }
 
+/**
+ * Componente abstracto y estructurado de tipo Modal (Dialog Wrapper).
+ * Centraliza la apariencia, espaciados y comportamientos del pie y cabecera 
+ * para garantizar la uniformidad de todos los diálogos transaccionales de la aplicación.
+ */
 export const BaseModal = ({
   open,
   onClose,
@@ -66,7 +72,7 @@ export const BaseModal = ({
           display="flex"
           flexDirection="column"
         >
-          {/* Cabecera del Modal */}
+          {/* Cabecera dinámica y adaptable */}
           <Box
             bg={`${colorPalette}.50/50`}
             p="8"
@@ -109,12 +115,12 @@ export const BaseModal = ({
             )}
           </Box>
 
-          {/* Cuerpo del Modal */}
+          {/* Área principal o cuerpo (Scroll independiente) */}
           <Dialog.Body p="8" display="flex" flexDirection="column" overflow="hidden">
             {children}
           </Dialog.Body>
 
-          {/* Pie de página del Modal */}
+          {/* Pie de página con acciones (Estático) */}
           {showFooter && (
             <Box
               p="6"

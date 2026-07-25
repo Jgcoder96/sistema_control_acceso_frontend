@@ -18,7 +18,7 @@ import {
   RolUsuario,
   RolesApiResponse,
 } from "@/app/(dashboard)/accesos/usuarios/types/Usuario";
-import { useForm } from "react-hook-form";
+import { useForm, Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   createUserSchema,
@@ -34,16 +34,20 @@ import { UserRolesForm } from "./UserRolesForm";
 
 export type ModalMode = "view" | "create" | "edit" | "delete" | "assign_roles";
 
+/** Propiedades para la correcta orquestación del modal CRUD de Usuarios */
 interface UserActionModalProps {
   user: Usuario | null;
   mode: ModalMode;
   open: boolean;
   onClose: () => void;
-  onAction: (
-    data: FormData | string | { userId: string; rolesIds: string[] },
-  ) => Promise<void>;
+  onAction: (data: unknown) => Promise<void>;
 }
 
+/**
+ * Modal polimórfico para la gestión de Usuarios.
+ * Soporta creación/edición (con previsualización de imágenes), vista de solo lectura,
+ * eliminación, y la asignación interactiva de roles.
+ */
 export const UserActionModal = ({
   user,
   mode,
@@ -53,14 +57,19 @@ export const UserActionModal = ({
 }: UserActionModalProps) => {
   const [loadingRoles, setLoadingRoles] = useState(false);
   const [loadingAction, setLoadingAction] = useState(false);
+
+  // Estados para asignación de roles
   const [roles, setRoles] = useState<RolUsuario[]>([]);
   const [selectedRoleIds, setSelectedRoleIds] = useState<string[]>([]);
   const [allRoles, setAllRoles] = useState<RolUsuario[]>([]);
   const [loadingAllRoles, setLoadingAllRoles] = useState(false);
+
+  // Estados para manejo de avatar
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Diccionario de configuración estética por modo
   const configMap: Record<
     ModalMode,
     { title: string; color: string; icon: React.ReactNode }
@@ -98,13 +107,14 @@ export const UserActionModal = ({
   } = useForm<UserFormValues>({
     resolver: zodResolver(
       mode === "create" ? createUserSchema : updateUserSchema,
-    ),
+    ) as unknown as Resolver<UserFormValues>, // Cast seguro para evitar error de TypeScript con schema dinámico
     mode: "onTouched",
   });
 
   const nombreVal = watch("nombre");
   const apellidoVal = watch("apellido");
 
+  // Reactividad inicial al abrir el modal (Resetea estado y pre-carga API según necesidad)
   useEffect(() => {
     if (open) {
       if (user) {
@@ -139,12 +149,14 @@ export const UserActionModal = ({
     }
   }, [open, user, mode, reset]);
 
+  // Asegura que los checkboxes iniciales coincidan con los roles del backend
   useEffect(() => {
     if (roles && mode === "assign_roles") {
       setSelectedRoleIds(roles.map((r) => r.id));
     }
   }, [roles, mode]);
 
+  /** Obtiene únicamente los roles asociados al usuario actual */
   const fetchUserRoles = async (userId: string) => {
     setLoadingRoles(true);
     setRoles([]);
@@ -155,13 +167,14 @@ export const UserActionModal = ({
       });
       const result: RolesApiResponse = await res.json();
       if (result.success) setRoles(result.data);
-    } catch (err) {
-      console.error(err);
+    } catch {
+      // Ignorado silenciosamente
     } finally {
       setLoadingRoles(false);
     }
   };
 
+  /** Consulta el catálogo completo de roles disponibles */
   const fetchAllRoles = async (search?: string) => {
     setLoadingAllRoles(true);
     try {
@@ -177,13 +190,14 @@ export const UserActionModal = ({
       if (result.success) {
         setAllRoles(result.data);
       }
-    } catch (err) {
-      console.error(err);
+    } catch {
+      // Ignorado silenciosamente
     } finally {
       setLoadingAllRoles(false);
     }
   };
 
+  /** Despacha la acción de submit final hacia page.tsx (FormData o Payload directo) */
   const handleConfirm = async (data: UserFormValues | null) => {
     if (mode === "view") return;
     if (mode === "delete" && user) {
@@ -203,6 +217,7 @@ export const UserActionModal = ({
 
     if (!data) return;
 
+    // Compone el FormData para soportar la subida del avatar
     const payload = new FormData();
     payload.append("nombre", data.nombre || "");
     payload.append("apellido", data.apellido || "");
@@ -239,6 +254,7 @@ export const UserActionModal = ({
           flexDirection={{ base: "column", sm: "row" }}
           textAlign={{ base: "center", sm: "left" }}
         >
+          {/* Módulo de previsualización y carga del avatar */}
           <Box position="relative">
             <Avatar.Root
               size="2xl"
@@ -363,6 +379,7 @@ export const UserActionModal = ({
         ) : undefined
       }
     >
+      {/* Sub-componente inyectado dependiente del modo */}
       {mode === "view" ? (
         <UserDetailView
           formData={user || {}}

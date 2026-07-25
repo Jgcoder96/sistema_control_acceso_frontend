@@ -10,13 +10,18 @@ export interface AnimatedDropdownOption {
   label: string;
 }
 
+/** Propiedades para inicializar y controlar el AnimatedDropdown */
 interface AnimatedDropdownProps {
   value: string;
   options: AnimatedDropdownOption[];
   onChange: (value: string) => void;
-  width?: any;
+  width?: string | Record<string, string | number>;
 }
 
+/**
+ * Selector desplegable (Dropdown) animado y estilizado a medida.
+ * Alternativa altamente personalizable al clásico componente `<select>` HTML.
+ */
 export const AnimatedDropdown = ({
   value,
   options,

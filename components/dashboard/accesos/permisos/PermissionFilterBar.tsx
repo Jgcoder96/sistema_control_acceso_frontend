@@ -3,9 +3,7 @@ import { Flex, HStack, Box, Center, Input, Text } from "@chakra-ui/react";
 import { Search, Plus } from "lucide-react";
 import { GlobalButton } from "@/components/ui/GlobalButton";
 import { AnimatedDropdown } from "@/components/ui/AnimatedDropdown";
-import { RoleQueryParams } from "@/app/(dashboard)/accesos/roles/hooks/useRoles";
 
-// Reutilizamos el tipo de status, asumiendo que es el mismo: "active" | "deleted" | "all"
 export type PermissionStatusFilter = "active" | "deleted" | "all";
 
 interface PermissionFilterBarProps {
@@ -18,12 +16,17 @@ interface PermissionFilterBarProps {
   onAddClick: () => void;
 }
 
+/**
+ * Barra superior de controles para la tabla de Permisos.
+ * Proporciona un buscador de texto, un selector de estados y el botón de crear.
+ */
 export const PermissionFilterBar = ({
   search,
   status,
   onFilterChange,
   onAddClick,
 }: PermissionFilterBarProps) => {
+  /** Actualiza el término de búsqueda al escribir */
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     onFilterChange({ search: e.target.value });
   };
@@ -37,8 +40,8 @@ export const PermissionFilterBar = ({
       flexDirection={{ base: "column", md: "row" }}
       mb={2}
     >
+      {/* Sección Izquierda: Controles de Búsqueda y Filtrado */}
       <HStack gap={4} w={{ base: "full", md: "auto" }} flex="1">
-        {/* Buscador por Nombre o Slug */}
         <Box
           position="relative"
           flex={{ base: "1", md: "none" }}
@@ -73,7 +76,6 @@ export const PermissionFilterBar = ({
           />
         </Box>
 
-        {/* Selector de Estado */}
         <AnimatedDropdown
           value={status}
           options={[
@@ -87,6 +89,7 @@ export const PermissionFilterBar = ({
         />
       </HStack>
 
+      {/* Sección Derecha: Botón de Acción Principal */}
       <GlobalButton
         color="green.600"
         hoverColor="green.700"

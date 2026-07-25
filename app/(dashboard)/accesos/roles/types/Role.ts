@@ -1,3 +1,6 @@
+/**
+ * Representa la estructura de un Rol dentro del sistema.
+ */
 export interface Role {
   id: string;
   nombre: string;
@@ -7,6 +10,9 @@ export interface Role {
   eliminado_el: string | null;
 }
 
+/**
+ * Interfaz auxiliar que representa un permiso asignable a un rol.
+ */
 export interface AppPermission {
   id: string;
   slug: string;
@@ -16,6 +22,9 @@ export interface AppPermission {
   eliminado_el: string | null;
 }
 
+/**
+ * Estructura estándar de la respuesta paginada devuelta por la API para los roles.
+ */
 export interface RolesApiResponse {
   success: boolean;
   message: string;
@@ -28,6 +37,9 @@ export interface RolesApiResponse {
   };
 }
 
+/**
+ * Estructura de la respuesta que detalla los permisos actualmente asignados a un rol específico.
+ */
 export interface RolePermissionsApiResponse {
   success: boolean;
   message: string;
@@ -39,6 +51,9 @@ export interface RolePermissionsApiResponse {
   };
 }
 
+/**
+ * Estructura de la respuesta de la API al solicitar la lista de permisos globales disponibles.
+ */
 export interface AppPermissionsApiResponse {
   success: boolean;
   message: string;

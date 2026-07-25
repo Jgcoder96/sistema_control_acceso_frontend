@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { Grid, VStack, HStack, Text, Box, Separator, Spinner } from "@chakra-ui/react";
 import { Calendar, Clock, Text as TextIcon, Fingerprint, ShieldCheck } from "lucide-react";
@@ -12,11 +10,17 @@ interface RoleDetailViewProps {
   permissions: AppPermission[];
 }
 
+/**
+ * Componente visual de solo lectura para inspeccionar un Rol a fondo.
+ * Incluye tanto los detalles básicos como el listado de permisos asociados.
+ */
 export const RoleDetailView = ({
   formData,
   loadingPermissions,
   permissions,
 }: RoleDetailViewProps) => {
+
+  /** Convierte la fecha ISO a formato local y legible */
   const formatDate = (dateStr?: string) => {
     if (!dateStr) return "-";
     try {
@@ -36,6 +40,7 @@ export const RoleDetailView = ({
 
   return (
     <VStack align="start" gap={6} w="full" h="full" overflow="hidden">
+      {/* Metadatos y detalles de creación del rol */}
       <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={6} w="full">
         <DetailItem
           icon={<Fingerprint size={18} />}
@@ -58,7 +63,10 @@ export const RoleDetailView = ({
           value={formatDate(formData.actualizado_el)}
         />
       </Grid>
+      
       <Separator />
+      
+      {/* Contenedor escrolleable para visualizar permisos asignados */}
       <VStack align="start" w="full" flex="1" minH={0} overflow="hidden">
         <HStack color="green.500">
           <ShieldCheck size={20} />

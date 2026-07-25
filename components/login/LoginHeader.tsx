@@ -1,5 +1,9 @@
 import { Stack, Heading, Text } from "@chakra-ui/react";
 
+/**
+ * Cabecera de la sección central del login.
+ * Muestra el título de bienvenida y una breve descripción.
+ */
 export const LoginHeader = () => (
   <Stack gap={2} textAlign="center" align="center">
     <Heading

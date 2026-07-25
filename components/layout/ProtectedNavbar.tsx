@@ -52,6 +52,7 @@ const navItems = [
   { label: "Logs", href: "/logs", icon: FileText },
 ];
 
+/** Estructura tipada para los datos del usuario en sesión extraídos de LocalStorage */
 type UserSession = {
   nombre?: string;
   apellido?: string;
@@ -60,6 +61,11 @@ type UserSession = {
   roles?: string[];
 };
 
+/**
+ * Barra de navegación principal del Dashboard.
+ * Gestiona el menú responsivo (escritorio y móvil), el control de la sesión (logout) 
+ * y la navegación por las rutas internas protegiendo el acceso.
+ */
 export default function ProtectedNavbar() {
   const pathname = usePathname();
   const router = useRouter();

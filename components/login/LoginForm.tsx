@@ -5,6 +5,7 @@ import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { LoginFormValues } from "../../app/login/schemas/loginSchema";
 import { GlobalButton } from "../ui/GlobalButton";
 
+/** Propiedades inyectadas para enlazar el formulario con React Hook Form */
 interface LoginFormProps {
   register: UseFormRegister<LoginFormValues>;
   errors: FieldErrors<LoginFormValues>;
@@ -12,6 +13,10 @@ interface LoginFormProps {
   onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>;
 }
 
+/**
+ * Componente funcional que renderiza los inputs (correo y contraseña) del Login.
+ * Gestiona localmente el estado de visibilidad de la contraseña.
+ */
 export const LoginForm = ({
   register,
   errors,

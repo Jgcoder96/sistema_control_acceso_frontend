@@ -3,6 +3,10 @@ import { Eye, Pencil, Trash2, ShieldCheck } from "lucide-react";
 import { Role } from "@/app/(dashboard)/accesos/roles/types/Role";
 import { ColumnConfig } from "@/components/dashboard/DataTable";
 
+/**
+ * Genera dinámicamente la configuración de las columnas para la tabla de Roles.
+ * @param onAction Callback centralizado para delegar las acciones (Ver, Editar, Eliminar, Permisos).
+ */
 export const getRoleColumns = (
   onAction: (
     r: Role,
@@ -42,11 +46,16 @@ export const getRoleColumns = (
   },
   {
     header: "Descripción",
-    key: "descripcion",
     width: "350px",
     textAlign: "left",
     render: (r: Role) => (
-      <Text fontSize="sm" color="gray.500" noOfLines={2}>
+      <Text
+        fontSize="sm"
+        color="gray.500"
+        whiteSpace="nowrap"
+        overflow="hidden"
+        textOverflow="ellipsis"
+      >
         {r.descripcion || "Sin descripción"}
       </Text>
     ),
@@ -74,6 +83,7 @@ export const getRoleColumns = (
     textAlign: "center",
     render: (r: Role) => (
       <HStack gap={1} justify="center">
+        {/* Visualizar Detalles */}
         <IconButton
           variant="ghost"
           size="sm"
@@ -83,6 +93,8 @@ export const getRoleColumns = (
         >
           <Eye size={16} />
         </IconButton>
+        
+        {/* Modificar Rol */}
         <IconButton
           variant="ghost"
           size="sm"
@@ -92,6 +104,8 @@ export const getRoleColumns = (
         >
           <Pencil size={16} />
         </IconButton>
+        
+        {/* Asignación de Permisos */}
         <IconButton
           variant="ghost"
           size="sm"
@@ -101,6 +115,8 @@ export const getRoleColumns = (
         >
           <ShieldCheck size={16} />
         </IconButton>
+        
+        {/* Eliminación Lógica */}
         <IconButton
           variant="ghost"
           size="sm"

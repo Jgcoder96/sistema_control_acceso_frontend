@@ -3,6 +3,7 @@
 import { Dialog, Box, Text, Button, Stack } from "@chakra-ui/react";
 import { CheckCircle, AlertCircle } from "lucide-react";
 
+/** Atributos necesarios para renderizar el modal de alerta de transacción */
 interface StatusModalProps {
   open: boolean;
   onClose: () => void;
@@ -11,6 +12,11 @@ interface StatusModalProps {
   isSuccess: boolean;
 }
 
+/**
+ * Modal centralizado de alertas (Estilo Toast pero bloqueante).
+ * Especialmente útil para informar y exigir confirmación visual (un click) de que la 
+ * base de datos fue manipulada correcta (o erróneamente) de vuelta de una petición async.
+ */
 export const StatusModal = ({
   open,
   onClose,

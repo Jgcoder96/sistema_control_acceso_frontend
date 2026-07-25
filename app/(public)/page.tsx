@@ -6,6 +6,11 @@ import Link from "next/link";
 import { AppFooter, PageTransition } from "../../components";
 import { HomeHeader, HeroSection, AuthorDetails } from "../../components/home";
 
+/**
+ * Página de aterrizaje principal (Landing Page).
+ * Agrupa y presenta los componentes visuales de inicio (Hero, Autores, Header)
+ * y provee el punto de entrada principal hacia el sistema (Login).
+ */
 export default function HomePage() {
   return (
     <PageTransition>

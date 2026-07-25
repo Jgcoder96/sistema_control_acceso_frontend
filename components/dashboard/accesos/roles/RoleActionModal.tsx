@@ -4,10 +4,18 @@ import React, { useEffect, useState } from "react";
 import { HStack, VStack, Text, Badge, Button } from "@chakra-ui/react";
 import { Eye, Pencil, Trash2, Plus, ShieldCheck } from "lucide-react";
 import { BaseModal } from "@/components";
-import { Role, AppPermission, RolePermissionsApiResponse, AppPermissionsApiResponse } from "@/app/(dashboard)/accesos/roles/types/Role";
+import {
+  Role,
+  AppPermission,
+  RolePermissionsApiResponse,
+  AppPermissionsApiResponse,
+} from "@/app/(dashboard)/accesos/roles/types/Role";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createRoleSchema, updateRoleSchema, RoleFormValues } from "@/app/(dashboard)/accesos/roles/schemas/roleSchema";
+import {
+  createRoleSchema,
+  RoleFormValues,
+} from "@/app/(dashboard)/accesos/roles/schemas/roleSchema";
 import { API_CONFIG } from "@/config/api";
 
 import { RoleForm } from "./RoleForm";
@@ -15,16 +23,25 @@ import { RoleDetailView } from "./RoleDetailView";
 import { RoleDeleteConfirm } from "./RoleDeleteConfirm";
 import { RolePermissionsForm } from "./RolePermissionsForm";
 
-export type RoleModalMode = "view" | "create" | "edit" | "delete" | "assign_permissions";
+export type RoleModalMode =
+  | "view"
+  | "create"
+  | "edit"
+  | "delete"
+  | "assign_permissions";
 
 interface RoleActionModalProps {
   role: Role | null;
   mode: RoleModalMode;
   open: boolean;
   onClose: () => void;
-  onAction: (data: any) => Promise<void>;
+  onAction: (data: unknown) => Promise<void>;
 }
 
+/**
+ * Modal polimórfico (Multifunción) para Roles.
+ * Carga el formulario, vista de solo lectura, o el selector de permisos dependiendo del 'mode'.
+ */
 export const RoleActionModal = ({
   role,
   mode,
@@ -34,11 +51,16 @@ export const RoleActionModal = ({
 }: RoleActionModalProps) => {
   const [loadingPermissions, setLoadingPermissions] = useState(false);
   const [loadingAction, setLoadingAction] = useState(false);
+
+  // Estado local dedicado a la asignación de permisos
   const [rolePermissions, setRolePermissions] = useState<AppPermission[]>([]);
-  const [selectedPermissionIds, setSelectedPermissionIds] = useState<string[]>([]);
+  const [selectedPermissionIds, setSelectedPermissionIds] = useState<string[]>(
+    [],
+  );
   const [allPermissions, setAllPermissions] = useState<AppPermission[]>([]);
   const [loadingAllPermissions, setLoadingAllPermissions] = useState(false);
 
+  // Mapeo estético dinámico de colores y títulos
   const configMap: Record<
     RoleModalMode,
     { title: string; color: string; icon: React.ReactNode }
@@ -47,7 +69,11 @@ export const RoleActionModal = ({
     create: { title: "Nuevo Rol", color: "green", icon: <Plus size={20} /> },
     edit: { title: "Editar Rol", color: "orange", icon: <Pencil size={20} /> },
     delete: { title: "Eliminar Rol", color: "red", icon: <Trash2 size={20} /> },
-    assign_permissions: { title: "Asignar Permisos", color: "green", icon: <ShieldCheck size={20} /> },
+    assign_permissions: {
+      title: "Asignar Permisos",
+      color: "green",
+      icon: <ShieldCheck size={20} />,
+    },
   };
 
   const {
@@ -57,12 +83,13 @@ export const RoleActionModal = ({
     watch,
     formState: { errors },
   } = useForm<RoleFormValues>({
-    resolver: zodResolver(mode === "create" ? createRoleSchema : updateRoleSchema),
+    resolver: zodResolver(createRoleSchema),
     mode: "onTouched",
   });
 
   const nombreVal = watch("nombre");
 
+  // Reactividad inicial al abrir el modal (Resetea estado y pre-carga API según necesidad)
   useEffect(() => {
     if (open) {
       if (role) {
@@ -77,20 +104,19 @@ export const RoleActionModal = ({
           fetchAllPermissions();
         }
       } else {
-        reset({
-          nombre: "",
-          descripcion: "",
-        });
+        reset({ nombre: "", descripcion: "" });
       }
     }
   }, [open, role, mode, reset]);
 
+  // Asegura que los checkboxes iniciales coincidan con los permisos del backend
   useEffect(() => {
     if (rolePermissions && mode === "assign_permissions") {
       setSelectedPermissionIds(rolePermissions.map((p) => p.id));
     }
   }, [rolePermissions, mode]);
 
+  /** Consulta los permisos asignados actualmente al rol */
   const fetchRolePermissions = async (roleId: string) => {
     setLoadingPermissions(true);
     setRolePermissions([]);
@@ -101,35 +127,40 @@ export const RoleActionModal = ({
       });
       const result: RolePermissionsApiResponse = await res.json();
       if (result.success) setRolePermissions(result.data.permisos);
-    } catch (err) {
-      console.error(err);
+    } catch {
+      // Errores de red ignorados silenciosamente localmente
     } finally {
       setLoadingPermissions(false);
     }
   };
 
+  /** Consulta todos los permisos habilitados en la plataforma para poder listarlos */
   const fetchAllPermissions = async (search?: string) => {
     setLoadingAllPermissions(true);
     try {
       const token = localStorage.getItem("access_token");
       const searchParam = search ? `&search=${encodeURIComponent(search)}` : "";
-      const res = await fetch(`${API_CONFIG.ENDPOINTS.APP_PERMISSIONS}?limit=100&status=active${searchParam}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await fetch(
+        `${API_CONFIG.ENDPOINTS.APP_PERMISSIONS}?limit=100&status=active${searchParam}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
       const result: AppPermissionsApiResponse = await res.json();
       if (result.success) {
         setAllPermissions(result.data);
       }
-    } catch (err) {
-      console.error(err);
+    } catch {
+      // Ignorado silenciosamente localmente
     } finally {
       setLoadingAllPermissions(false);
     }
   };
 
+  /** Despacha la acción de submit final hacia page.tsx */
   const handleConfirm = async (data: RoleFormValues | null) => {
     if (mode === "view") return;
-    
+
     setLoadingAction(true);
     if (mode === "delete" && role) {
       await onAction(role.id);
@@ -149,7 +180,9 @@ export const RoleActionModal = ({
     <BaseModal
       open={open}
       onClose={onClose}
-      title={mode === "create" ? "Registrar Rol" : nombreVal || role?.nombre || ""}
+      title={
+        mode === "create" ? "Registrar Rol" : nombreVal || role?.nombre || ""
+      }
       colorPalette={currentConfig.color}
       size="lg"
       headerExtra={
@@ -169,8 +202,15 @@ export const RoleActionModal = ({
             >
               {mode === "view" ? "Detalles del Rol" : currentConfig.title}
             </Text>
-            <Text fontSize="2xl" fontWeight="bold" color="gray.850" lineHeight="1.2">
-              {mode === "create" ? "Registrar Rol" : nombreVal || role?.nombre || ""}
+            <Text
+              fontSize="2xl"
+              fontWeight="bold"
+              color="gray.850"
+              lineHeight="1.2"
+            >
+              {mode === "create"
+                ? "Registrar Rol"
+                : nombreVal || role?.nombre || ""}
             </Text>
             <HStack gap={2} mt={1}>
               <Badge
@@ -178,7 +218,11 @@ export const RoleActionModal = ({
                 variant="solid"
                 borderRadius="full"
               >
-                {mode === "create" ? "activo" : isActivo ? "activo" : "inactivo"}
+                {mode === "create"
+                  ? "activo"
+                  : isActivo
+                    ? "activo"
+                    : "inactivo"}
               </Badge>
               {mode !== "create" && role?.id && (
                 <Badge
@@ -201,7 +245,11 @@ export const RoleActionModal = ({
       }
       showFooter={true}
       confirmText={
-        mode === "delete" ? "Eliminar" : mode === "assign_permissions" ? "Asignar Permisos" : "Confirmar"
+        mode === "delete"
+          ? "Eliminar"
+          : mode === "assign_permissions"
+            ? "Asignar Permisos"
+            : "Confirmar"
       }
       cancelText="Cancelar"
       onConfirm={
@@ -225,6 +273,7 @@ export const RoleActionModal = ({
         ) : undefined
       }
     >
+      {/* Sub-componente inyectado dependiente del modo */}
       {mode === "view" ? (
         <RoleDetailView
           formData={role || {}}

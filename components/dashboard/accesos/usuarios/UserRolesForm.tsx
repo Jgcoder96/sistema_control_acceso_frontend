@@ -119,7 +119,7 @@ export const UserRolesForm = ({
         <VStack
           align="stretch"
           gap={3}
-          h="300px"
+          h="260px"
           overflowY="auto"
           pr={2}
           css={{

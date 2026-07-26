@@ -35,7 +35,9 @@ interface RoleActionModalProps {
   mode: RoleModalMode;
   open: boolean;
   onClose: () => void;
-  onAction: (data: unknown) => Promise<void>;
+  onAction: (
+    data: RoleFormValues | string | { roleId: string; permisosIds: string[] }
+  ) => Promise<void>;
 }
 
 /**
@@ -184,7 +186,8 @@ export const RoleActionModal = ({
         mode === "create" ? "Registrar Rol" : nombreVal || role?.nombre || ""
       }
       colorPalette={currentConfig.color}
-      size="lg"
+      size={mode === "delete" ? "md" : "lg"}
+      bodyScroll={mode !== "assign_permissions"}
       headerExtra={
         <HStack
           gap={{ base: 4, sm: 6 }}

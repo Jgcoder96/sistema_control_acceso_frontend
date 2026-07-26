@@ -112,8 +112,13 @@ export const PermissionActionModal = ({
                 <Badge colorPalette={!permission.eliminado_el ? "green" : "red"} variant="solid" borderRadius="full">
                   {!permission.eliminado_el ? "activo" : "inactivo"}
                 </Badge>
-                <Badge colorPalette="gray" variant="subtle" borderRadius="full">
-                  ID: {permission.id.substring(0, 8)}...
+                <Badge colorPalette="gray" variant="subtle" borderRadius="full" textTransform="none">
+                  <Text as="span" display={{ base: "none", sm: "inline" }}>
+                    ID: {permission.id}
+                  </Text>
+                  <Text as="span" display={{ base: "inline", sm: "none" }}>
+                    ID: {permission.id.substring(0, 8)}...
+                  </Text>
                 </Badge>
               </HStack>
             )}

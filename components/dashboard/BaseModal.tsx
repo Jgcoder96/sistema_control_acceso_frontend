@@ -11,6 +11,7 @@ export interface BaseModalProps {
   subtitle?: string;
   size?: "xs" | "sm" | "md" | "lg" | "xl" | "full" | "cover";
   colorPalette?: string;
+  bodyScroll?: boolean;
 
   // Custom Header elements
   headerIcon?: React.ReactNode;
@@ -41,6 +42,7 @@ export const BaseModal = ({
   subtitle,
   size = "lg",
   colorPalette = "blue",
+  bodyScroll = true,
   headerIcon,
   headerBadge,
   headerExtra,
@@ -116,7 +118,7 @@ export const BaseModal = ({
           </Box>
 
           {/* Área principal o cuerpo (Scroll independiente) */}
-          <Dialog.Body p="8" display="flex" flexDirection="column" overflowY="auto">
+          <Dialog.Body p="8" display="flex" flexDirection="column" overflowY={bodyScroll ? "auto" : "hidden"}>
             {children}
           </Dialog.Body>
 

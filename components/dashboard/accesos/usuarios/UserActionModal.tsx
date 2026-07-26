@@ -40,7 +40,9 @@ interface UserActionModalProps {
   mode: ModalMode;
   open: boolean;
   onClose: () => void;
-  onAction: (data: unknown) => Promise<void>;
+  onAction: (
+    data: FormData | string | { userId: string; rolesIds: string[] }
+  ) => Promise<void>;
 }
 
 /**
@@ -246,7 +248,8 @@ export const UserActionModal = ({
           : `${nombreVal || user?.nombre || ""} ${apellidoVal || user?.apellido || ""}`
       }
       colorPalette={currentConfig.color}
-      size="lg"
+      size={mode === "delete" ? "md" : "lg"}
+      bodyScroll={mode !== "assign_roles"}
       headerExtra={
         <HStack
           gap={{ base: 4, sm: 6 }}

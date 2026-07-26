@@ -76,6 +76,7 @@ export const getUserColumns = (
           size="sm"
           colorPalette="orange"
           aria-label="Editar"
+          disabled={u.estado !== "activo"}
           onClick={() => onAction(u, "edit")}
         >
           <Pencil size={16} />
@@ -85,6 +86,7 @@ export const getUserColumns = (
           size="sm"
           colorPalette="purple"
           aria-label="Asignar Rol"
+          disabled={u.estado !== "activo"}
           onClick={() => onAction(u, "assign_roles")}
         >
           <UserCog size={16} />
@@ -94,6 +96,7 @@ export const getUserColumns = (
           size="sm"
           colorPalette="red"
           aria-label="Eliminar"
+          disabled={u.estado !== "activo"}
           onClick={() => onAction(u, "delete")}
         >
           <Trash2 size={16} />

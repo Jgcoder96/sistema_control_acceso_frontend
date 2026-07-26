@@ -4,7 +4,10 @@ import { useState } from "react";
 import { Box } from "@chakra-ui/react";
 import { DataTable } from "@/components/dashboard/DataTable";
 import { StatusModal } from "@/components/dashboard/StatusModal";
-import { UserActionModal, ModalMode } from "@/components/dashboard/accesos/usuarios/UserActionModal";
+import {
+  UserActionModal,
+  ModalMode,
+} from "@/components/dashboard/accesos/usuarios/UserActionModal";
 import { UserFilterBar } from "@/components/dashboard/accesos/usuarios/UserFilterBar";
 import { getUserColumns } from "@/components/dashboard/accesos/usuarios/UserColumns";
 import { useUsers } from "./hooks/useUsers";
@@ -56,7 +59,12 @@ export default function UsuariosPage() {
       await updateUser(selectedUser.id, payload as FormData);
     } else if (modalMode === "delete" && typeof payload === "string") {
       await deleteUser(payload);
-    } else if (modalMode === "assign_roles" && typeof payload === "object" && payload !== null && "userId" in payload) {
+    } else if (
+      modalMode === "assign_roles" &&
+      typeof payload === "object" &&
+      payload !== null &&
+      "userId" in payload
+    ) {
       await assignRoles(payload.userId, payload.rolesIds);
     }
   };
@@ -72,12 +80,7 @@ export default function UsuariosPage() {
   const columnas = getUserColumns(handleOpenModal);
 
   return (
-    <Box
-      bg="gray.50/40"
-      display="flex"
-      flexDirection="column"
-      h="full"
-    >
+    <Box bg="gray.50/40" display="flex" flexDirection="column" h="full">
       {/* Alertas flotantes globales (Errores de API, Notificaciones de Éxito) */}
       <StatusModal
         {...statusModal}

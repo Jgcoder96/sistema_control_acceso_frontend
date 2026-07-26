@@ -77,18 +77,16 @@ export const getPermissionColumns = (
           <Eye size={16} />
         </IconButton>
 
-        {/* Solo mostramos el botón de eliminar si el permiso no ha sido eliminado ya */}
-        {!item.eliminado_el && (
-          <IconButton
-            aria-label="Eliminar"
-            size="sm"
-            colorPalette="red"
-            variant="ghost"
-            onClick={() => onDelete(item)}
-          >
-            <Trash2 size={16} />
-          </IconButton>
-        )}
+        <IconButton
+          aria-label="Eliminar"
+          size="sm"
+          colorPalette="red"
+          variant="ghost"
+          disabled={!!item.eliminado_el}
+          onClick={() => onDelete(item)}
+        >
+          <Trash2 size={16} />
+        </IconButton>
       </HStack>
     ),
   },

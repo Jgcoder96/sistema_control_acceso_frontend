@@ -76,7 +76,6 @@ export const RolePermissionsForm = ({
         </Text>
       </HStack>
 
-      {/* Input de Búsqueda local o remoto (dependiendo del onSearch) */}
       <HStack
         w="full"
         bg="gray.50"
@@ -120,7 +119,7 @@ export const RolePermissionsForm = ({
         <VStack
           align="stretch"
           gap={3}
-          h="300px"
+          h="260px"
           overflowY="auto"
           pr={2}
           css={{

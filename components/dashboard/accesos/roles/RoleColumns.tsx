@@ -81,52 +81,58 @@ export const getRoleColumns = (
     header: "Acciones",
     width: "180px",
     textAlign: "center",
-    render: (r: Role) => (
-      <HStack gap={1} justify="center">
-        {/* Visualizar Detalles */}
-        <IconButton
-          variant="ghost"
-          size="sm"
-          colorPalette="blue"
-          aria-label="Ver Info"
-          onClick={() => onAction(r, "view")}
-        >
-          <Eye size={16} />
-        </IconButton>
-        
-        {/* Modificar Rol */}
-        <IconButton
-          variant="ghost"
-          size="sm"
-          colorPalette="orange"
-          aria-label="Editar"
-          onClick={() => onAction(r, "edit")}
-        >
-          <Pencil size={16} />
-        </IconButton>
-        
-        {/* Asignación de Permisos */}
-        <IconButton
-          variant="ghost"
-          size="sm"
-          colorPalette="purple"
-          aria-label="Asignar Permisos"
-          onClick={() => onAction(r, "assign_permissions")}
-        >
-          <ShieldCheck size={16} />
-        </IconButton>
-        
-        {/* Eliminación Lógica */}
-        <IconButton
-          variant="ghost"
-          size="sm"
-          colorPalette="red"
-          aria-label="Eliminar"
-          onClick={() => onAction(r, "delete")}
-        >
-          <Trash2 size={16} />
-        </IconButton>
-      </HStack>
-    ),
+    render: (r: Role) => {
+      const isDeleted = !!r.eliminado_el;
+      return (
+        <HStack gap={1} justify="center">
+          {/* Visualizar Detalles */}
+          <IconButton
+            variant="ghost"
+            size="sm"
+            colorPalette="blue"
+            aria-label="Ver Info"
+            onClick={() => onAction(r, "view")}
+          >
+            <Eye size={16} />
+          </IconButton>
+          
+          {/* Modificar Rol */}
+          <IconButton
+            variant="ghost"
+            size="sm"
+            colorPalette="orange"
+            aria-label="Editar"
+            disabled={isDeleted}
+            onClick={() => onAction(r, "edit")}
+          >
+            <Pencil size={16} />
+          </IconButton>
+          
+          {/* Asignación de Permisos */}
+          <IconButton
+            variant="ghost"
+            size="sm"
+            colorPalette="purple"
+            aria-label="Asignar Permisos"
+            disabled={isDeleted}
+            onClick={() => onAction(r, "assign_permissions")}
+          >
+            <ShieldCheck size={16} />
+          </IconButton>
+          
+          {/* Eliminación Lógica */}
+          <IconButton
+            variant="ghost"
+            size="sm"
+            colorPalette="red"
+            aria-label="Eliminar"
+            disabled={isDeleted}
+            onClick={() => onAction(r, "delete")}
+          >
+            <Trash2 size={16} />
+          </IconButton>
+        </HStack>
+      );
+    },
   },
 ];

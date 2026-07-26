@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { Box, Button, Text } from "@chakra-ui/react";
-import { ChevronDown } from "lucide-react";
+import { Box, Button, Text, Input, HStack } from "@chakra-ui/react";
+import { ChevronDown, Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export interface AnimatedDropdownOption {
@@ -16,6 +16,7 @@ interface AnimatedDropdownProps {
   options: AnimatedDropdownOption[];
   onChange: (value: string) => void;
   width?: string | Record<string, string | number>;
+  isDisabled?: boolean;
 }
 
 /**
@@ -27,11 +28,18 @@ export const AnimatedDropdown = ({
   options,
   onChange,
   width = { base: "120px", md: "180px" },
+  isDisabled = false,
 }: AnimatedDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const selectedOption = options.find((opt) => opt.value === value);
   const displayLabel = selectedOption ? selectedOption.label : value;
+
+  const filteredOptions = options.filter(
+    (opt) =>
+      opt.label.toLowerCase().includes(searchTerm.toLowerCase()) || opt.value === "" // Always keep the "All/Select" option
+  );
 
   return (
     <Box width={width} position="relative">
@@ -52,7 +60,10 @@ export const AnimatedDropdown = ({
         px={4}
         _hover={{ bg: "gray.50" }}
         _active={{ bg: "gray.100" }}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => !isDisabled && setIsOpen(!isOpen)}
+        disabled={isDisabled}
+        opacity={isDisabled ? 0.6 : 1}
+        cursor={isDisabled ? "not-allowed" : "pointer"}
       >
         <Text>{displayLabel}</Text>
         <motion.span
@@ -96,34 +107,61 @@ export const AnimatedDropdown = ({
                 rounded="xl"
                 boxShadow="0 16px 40px rgba(59, 130, 246, 0.12)"
                 overflow="hidden"
-                p={1.5}
+                display="flex"
+                flexDirection="column"
               >
-                {options.map((option, index) => (
-                  <Button
-                    key={option.value}
-                    width="full"
-                    justifyContent="flex-start"
-                    variant="ghost"
-                    size="sm"
-                    rounded="md"
-                    px={3}
-                    py={2.5}
-                    fontSize="sm"
-                    fontWeight="medium"
-                    color={value === option.value ? "blue.700" : "gray.700"}
-                    bg={value === option.value ? "blue.50" : "transparent"}
-                    _hover={{ bg: "blue.50", color: "blue.700" }}
-                    borderTopWidth={index === 0 ? "0px" : "1px"}
-                    borderTopColor="gray.100"
-                    mt={index === 0 ? 0 : 1}
-                    onClick={() => {
-                      onChange(option.value);
-                      setIsOpen(false);
-                    }}
-                  >
-                    {option.label}
-                  </Button>
-                ))}
+                {/* Buscador Integrado */}
+                <Box p={2} borderBottom="1px solid" borderColor="gray.100" bg="gray.50">
+                  <HStack bg="white" borderRadius="md" border="1px solid" borderColor="gray.200" px={2} h="32px">
+                    <Search size={14} color="var(--chakra-colors-gray-400)" />
+                    <Input
+                      variant="unstyled"
+                      size="sm"
+                      placeholder="Buscar..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      fontSize="sm"
+                      h="full"
+                      px={1}
+                      _focus={{ outline: "none" }}
+                    />
+                  </HStack>
+                </Box>
+
+                {/* Lista de Opciones con Scroll */}
+                <Box p={1.5} maxH="220px" overflowY="auto" className="custom-scrollbar">
+                  {filteredOptions.length > 0 ? (
+                    filteredOptions.map((option, index) => (
+                      <Button
+                        key={option.value}
+                        width="full"
+                        justifyContent="flex-start"
+                        variant="ghost"
+                        size="sm"
+                        rounded="md"
+                        px={3}
+                        py={2.5}
+                        fontSize="sm"
+                        fontWeight="medium"
+                        color={value === option.value ? "blue.700" : "gray.700"}
+                        bg={value === option.value ? "blue.50" : "transparent"}
+                        _hover={{ bg: "blue.50", color: "blue.700" }}
+                        mt={index === 0 ? 0 : 1}
+                        onClick={() => {
+                          onChange(option.value);
+                          setIsOpen(false);
+                          setSearchTerm("");
+                        }}
+                      >
+                        {option.label}
+                      </Button>
+                    ))
+                  ) : (
+                    <Text fontSize="sm" color="gray.500" textAlign="center" py={4}>
+                      No se encontraron resultados
+                    </Text>
+                  )}
+                </Box>
               </Box>
             </motion.div>
           </>

@@ -62,13 +62,13 @@ export const BaseModal = ({
       motionPreset="scale"
     >
       <Dialog.Backdrop bg="blackAlpha.600" backdropFilter="blur(4px)" />
-      <Dialog.Positioner p="4">
+      <Dialog.Positioner p={{ base: 4, md: 4 }} pb={{ base: 12, md: 4 }}>
         <Dialog.Content
           borderRadius="2xl"
           bg="white"
           overflow="hidden"
           boxShadow="2xl"
-          maxH="90vh"
+          maxH={{ base: "80vh", md: "90vh" }}
           display="flex"
           flexDirection="column"
         >
@@ -116,7 +116,7 @@ export const BaseModal = ({
           </Box>
 
           {/* Área principal o cuerpo (Scroll independiente) */}
-          <Dialog.Body p="8" display="flex" flexDirection="column" overflow="hidden">
+          <Dialog.Body p="8" display="flex" flexDirection="column" overflowY="auto">
             {children}
           </Dialog.Body>
 

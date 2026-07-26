@@ -3,8 +3,8 @@ import { logout } from "./auth";
 
 /** Opciones extendidas para la función fetch nativa */
 type RequestOptions = RequestInit & {
-  /** 
-   * Bandera opcional para omitir la inyección automática del token de acceso 
+  /**
+   * Bandera opcional para omitir la inyección automática del token de acceso
    * (útil para endpoints de login o públicos)
    */
   skipAuth?: boolean;
@@ -22,10 +22,8 @@ export async function apiFetch(
 ): Promise<Response> {
   const options: RequestOptions = init ? { ...init } : {};
 
-  // Ensure headers object exists
   const headers = new Headers(options.headers || {});
 
-  // Attach Authorization header unless explicitly skipped
   if (!options.skipAuth) {
     const accessToken = localStorage.getItem("access_token");
     if (accessToken) {
@@ -33,18 +31,16 @@ export async function apiFetch(
     }
   }
 
-  // Apply modified headers back to options
   options.headers = headers;
 
   // First request
   let response = await fetch(input, options);
 
-  // If unauthorized, try to refresh token
   if (response.status === 401 && !options.skipAuth) {
     const refreshToken = localStorage.getItem("refresh_token");
     if (!refreshToken) {
       logout();
-      return response; // return original 401 response after logout
+      return response;
     }
 
     try {

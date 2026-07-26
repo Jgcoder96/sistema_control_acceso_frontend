@@ -14,5 +14,8 @@ export const API_CONFIG = {
     ROLE_PERMISSIONS: (roleId: string) =>
       `${API_BASE_URL}/api/app/roles/${roleId}/permissions`,
     APP_PERMISSIONS: `${API_BASE_URL}/api/app/permissions`,
+    LOGS: `${API_BASE_URL}/api/firmware/logs`,
+    UBICACIONES: `${API_BASE_URL}/api/firmware/locations`,
+    PUNTOS_ACCESO: `${API_BASE_URL}/api/firmware/access-points?status=all&page=1&limit=100`,
   },
 };

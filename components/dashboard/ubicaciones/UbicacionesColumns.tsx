@@ -39,6 +39,11 @@ export const getUbicacionesColumns = ({
     key: "nombre",
     width: "20%",
     textAlign: "center",
+    render: (item) => (
+      <Text fontWeight="semibold" color="gray.800" fontSize="sm">
+        {item.nombre}
+      </Text>
+    ),
   },
   {
     header: "Mesh ID (MAC)",

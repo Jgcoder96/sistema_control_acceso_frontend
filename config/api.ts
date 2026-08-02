@@ -18,6 +18,8 @@ export const API_CONFIG = {
     UBICACIONES: `${API_BASE_URL}/api/firmware/locations`,
     UBICACION_DETAIL: (id: string) =>
       `${API_BASE_URL}/api/firmware/locations/${id}`,
-    PUNTOS_ACCESO: `${API_BASE_URL}/api/firmware/access-points?status=all&page=1&limit=100`,
+    PUNTOS_ACCESO: `${API_BASE_URL}/api/firmware/access-points`,
+    PUNTO_ACCESO_DETAIL: (id: string) =>
+      `${API_BASE_URL}/api/firmware/access-points/${id}`,
   },
 };

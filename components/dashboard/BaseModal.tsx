@@ -12,6 +12,7 @@ export interface BaseModalProps {
   size?: "xs" | "sm" | "md" | "lg" | "xl" | "full" | "cover";
   colorPalette?: string;
   bodyScroll?: boolean;
+  bodyOverflow?: string;
 
   // Custom Header elements
   headerIcon?: React.ReactNode;
@@ -43,6 +44,7 @@ export const BaseModal = ({
   size = "lg",
   colorPalette = "blue",
   bodyScroll = true,
+  bodyOverflow,
   headerIcon,
   headerBadge,
   headerExtra,
@@ -68,7 +70,7 @@ export const BaseModal = ({
         <Dialog.Content
           borderRadius="2xl"
           bg="white"
-          overflow="hidden"
+          overflow={bodyOverflow || "hidden"}
           boxShadow="2xl"
           maxH={{ base: "80vh", md: "90vh" }}
           display="flex"
@@ -81,6 +83,7 @@ export const BaseModal = ({
             borderBottom="1px solid"
             borderColor="gray.100"
             flexShrink={0}
+            borderTopRadius="2xl"
           >
             {headerExtra ? (
               headerExtra
@@ -118,7 +121,7 @@ export const BaseModal = ({
           </Box>
 
           {/* Área principal o cuerpo (Scroll independiente) */}
-          <Dialog.Body p="8" display="flex" flexDirection="column" overflowY={bodyScroll ? "auto" : "hidden"}>
+          <Dialog.Body p="8" display="flex" flexDirection="column" overflow={bodyOverflow || (bodyScroll ? "auto" : "hidden")}>
             {children}
           </Dialog.Body>
 
@@ -130,6 +133,7 @@ export const BaseModal = ({
               borderColor="gray.100"
               bg="gray.50/50"
               flexShrink={0}
+              borderBottomRadius="2xl"
             >
               {customFooter ? (
                 customFooter

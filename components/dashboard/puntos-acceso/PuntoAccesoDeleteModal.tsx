@@ -1,34 +1,34 @@
 import React, { useState } from "react";
-import { VStack, Text, Center, HStack, Badge, Box } from "@chakra-ui/react";
+import { VStack, Text, HStack, Badge, Center, Box } from "@chakra-ui/react";
 import { AlertTriangle, Trash2 } from "lucide-react";
 import { BaseModal } from "@/components/dashboard/BaseModal";
-import { Ubicacion } from "@/app/(dashboard)/sistema/ubicaciones/types/Ubicacion";
+import { PuntoAcceso } from "@/app/(dashboard)/sistema/puntos-de-acceso/types/PuntoAcceso";
 
-interface UbicacionDeleteModalProps {
+interface PuntoAccesoDeleteModalProps {
   isOpen: boolean;
   onClose: () => void;
-  ubicacion: Ubicacion | null;
+  punto: PuntoAcceso | null;
   onConfirm: (id: string) => Promise<boolean>;
 }
 
 /**
- * Modal de confirmación para eliminar o restaurar (soft delete) una Ubicación.
+ * Modal de confirmación para eliminar o restaurar (soft delete) un Punto de Acceso.
  * Destaca visualmente la acción destructiva para prevenir errores del usuario.
  */
-export const UbicacionDeleteModal = ({
+export const PuntoAccesoDeleteModal = ({
   isOpen,
   onClose,
-  ubicacion,
+  punto,
   onConfirm,
-}: UbicacionDeleteModalProps) => {
+}: PuntoAccesoDeleteModalProps) => {
   const [loading, setLoading] = useState(false);
 
-  if (!ubicacion) return null;
-  const isDeleted = !!ubicacion.eliminado_el;
+  if (!punto) return null;
+  const isDeleted = !!punto.eliminado_el;
 
   const handleConfirm = async () => {
     setLoading(true);
-    const success = await onConfirm(ubicacion.id);
+    const success = await onConfirm(punto.id);
     setLoading(false);
     if (success) {
       onClose();
@@ -39,31 +39,46 @@ export const UbicacionDeleteModal = ({
     <BaseModal
       open={isOpen}
       onClose={onClose}
-      title={isDeleted ? "Restaurar Ubicación" : "Eliminar Ubicación"}
+      title={isDeleted ? "Restaurar Punto de Acceso" : "Eliminar Punto de Acceso"}
       colorPalette={isDeleted ? "blue" : "red"}
       size="md"
       headerExtra={
         <HStack gap={4} align="center">
-          <Box p={3} borderRadius="xl" bg="red.100" color="red.600">
+          <Box p={3} borderRadius="xl" bg={isDeleted ? "blue.100" : "red.100"} color={isDeleted ? "blue.600" : "red.600"}>
             <Trash2 size={20} />
           </Box>
           <VStack align="start" gap={1}>
-            <Text fontSize="xs" fontWeight="bold" textTransform="uppercase" letterSpacing="wider" color={isDeleted ? "blue.600" : "red.600"}>
-              {isDeleted ? "Restaurar Ubicación" : "Eliminar Ubicación"}
+            <Text
+              fontSize="xs"
+              fontWeight="bold"
+              textTransform="uppercase"
+              letterSpacing="wider"
+              color={isDeleted ? "blue.600" : "red.600"}
+            >
+              {isDeleted ? "Restaurar Dispositivo" : "Eliminar Dispositivo"}
             </Text>
-            <Text fontSize="xl" fontWeight="bold" color="gray.800" lineHeight="1.2">
-              {ubicacion.nombre}
+            <Text
+              fontSize="2xl"
+              fontWeight="bold"
+              color="gray.850"
+              lineHeight="1.2"
+            >
+              {punto.nombre}
             </Text>
             <HStack gap={2} mt={1}>
-              <Badge colorPalette={!ubicacion.eliminado_el ? "green" : "red"} variant="solid" borderRadius="full">
-                {!ubicacion.eliminado_el ? "activo" : "inactivo"}
+              <Badge
+                colorPalette={!isDeleted ? "green" : "red"}
+                variant="solid"
+                borderRadius="full"
+              >
+                {!isDeleted ? "activo" : "inactivo"}
               </Badge>
               <Badge colorPalette="gray" variant="subtle" borderRadius="full" textTransform="none">
                 <Text as="span" display={{ base: "none", sm: "inline" }}>
-                  ID: {ubicacion.id}
+                  ID: {punto.id}
                 </Text>
                 <Text as="span" display={{ base: "inline", sm: "none" }}>
-                  ID: {ubicacion.id.substring(0, 8)}...
+                  ID: {punto.id.substring(0, 8)}...
                 </Text>
               </Badge>
             </HStack>
@@ -83,8 +98,8 @@ export const UbicacionDeleteModal = ({
         <VStack gap={1} textAlign="center">
           <Text fontSize="lg" fontWeight="bold" color="gray.800">
             {isDeleted
-              ? `¿Deseas restaurar "${ubicacion.nombre}"?`
-              : `¿Deseas eliminar "${ubicacion.nombre}"?`}
+              ? `¿Deseas restaurar "${punto.nombre}"?`
+              : `¿Deseas eliminar "${punto.nombre}"?`}
           </Text>
         </VStack>
       </VStack>

@@ -84,7 +84,7 @@ export const AnimatedDropdown = ({
               left={0}
               right={0}
               bottom={0}
-              zIndex={40}
+              zIndex={1500}
               onClick={() => setIsOpen(false)}
             />
             <motion.div
@@ -97,7 +97,7 @@ export const AnimatedDropdown = ({
                 top: "calc(100% + 8px)",
                 left: 0,
                 width: "100%",
-                zIndex: 50,
+                zIndex: 1510,
               }}
             >
               <Box

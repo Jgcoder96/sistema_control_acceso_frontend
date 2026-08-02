@@ -21,5 +21,8 @@ export const API_CONFIG = {
     PUNTOS_ACCESO: `${API_BASE_URL}/api/firmware/access-points`,
     PUNTO_ACCESO_DETAIL: (id: string) =>
       `${API_BASE_URL}/api/firmware/access-points/${id}`,
+    HORARIOS: `${API_BASE_URL}/api/firmware/schedules`,
+    HORARIO_DETAIL: (id: string) =>
+      `${API_BASE_URL}/api/firmware/schedules/${id}`,
   },
 };

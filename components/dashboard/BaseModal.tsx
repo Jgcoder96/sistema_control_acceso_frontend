@@ -121,7 +121,7 @@ export const BaseModal = ({
           </Box>
 
           {/* Área principal o cuerpo (Scroll independiente) */}
-          <Dialog.Body p="8" display="flex" flexDirection="column" overflow={bodyOverflow || (bodyScroll ? "auto" : "hidden")}>
+          <Dialog.Body p="8" display="flex" flexDirection="column" flex="1" minH="0" overflow={bodyOverflow || (bodyScroll ? "auto" : "hidden")}>
             {children}
           </Dialog.Body>
 

@@ -24,5 +24,8 @@ export const API_CONFIG = {
     HORARIOS: `${API_BASE_URL}/api/firmware/schedules`,
     HORARIO_DETAIL: (id: string) =>
       `${API_BASE_URL}/api/firmware/schedules/${id}`,
+    FESTIVOS: `${API_BASE_URL}/api/firmware/schedules/holidays`,
+    FESTIVO_DETAIL: (id: string) =>
+      `${API_BASE_URL}/api/firmware/schedules/holidays/${id}`,
   },
 };

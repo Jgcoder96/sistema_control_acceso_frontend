@@ -129,7 +129,7 @@ export const AnimatedDropdown = ({
                 </Box>
 
                 {/* Lista de Opciones con Scroll */}
-                <Box p={1.5} maxH="220px" overflowY="auto" className="custom-scrollbar">
+                <Box p={1.5} maxH="160px" overflowY="auto" className="custom-scrollbar">
                   {filteredOptions.length > 0 ? (
                     filteredOptions.map((option, index) => (
                       <Button

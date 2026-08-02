@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ubicacionFormSchema,
   UbicacionFormValues,
-} from "@/app/(dashboard)/sistema/ubicaciones/schemas";
+} from "@/app/(dashboard)/sistema/ubicaciones/schemas/ubicacionFormSchema";
 
 interface UbicacionFormModalProps {
   isOpen: boolean;
@@ -47,7 +47,6 @@ export const UbicacionFormModal = ({
         nombre: ubicacion?.nombre || "",
         mesh_id: ubicacion?.mesh_id || "",
       });
-      setLoading(false);
     }
   }, [isOpen, ubicacion, reset]);
 

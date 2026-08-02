@@ -6,11 +6,11 @@ import { usePuntosAcceso } from "./hooks/usePuntosAcceso";
 import { PuntoAcceso } from "./types/PuntoAcceso";
 import { DataTable } from "@/components/dashboard/DataTable";
 import { StatusModal } from "@/components/dashboard/StatusModal";
-import { PuntosAccesoFilterBar } from "@/components/dashboard/puntos-acceso/PuntosAccesoFilterBar";
-import { getPuntosAccesoColumns } from "@/components/dashboard/puntos-acceso/PuntosAccesoColumns";
-import { PuntoAccesoFormModal } from "@/components/dashboard/puntos-acceso/PuntoAccesoFormModal";
-import { PuntoAccesoDetailModal } from "@/components/dashboard/puntos-acceso/PuntoAccesoDetailModal";
-import { PuntoAccesoDeleteModal } from "@/components/dashboard/puntos-acceso/PuntoAccesoDeleteModal";
+import { PuntosAccesoFilterBar } from "@/components/dashboard/sistema/puntos-acceso/PuntosAccesoFilterBar";
+import { getPuntosAccesoColumns } from "@/components/dashboard/sistema/puntos-acceso/PuntosAccesoColumns";
+import { PuntoAccesoFormModal } from "@/components/dashboard/sistema/puntos-acceso/PuntoAccesoFormModal";
+import { PuntoAccesoDetailModal } from "@/components/dashboard/sistema/puntos-acceso/PuntoAccesoDetailModal";
+import { PuntoAccesoDeleteModal } from "@/components/dashboard/sistema/puntos-acceso/PuntoAccesoDeleteModal";
 
 /**
  * Página principal del módulo de Puntos de Acceso.

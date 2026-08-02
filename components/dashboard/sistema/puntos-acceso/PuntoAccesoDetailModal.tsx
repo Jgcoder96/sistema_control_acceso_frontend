@@ -1,26 +1,28 @@
 import React from "react";
 import { VStack, Grid, HStack, Text, Button, Badge } from "@chakra-ui/react";
-import { Eye, MapPin, Calendar, CheckCircle2, XCircle, Router } from "lucide-react";
-import { BaseModal } from "@/components/dashboard/BaseModal";
+import { Router, MapPin, Calendar, Clock } from "lucide-react";
 import { DetailItem } from "@/components";
-import { Ubicacion } from "@/app/(dashboard)/sistema/ubicaciones/types/Ubicacion";
+import { BaseModal } from "@/components/dashboard/BaseModal";
+import { PuntoAcceso } from "@/app/(dashboard)/sistema/puntos-de-acceso/types/PuntoAcceso";
 
-interface UbicacionDetailModalProps {
+interface PuntoAccesoDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
-  ubicacion: Ubicacion | null;
+  punto: PuntoAcceso | null;
 }
 
 /**
- * Modal de sólo lectura para mostrar los detalles completos de una Ubicación.
+ * Modal de sólo lectura para mostrar los detalles completos de un Punto de Acceso.
  * Presenta la información de forma estructurada con insignias de estado y un diseño unificado.
  */
-export const UbicacionDetailModal = ({ isOpen, onClose, ubicacion }: UbicacionDetailModalProps) => {
-  if (!ubicacion) return null;
+export const PuntoAccesoDetailModal = ({
+  isOpen,
+  onClose,
+  punto,
+}: PuntoAccesoDetailModalProps) => {
+  if (!punto) return null;
 
-  const isDeleted = !!ubicacion.eliminado_el;
-
-  const formatDate = (dateStr?: string) => {
+  const formatDate = (dateStr?: string | null) => {
     if (!dateStr) return "-";
     try {
       const d = new Date(dateStr);
@@ -41,9 +43,21 @@ export const UbicacionDetailModal = ({ isOpen, onClose, ubicacion }: UbicacionDe
     <BaseModal
       open={isOpen}
       onClose={onClose}
-      title="Detalles de Ubicación"
+      title="Detalles del Punto de Acceso"
       colorPalette="blue"
       size="md"
+      customFooter={
+        <HStack justify="end" w="full">
+          <Button
+            colorPalette="blue"
+            borderRadius="full"
+            onClick={onClose}
+            px={8}
+          >
+            Cerrar
+          </Button>
+        </HStack>
+      }
       headerExtra={
         <HStack
           gap={{ base: 4, sm: 6 }}
@@ -59,7 +73,7 @@ export const UbicacionDetailModal = ({ isOpen, onClose, ubicacion }: UbicacionDe
               letterSpacing="wider"
               color="blue.600"
             >
-              Detalles de Ubicación
+              Detalles del Dispositivo
             </Text>
             <Text
               fontSize="2xl"
@@ -67,15 +81,15 @@ export const UbicacionDetailModal = ({ isOpen, onClose, ubicacion }: UbicacionDe
               color="gray.850"
               lineHeight="1.2"
             >
-              {ubicacion.nombre}
+              {punto.nombre}
             </Text>
             <HStack gap={2} mt={1}>
               <Badge
-                colorPalette={isDeleted ? "red" : "green"}
+                colorPalette={!punto.eliminado_el ? "green" : "red"}
                 variant="solid"
                 borderRadius="full"
               >
-                {isDeleted ? "inactivo" : "activo"}
+                {!punto.eliminado_el ? "activo" : "inactivo"}
               </Badge>
               <Badge
                 colorPalette="gray"
@@ -84,21 +98,14 @@ export const UbicacionDetailModal = ({ isOpen, onClose, ubicacion }: UbicacionDe
                 textTransform="none"
               >
                 <Text as="span" display={{ base: "none", sm: "inline" }}>
-                  ID: {ubicacion.id}
+                  ID: {punto.id}
                 </Text>
                 <Text as="span" display={{ base: "inline", sm: "none" }}>
-                  ID: {ubicacion.id.substring(0, 8)}...
+                  ID: {punto.id.substring(0, 8)}...
                 </Text>
               </Badge>
             </HStack>
           </VStack>
-        </HStack>
-      }
-      customFooter={
-        <HStack justify="end" w="full">
-          <Button colorPalette="blue" borderRadius="full" onClick={onClose} px={8}>
-            Cerrar
-          </Button>
         </HStack>
       }
     >
@@ -109,24 +116,24 @@ export const UbicacionDetailModal = ({ isOpen, onClose, ubicacion }: UbicacionDe
           w="full"
         >
           <DetailItem
-            icon={<MapPin size={18} />}
-            label="Nombre de Ubicación"
-            value={ubicacion.nombre}
+            icon={<Router size={18} />}
+            label="Dirección MAC"
+            value={punto.mac}
           />
           <DetailItem
-            icon={<Router size={18} />}
-            label="Red Mesh (MAC)"
-            value={ubicacion.mesh_id}
+            icon={<MapPin size={18} />}
+            label="Ubicación Asignada"
+            value={punto.ubicacion?.nombre || "Sin Asignar"}
           />
           <DetailItem
             icon={<Calendar size={18} />}
             label="Registro"
-            value={formatDate(ubicacion.creado_el)}
+            value={formatDate(punto.creado_el)}
           />
           <DetailItem
-            icon={<Calendar size={18} />}
+            icon={<Clock size={18} />}
             label="Última Act."
-            value={formatDate(ubicacion.actualizado_el)}
+            value={formatDate(punto.actualizado_el)}
           />
         </Grid>
       </VStack>

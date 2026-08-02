@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { VStack, Text, Input, Box, Field, HStack, Badge } from "@chakra-ui/react";
+import { VStack, Text, Input, Field, HStack, Badge } from "@chakra-ui/react";
 import { BaseModal } from "@/components/dashboard/BaseModal";
 import { PuntoAcceso } from "@/app/(dashboard)/sistema/puntos-de-acceso/types/PuntoAcceso";
-import { Ubicacion } from "@/app/(dashboard)/sistema/ubicaciones/types/Ubicacion";
 import { useUbicaciones } from "@/app/(dashboard)/sistema/ubicaciones/hooks/useUbicaciones";
 import { AnimatedDropdown } from "@/components/ui/AnimatedDropdown";
 import { useForm, Controller } from "react-hook-form";
@@ -10,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   puntoAccesoFormSchema,
   PuntoAccesoFormValues,
-} from "@/app/(dashboard)/sistema/puntos-de-acceso/schemas";
+} from "@/app/(dashboard)/sistema/puntos-de-acceso/schemas/puntoAccesoFormSchema";
 
 interface PuntoAccesoFormModalProps {
   isOpen: boolean;
@@ -54,7 +53,6 @@ export const PuntoAccesoFormModal = ({
         mac: punto?.mac || "",
         ubicacion_id: punto?.ubicacion?.id || "",
       });
-      setLoading(false);
       fetchUbicaciones();
     }
   }, [isOpen, punto, fetchUbicaciones, reset]);

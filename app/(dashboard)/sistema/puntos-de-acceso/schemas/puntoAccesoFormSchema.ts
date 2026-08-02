@@ -7,17 +7,17 @@ const uuidRegex =
 
 export const puntoAccesoFormSchema = z.object({
   nombre: z
-    .string({ required_error: "El campo 'nombre' es obligatorio." })
+    .string({ message: "El campo 'nombre' es obligatorio." })
     .min(3, "El campo 'nombre' debe contener al menos 3 caracteres.")
     .max(100, "El campo 'nombre' no puede exceder los 100 caracteres.")
     .trim(),
   mac: z
-    .string({ required_error: "El campo 'mac' es obligatorio." })
+    .string({ message: "El campo 'mac' es obligatorio." })
     .regex(regexMac, "La dirección MAC no es válida (ej: AA:BB:CC:DD:EE:FF).")
     .toUpperCase()
     .trim(),
   ubicacion_id: z
-    .string({ required_error: "Debe seleccionar una ubicación." })
+    .string({ message: "Debe seleccionar una ubicación." })
     .regex(uuidRegex, "Seleccione una ubicación válida.")
     .trim(),
 });

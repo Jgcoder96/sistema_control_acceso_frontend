@@ -6,11 +6,11 @@ import { useUbicaciones } from "./hooks/useUbicaciones";
 import { Ubicacion } from "./types/Ubicacion";
 import { DataTable } from "@/components/dashboard/DataTable";
 import { StatusModal } from "@/components/dashboard/StatusModal";
-import { UbicacionesFilterBar } from "@/components/dashboard/ubicaciones/UbicacionesFilterBar";
-import { getUbicacionesColumns } from "@/components/dashboard/ubicaciones/UbicacionesColumns";
-import { UbicacionFormModal } from "@/components/dashboard/ubicaciones/UbicacionFormModal";
-import { UbicacionDetailModal } from "@/components/dashboard/ubicaciones/UbicacionDetailModal";
-import { UbicacionDeleteModal } from "@/components/dashboard/ubicaciones/UbicacionDeleteModal";
+import { UbicacionesFilterBar } from "@/components/dashboard/sistema/ubicaciones/UbicacionesFilterBar";
+import { getUbicacionesColumns } from "@/components/dashboard/sistema/ubicaciones/UbicacionesColumns";
+import { UbicacionFormModal } from "@/components/dashboard/sistema/ubicaciones/UbicacionFormModal";
+import { UbicacionDetailModal } from "@/components/dashboard/sistema/ubicaciones/UbicacionDetailModal";
+import { UbicacionDeleteModal } from "@/components/dashboard/sistema/ubicaciones/UbicacionDeleteModal";
 
 /**
  * Página principal del módulo de Ubicaciones.

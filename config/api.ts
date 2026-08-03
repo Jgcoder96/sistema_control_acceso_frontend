@@ -27,5 +27,13 @@ export const API_CONFIG = {
     FESTIVOS: `${API_BASE_URL}/api/firmware/schedules/holidays`,
     FESTIVO_DETAIL: (id: string) =>
       `${API_BASE_URL}/api/firmware/schedules/holidays/${id}`,
+    TARJETAS: `${API_BASE_URL}/api/firmware/cards`,
+    TARJETAS_DETAIL: (id: string) => `${API_BASE_URL}/api/firmware/cards/${id}`,
+    TARJETAS_ASSIGN: (id: string) => `${API_BASE_URL}/api/firmware/cards/${id}/assign`,
+    TARJETAS_RETURN: (id: string) => `${API_BASE_URL}/api/firmware/cards/${id}/return`,
+    TARJETAS_BLOCK: (id: string) => `${API_BASE_URL}/api/firmware/cards/${id}/block`,
+    TARJETAS_REACTIVATE: (id: string) => `${API_BASE_URL}/api/firmware/cards/${id}/reactivate`,
+    TARJETAS_LOST: (id: string) => `${API_BASE_URL}/api/firmware/cards/${id}/lost`,
+    TARJETAS_DELETE: (id: string) => `${API_BASE_URL}/api/firmware/cards/${id}/delete`,
   },
 };

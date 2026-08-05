@@ -1,7 +1,18 @@
 import React from "react";
-import { HStack, Badge, Text, Box, IconButton, Tooltip } from "@chakra-ui/react";
-import { UserPlus, Trash2, Ban, RefreshCcw, ShieldAlert, ArrowLeftRight, Eye } from "lucide-react";
-import { Tarjeta, TarjetaEstado } from "@/app/(dashboard)/sistema/tarjetas/types/Tarjeta";
+import { HStack, Badge, Text, Box, IconButton } from "@chakra-ui/react";
+import {
+  UserPlus,
+  Trash2,
+  Ban,
+  RefreshCcw,
+  ShieldAlert,
+  ArrowLeftRight,
+  Eye,
+} from "lucide-react";
+import {
+  Tarjeta,
+  TarjetaEstado,
+} from "@/app/(dashboard)/sistema/tarjetas/types/Tarjeta";
 import { ColumnConfig } from "@/components/dashboard/DataTable";
 
 interface TarjetasColumnsProps {

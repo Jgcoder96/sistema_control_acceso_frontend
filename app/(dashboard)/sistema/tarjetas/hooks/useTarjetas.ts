@@ -47,47 +47,35 @@ export const useTarjetas = () => {
   );
 
   const createTarjeta = async (codigo: string) => {
-    try {
-      const res = await apiFetch(API_CONFIG.ENDPOINTS.TARJETAS, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ codigo }),
-      });
-      const result = await res.json();
-      if (!res.ok) throw new Error(result.message || "Error al registrar la tarjeta");
-      return result;
-    } catch (error: any) {
-      throw error;
-    }
+    const res = await apiFetch(API_CONFIG.ENDPOINTS.TARJETAS, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ codigo }),
+    });
+    const result = await res.json();
+    if (!res.ok) throw new Error(result.message || "Error al registrar la tarjeta");
+    return result;
   };
 
   const assignTarjeta = async (id: string, usuario_id: string) => {
-    try {
-      const res = await apiFetch(API_CONFIG.ENDPOINTS.TARJETAS_ASSIGN(id), {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ usuario_id }),
-      });
-      const result = await res.json();
-      if (!res.ok) throw new Error(result.message || "Error al asignar la tarjeta");
-      return result;
-    } catch (error: any) {
-      throw error;
-    }
+    const res = await apiFetch(API_CONFIG.ENDPOINTS.TARJETAS_ASSIGN(id), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ usuario_id }),
+    });
+    const result = await res.json();
+    if (!res.ok) throw new Error(result.message || "Error al asignar la tarjeta");
+    return result;
   };
 
   const simpleAction = async (id: string, endpointUrl: string) => {
-    try {
-      const res = await apiFetch(endpointUrl, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-      });
-      const result = await res.json();
-      if (!res.ok) throw new Error(result.message || "Error al realizar la acción");
-      return result;
-    } catch (error: any) {
-      throw error;
-    }
+    const res = await apiFetch(endpointUrl, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+    });
+    const result = await res.json();
+    if (!res.ok) throw new Error(result.message || "Error al realizar la acción");
+    return result;
   };
 
   const returnTarjeta = (id: string) => simpleAction(id, API_CONFIG.ENDPOINTS.TARJETAS_RETURN(id));
@@ -96,17 +84,13 @@ export const useTarjetas = () => {
   const reportLostTarjeta = (id: string) => simpleAction(id, API_CONFIG.ENDPOINTS.TARJETAS_LOST(id));
 
   const deleteTarjeta = async (id: string) => {
-    try {
-      const res = await apiFetch(API_CONFIG.ENDPOINTS.TARJETAS_DELETE(id), {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-      });
-      const result = await res.json();
-      if (!res.ok) throw new Error(result.message || "Error al eliminar la tarjeta");
-      return result;
-    } catch (error: any) {
-      throw error;
-    }
+    const res = await apiFetch(API_CONFIG.ENDPOINTS.TARJETAS_DELETE(id), {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+    const result = await res.json();
+    if (!res.ok) throw new Error(result.message || "Error al eliminar la tarjeta");
+    return result;
   };
 
   return {

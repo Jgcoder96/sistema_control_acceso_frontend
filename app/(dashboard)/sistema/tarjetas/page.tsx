@@ -9,9 +9,15 @@ import { TarjetasFilterBar } from "@/components/dashboard/sistema/tarjetas/Tarje
 import { getTarjetasColumns } from "@/components/dashboard/sistema/tarjetas/TarjetasColumns";
 import { TarjetaCreateModal } from "@/components/dashboard/sistema/tarjetas/TarjetaCreateModal";
 import { TarjetaAssignModal } from "@/components/dashboard/sistema/tarjetas/TarjetaAssignModal";
-import { TarjetaActionModal, TarjetaActionType } from "@/components/dashboard/sistema/tarjetas/TarjetaActionModal";
+import {
+  TarjetaActionModal,
+  TarjetaActionType,
+} from "@/components/dashboard/sistema/tarjetas/TarjetaActionModal";
 import { TarjetaDetailModal } from "@/components/dashboard/sistema/tarjetas/TarjetaDetailModal";
-import { Tarjeta, TarjetaFiltroEstado } from "@/app/(dashboard)/sistema/tarjetas/types/Tarjeta";
+import {
+  Tarjeta,
+  TarjetaFiltroEstado,
+} from "@/app/(dashboard)/sistema/tarjetas/types/Tarjeta";
 import { TarjetaCreateValues } from "@/app/(dashboard)/sistema/tarjetas/schemas/tarjetaSchemas";
 
 export default function TarjetasPage() {
@@ -19,7 +25,6 @@ export default function TarjetasPage() {
     data,
     isLoading,
     totalPages,
-    totalItems,
     fetchTarjetas,
     createTarjeta,
     assignTarjeta,
@@ -32,8 +37,12 @@ export default function TarjetasPage() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 10;
-  
-  const [filters, setFilters] = useState<{ codigo?: string; cedula?: string; status?: TarjetaFiltroEstado }>({
+
+  const [filters, setFilters] = useState<{
+    codigo?: string;
+    cedula?: string;
+    status?: TarjetaFiltroEstado;
+  }>({
     status: "all",
   });
 
@@ -43,7 +52,7 @@ export default function TarjetasPage() {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isAssignOpen, setIsAssignOpen] = useState(false);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
-  
+
   // Generic action modal state
   const [isActionOpen, setIsActionOpen] = useState(false);
   const [actionType, setActionType] = useState<TarjetaActionType | null>(null);
@@ -78,8 +87,10 @@ export default function TarjetasPage() {
       await createTarjeta(values.codigo);
       showStatus(true, "Éxito", "Tarjeta registrada correctamente.");
       fetchTarjetas({ page: currentPage, limit, ...filters });
-    } catch (error: any) {
-      showStatus(false, "Error", error.message || "Ocurrió un error inesperado.");
+    } catch (error) {
+      const msg =
+        error instanceof Error ? error.message : "Ocurrió un error inesperado.";
+      showStatus(false, "Error", msg);
     }
   };
 
@@ -88,8 +99,10 @@ export default function TarjetasPage() {
       await assignTarjeta(id, usuario_id);
       showStatus(true, "Éxito", "Tarjeta asignada exitosamente.");
       fetchTarjetas({ page: currentPage, limit, ...filters });
-    } catch (error: any) {
-      showStatus(false, "Error", error.message || "Ocurrió un error inesperado.");
+    } catch (error) {
+      const msg =
+        error instanceof Error ? error.message : "Ocurrió un error inesperado.";
+      showStatus(false, "Error", msg);
     }
   };
 
@@ -118,15 +131,23 @@ export default function TarjetasPage() {
           break;
       }
       fetchTarjetas({ page: currentPage, limit, ...filters });
-    } catch (error: any) {
-      showStatus(false, "Error", error.message || "Ocurrió un error inesperado.");
+    } catch (error) {
+      const msg =
+        error instanceof Error ? error.message : "Ocurrió un error inesperado.";
+      showStatus(false, "Error", msg);
     }
   };
 
   // Handlers for opening modals
-  const openDetail = (t: Tarjeta) => { setSelectedTarjeta(t); setIsDetailOpen(true); };
-  const openAssign = (t: Tarjeta) => { setSelectedTarjeta(t); setIsAssignOpen(true); };
-  
+  const openDetail = (t: Tarjeta) => {
+    setSelectedTarjeta(t);
+    setIsDetailOpen(true);
+  };
+  const openAssign = (t: Tarjeta) => {
+    setSelectedTarjeta(t);
+    setIsAssignOpen(true);
+  };
+
   const openAction = (t: Tarjeta, action: TarjetaActionType) => {
     setSelectedTarjeta(t);
     setActionType(action);
@@ -144,23 +165,23 @@ export default function TarjetasPage() {
         onLost: (t) => openAction(t, "lost"),
         onDeleteToggle: (t) => openAction(t, "delete"),
       }),
-    []
+    [],
   );
 
   return (
     <Box bg="gray.50/40" display="flex" flexDirection="column" h="full">
       <StatusModal
         {...statusModal}
-        onClose={() => setStatusModal(prev => ({ ...prev, open: false }))}
+        onClose={() => setStatusModal((prev) => ({ ...prev, open: false }))}
       />
 
       <TarjetasFilterBar
         onSearchChange={(codigo, cedula) => {
-          setFilters(prev => ({ ...prev, codigo, cedula }));
+          setFilters((prev) => ({ ...prev, codigo, cedula }));
           setCurrentPage(1);
         }}
         onStatusChange={(status) => {
-          setFilters(prev => ({ ...prev, status }));
+          setFilters((prev) => ({ ...prev, status }));
           setCurrentPage(1);
         }}
         onOpenCreate={() => setIsCreateOpen(true)}

@@ -1,10 +1,22 @@
 import React, { useState } from "react";
-import { VStack, Text, Button, Box, HStack, Icon, Badge } from "@chakra-ui/react";
-import { AlertTriangle, ShieldAlert, ArrowLeftRight, RefreshCcw, Ban, Trash2 } from "lucide-react";
+import { VStack, Text, Box, HStack, Badge } from "@chakra-ui/react";
+import {
+  AlertTriangle,
+  ShieldAlert,
+  ArrowLeftRight,
+  RefreshCcw,
+  Ban,
+  Trash2,
+} from "lucide-react";
 import { BaseModal } from "@/components/dashboard/BaseModal";
 import { Tarjeta } from "@/app/(dashboard)/sistema/tarjetas/types/Tarjeta";
 
-export type TarjetaActionType = "block" | "reactivate" | "return" | "lost" | "delete";
+export type TarjetaActionType =
+  | "block"
+  | "reactivate"
+  | "return"
+  | "lost"
+  | "delete";
 
 interface TarjetaActionModalProps {
   isOpen: boolean;
@@ -99,18 +111,39 @@ export const TarjetaActionModal = ({
       colorPalette={config.color}
       headerExtra={
         <HStack gap={4} align="center">
-          <Box p={3} borderRadius="xl" bg={`${config.color}.100`} color={`${config.color}.600`}>
-            {React.cloneElement(config.icon as React.ReactElement, { size: 24 })}
+          <Box
+            p={3}
+            borderRadius="xl"
+            bg={`${config.color}.100`}
+            color={`${config.color}.600`}
+          >
+            {config.icon}
           </Box>
           <VStack align="start" gap={1}>
-            <Text fontSize="xs" fontWeight="bold" textTransform="uppercase" letterSpacing="wider" color={`${config.color}.600`}>
+            <Text
+              fontSize="xs"
+              fontWeight="bold"
+              textTransform="uppercase"
+              letterSpacing="wider"
+              color={`${config.color}.600`}
+            >
               {config.title}
             </Text>
-            <Text fontSize="xl" fontWeight="bold" color="gray.800" lineHeight="1.2">
+            <Text
+              fontSize="xl"
+              fontWeight="bold"
+              color="gray.800"
+              lineHeight="1.2"
+            >
               {tarjeta.codigo}
             </Text>
             <HStack gap={2} mt={1}>
-              <Badge colorPalette="gray" variant="subtle" borderRadius="full" textTransform="none">
+              <Badge
+                colorPalette="gray"
+                variant="subtle"
+                borderRadius="full"
+                textTransform="none"
+              >
                 ID: {tarjeta.id}
               </Badge>
             </HStack>
@@ -123,7 +156,12 @@ export const TarjetaActionModal = ({
       confirmLoading={isSubmitting}
     >
       <VStack align="stretch" gap={4} w="full" pt={4} pb={2}>
-        <Text fontSize="md" color="gray.700" lineHeight="tall" textAlign="center">
+        <Text
+          fontSize="md"
+          color="gray.700"
+          lineHeight="tall"
+          textAlign="center"
+        >
           {config.description}
         </Text>
       </VStack>

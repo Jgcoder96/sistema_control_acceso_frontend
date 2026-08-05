@@ -1,7 +1,6 @@
 import React from "react";
 import { VStack, Grid, HStack, Text, Button, Badge, Box } from "@chakra-ui/react";
-import { CreditCard, Calendar, Clock, User, ShieldCheck, Eye } from "lucide-react";
-import { DetailItem } from "@/components";
+import {  Calendar, User, ShieldCheck, Eye } from "lucide-react";
 import { BaseModal } from "@/components/dashboard/BaseModal";
 import { Tarjeta, TarjetaEstado } from "@/app/(dashboard)/sistema/tarjetas/types/Tarjeta";
 

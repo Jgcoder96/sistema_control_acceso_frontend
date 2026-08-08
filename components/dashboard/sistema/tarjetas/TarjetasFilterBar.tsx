@@ -1,6 +1,6 @@
 import React from "react";
-import { HStack, Input, Text, Flex, Box, Center } from "@chakra-ui/react";
-import { Search, Plus } from "lucide-react";
+import { HStack, Input, Text, Flex, Box, Center, Button } from "@chakra-ui/react";
+import { Search, Plus, X } from "lucide-react";
 import { TarjetaFiltroEstado } from "@/app/(dashboard)/sistema/tarjetas/types/Tarjeta";
 import { AnimatedDropdown } from "@/components/ui/AnimatedDropdown";
 import { GlobalButton } from "@/components/ui/GlobalButton";
@@ -37,6 +37,16 @@ export const TarjetasFilterBar = ({
     setStatus(newStatus);
     onStatusChange(newStatus);
   };
+
+  const handleClear = () => {
+    setCodigo("");
+    setCedula("");
+    setStatus("all");
+    onStatusChange("all");
+    onSearchChange("", "");
+  };
+
+  const hasFilters = !!codigo || !!cedula || status !== "all";
 
   const statusOptions = [
     { value: "all", label: "Todos" },
@@ -133,6 +143,18 @@ export const TarjetasFilterBar = ({
           options={statusOptions}
           onChange={handleStatusChange}
         />
+        {hasFilters && (
+          <Button
+            size="sm"
+            variant="ghost"
+            colorPalette="gray"
+            onClick={handleClear}
+            w={{ base: "full", md: "auto" }}
+            mt={{ base: 1, md: 0 }}
+          >
+            <X size={16} /> Limpiar Filtros
+          </Button>
+        )}
       </Flex>
       <GlobalButton
         color="green.600"

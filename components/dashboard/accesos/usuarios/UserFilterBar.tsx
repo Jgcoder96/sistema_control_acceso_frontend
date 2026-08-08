@@ -1,8 +1,8 @@
 "use client";
 
 import React, { ChangeEvent } from "react";
-import { Flex, HStack, Box, Center, Input, Text } from "@chakra-ui/react";
-import { Search, Plus } from "lucide-react";
+import { Flex, HStack, Box, Center, Input, Text, Button } from "@chakra-ui/react";
+import { Search, Plus, X } from "lucide-react";
 import { GlobalButton } from "@/components/ui/GlobalButton";
 import { AnimatedDropdown } from "@/components/ui/AnimatedDropdown";
 import {
@@ -38,6 +38,12 @@ export const UserFilterBar = ({
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     onFilterChange({ search: e.target.value, page: 1 });
   };
+
+  const handleClear = () => {
+    onFilterChange({ search: "", status: "all", page: 1 });
+  };
+
+  const hasFilters = !!search || status !== "all";
 
   return (
     <Flex
@@ -96,6 +102,17 @@ export const UserFilterBar = ({
             onFilterChange({ status: val as UserStatusFilter, page: 1 })
           }
         />
+
+        {hasFilters && (
+          <Button
+            size="sm"
+            variant="ghost"
+            colorPalette="gray"
+            onClick={handleClear}
+          >
+            <X size={16} /> Limpiar Filtros
+          </Button>
+        )}
       </HStack>
 
       {/* Control Derecho: Botón de Alta de Usuario */}

@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from "react";
-import { Flex, HStack, Box, Center, Input, Text } from "@chakra-ui/react";
-import { Search, Plus } from "lucide-react";
+import { Flex, HStack, Box, Center, Input, Text, Button } from "@chakra-ui/react";
+import { Search, Plus, X } from "lucide-react";
 import { GlobalButton } from "@/components/ui/GlobalButton";
 import { AnimatedDropdown } from "@/components/ui/AnimatedDropdown";
 
@@ -30,6 +30,12 @@ export const PermissionFilterBar = ({
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     onFilterChange({ search: e.target.value });
   };
+
+  const handleClear = () => {
+    onFilterChange({ search: "", status: "all" });
+  };
+
+  const hasFilters = !!search || status !== "all";
 
   return (
     <Flex
@@ -87,6 +93,17 @@ export const PermissionFilterBar = ({
             onFilterChange({ status: val as PermissionStatusFilter })
           }
         />
+
+        {hasFilters && (
+          <Button
+            size="sm"
+            variant="ghost"
+            colorPalette="gray"
+            onClick={handleClear}
+          >
+            <X size={16} /> Limpiar Filtros
+          </Button>
+        )}
       </HStack>
 
       {/* Sección Derecha: Botón de Acción Principal */}

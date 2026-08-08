@@ -1,6 +1,6 @@
 import React from "react";
-import { HStack, Input, Text, Flex, Box, Center } from "@chakra-ui/react";
-import { Search, Plus } from "lucide-react";
+import { HStack, Input, Text, Flex, Box, Center, Button } from "@chakra-ui/react";
+import { Search, Plus, X } from "lucide-react";
 import { PermisoFiltroEstado } from "@/app/(dashboard)/sistema/permisos/types/PermisoFisico";
 import { AnimatedDropdown } from "@/components/ui/AnimatedDropdown";
 import { GlobalButton } from "@/components/ui/GlobalButton";
@@ -43,6 +43,17 @@ export const PermisosFilterBar = ({
     setStatus(newStatus);
     onStatusChange(newStatus);
   };
+
+  const handleClear = () => {
+    setCedula("");
+    setPuntoAcceso("");
+    setUbicacion("");
+    setStatus("all");
+    onStatusChange("all");
+    onSearchChange("", "", "");
+  };
+
+  const hasFilters = !!cedula || !!puntoAcceso || !!ubicacion || status !== "all";
 
   const statusOptions = [
     { value: "all", label: "Todos los Estados" },
@@ -169,6 +180,18 @@ export const PermisosFilterBar = ({
           options={statusOptions}
           onChange={handleStatusChange}
         />
+        {hasFilters && (
+          <Button
+            size="sm"
+            variant="ghost"
+            colorPalette="gray"
+            onClick={handleClear}
+            w={{ base: "full", md: "auto" }}
+            mt={{ base: 1, md: 0 }}
+          >
+            <X size={16} /> Limpiar Filtros
+          </Button>
+        )}
       </Flex>
       <GlobalButton
         color="green.600"

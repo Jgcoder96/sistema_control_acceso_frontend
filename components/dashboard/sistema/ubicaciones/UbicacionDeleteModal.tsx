@@ -91,7 +91,7 @@ export const UbicacionDeleteModal = ({
         </HStack>
       }
       onConfirm={handleConfirm}
-      confirmText={isDeleted ? "Restaurar" : "Eliminar"}
+      confirmText="Confirmar"
       cancelText="Cancelar"
       confirmLoading={loading}
     >

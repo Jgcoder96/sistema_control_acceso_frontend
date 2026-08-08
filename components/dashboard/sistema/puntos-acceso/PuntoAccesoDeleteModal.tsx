@@ -39,12 +39,19 @@ export const PuntoAccesoDeleteModal = ({
     <BaseModal
       open={isOpen}
       onClose={onClose}
-      title={isDeleted ? "Restaurar Punto de Acceso" : "Eliminar Punto de Acceso"}
+      title={
+        isDeleted ? "Restaurar Punto de Acceso" : "Eliminar Punto de Acceso"
+      }
       colorPalette={isDeleted ? "blue" : "red"}
       size="md"
       headerExtra={
         <HStack gap={4} align="center">
-          <Box p={3} borderRadius="xl" bg={isDeleted ? "blue.100" : "red.100"} color={isDeleted ? "blue.600" : "red.600"}>
+          <Box
+            p={3}
+            borderRadius="xl"
+            bg={isDeleted ? "blue.100" : "red.100"}
+            color={isDeleted ? "blue.600" : "red.600"}
+          >
             <Trash2 size={20} />
           </Box>
           <VStack align="start" gap={1}>
@@ -73,7 +80,12 @@ export const PuntoAccesoDeleteModal = ({
               >
                 {!isDeleted ? "activo" : "inactivo"}
               </Badge>
-              <Badge colorPalette="gray" variant="subtle" borderRadius="full" textTransform="none">
+              <Badge
+                colorPalette="gray"
+                variant="subtle"
+                borderRadius="full"
+                textTransform="none"
+              >
                 <Text as="span" display={{ base: "none", sm: "inline" }}>
                   ID: {punto.id}
                 </Text>
@@ -86,12 +98,18 @@ export const PuntoAccesoDeleteModal = ({
         </HStack>
       }
       onConfirm={handleConfirm}
-      confirmText={isDeleted ? "Restaurar" : "Eliminar"}
+      confirmText="Confirmar"
       cancelText="Cancelar"
       confirmLoading={loading}
     >
       <VStack align="center" gap={4} py={4}>
-        <Center w="16" h="16" bg={isDeleted ? "blue.50" : "red.50"} borderRadius="full" color={isDeleted ? "blue.500" : "red.500"}>
+        <Center
+          w="16"
+          h="16"
+          bg={isDeleted ? "blue.50" : "red.50"}
+          borderRadius="full"
+          color={isDeleted ? "blue.500" : "red.500"}
+        >
           <AlertTriangle size={32} />
         </Center>
 

@@ -7,7 +7,7 @@ import { ColumnConfig } from "@/components/dashboard/DataTable";
 /**
  * Construye y devuelve la configuración de columnas para la tabla de Puntos de Acceso.
  * Permite inyectar acciones dinámicas desde la vista principal para orquestar la apertura de modales.
- * 
+ *
  * @param onEdit Acción disparada para abrir el formulario de edición.
  * @param onView Acción disparada para visualizar detalles.
  * @param onToggleDelete Acción disparada para eliminar lógicamente o restaurar el punto de acceso.

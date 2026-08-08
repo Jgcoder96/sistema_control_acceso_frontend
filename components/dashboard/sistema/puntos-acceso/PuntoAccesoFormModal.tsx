@@ -15,12 +15,16 @@ interface PuntoAccesoFormModalProps {
   isOpen: boolean;
   onClose: () => void;
   punto: PuntoAcceso | null;
-  onSave: (payload: { nombre: string; mac: string; ubicacion_id: string }) => Promise<boolean>;
+  onSave: (payload: {
+    nombre: string;
+    mac: string;
+    ubicacion_id: string;
+  }) => Promise<boolean>;
 }
 
 /**
  * Modal polimórfico utilizado tanto para registrar como para editar un Punto de Acceso.
- * Gestiona el formulario, las validaciones con Zod y React Hook Form y 
+ * Gestiona el formulario, las validaciones con Zod y React Hook Form y
  * la selección de la Ubicación asociada consultando el hook respectivo.
  */
 export const PuntoAccesoFormModal = ({
@@ -70,7 +74,10 @@ export const PuntoAccesoFormModal = ({
     }
   };
 
-  const ubicacionesOptions = ubicaciones.map((u) => ({ label: u.nombre, value: u.id }));
+  const ubicacionesOptions = ubicaciones.map((u) => ({
+    label: u.nombre,
+    value: u.id,
+  }));
 
   return (
     <BaseModal
@@ -103,15 +110,21 @@ export const PuntoAccesoFormModal = ({
               color="gray.850"
               lineHeight="1.2"
             >
-              {isEditing ? (punto?.nombre || "Editar") : "Registrar Dispositivo"}
+              {isEditing ? punto?.nombre || "Editar" : "Registrar Dispositivo"}
             </Text>
             <HStack gap={2} mt={1}>
               <Badge
-                colorPalette={isEditing && punto?.eliminado_el ? "red" : "green"}
+                colorPalette={
+                  isEditing && punto?.eliminado_el ? "red" : "green"
+                }
                 variant="solid"
                 borderRadius="full"
               >
-                {!isEditing ? "activo" : (punto?.eliminado_el ? "inactivo" : "activo")}
+                {!isEditing
+                  ? "activo"
+                  : punto?.eliminado_el
+                    ? "inactivo"
+                    : "activo"}
               </Badge>
               {isEditing && punto?.id && (
                 <Badge
@@ -133,7 +146,7 @@ export const PuntoAccesoFormModal = ({
         </HStack>
       }
       onConfirm={handleSubmit(onSubmit)}
-      confirmText={isEditing ? "Guardar Cambios" : "Crear Punto de Acceso"}
+      confirmText="Confirmar"
       confirmLoading={loading}
     >
       <VStack gap={4} align="stretch" pb={4}>
@@ -145,13 +158,18 @@ export const PuntoAccesoFormModal = ({
             render={({ field }) => (
               <AnimatedDropdown
                 value={field.value || ""}
-                options={[{ value: "", label: "Selecciona una ubicación..." }, ...ubicacionesOptions]}
+                options={[
+                  { value: "", label: "Selecciona una ubicación..." },
+                  ...ubicacionesOptions,
+                ]}
                 onChange={field.onChange}
                 width="full"
               />
             )}
           />
-          {errors.ubicacion_id && <Field.ErrorText>{errors.ubicacion_id.message}</Field.ErrorText>}
+          {errors.ubicacion_id && (
+            <Field.ErrorText>{errors.ubicacion_id.message}</Field.ErrorText>
+          )}
         </Field.Root>
 
         <Field.Root invalid={!!errors.nombre}>
@@ -163,7 +181,9 @@ export const PuntoAccesoFormModal = ({
             borderRadius="lg"
             bg="gray.50"
           />
-          {errors.nombre && <Field.ErrorText>{errors.nombre.message}</Field.ErrorText>}
+          {errors.nombre && (
+            <Field.ErrorText>{errors.nombre.message}</Field.ErrorText>
+          )}
         </Field.Root>
 
         <Field.Root invalid={!!errors.mac}>
@@ -175,7 +195,9 @@ export const PuntoAccesoFormModal = ({
             borderRadius="lg"
             bg="gray.50"
           />
-          {errors.mac && <Field.ErrorText>{errors.mac.message}</Field.ErrorText>}
+          {errors.mac && (
+            <Field.ErrorText>{errors.mac.message}</Field.ErrorText>
+          )}
         </Field.Root>
       </VStack>
     </BaseModal>

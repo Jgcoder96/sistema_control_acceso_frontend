@@ -251,13 +251,7 @@ export const RoleActionModal = ({
         </HStack>
       }
       showFooter={true}
-      confirmText={
-        mode === "delete"
-          ? "Eliminar"
-          : mode === "assign_permissions"
-            ? "Asignar Permisos"
-            : "Confirmar"
-      }
+      confirmText="Confirmar"
       cancelText="Cancelar"
       onConfirm={
         mode === "delete" || mode === "assign_permissions"

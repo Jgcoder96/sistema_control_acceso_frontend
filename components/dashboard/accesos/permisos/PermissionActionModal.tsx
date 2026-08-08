@@ -160,7 +160,7 @@ export const PermissionActionModal = ({
         </HStack>
       }
       showFooter={true}
-      confirmText={mode === "delete" ? "Eliminar" : "Confirmar"}
+      confirmText="Confirmar"
       cancelText="Cancelar"
       // En modo creación valida con hook-form antes de invocar handleConfirm
       onConfirm={

@@ -40,7 +40,7 @@ export const usePuntosAcceso = () => {
       if (filters.search) params.append("search", filters.search);
       if (filters.status) params.append("status", filters.status);
       if (filters.locationId) params.append("location", filters.locationId);
-      
+
       const url = `${API_CONFIG.ENDPOINTS.PUNTOS_ACCESO}?${params.toString()}`;
       const response = await apiFetch(url);
 
@@ -67,7 +67,11 @@ export const usePuntosAcceso = () => {
     fetchPuntosAcceso();
   }, [fetchPuntosAcceso]);
 
-  const createPuntoAcceso = async (payload: { nombre: string; mac: string; ubicacion_id: string }) => {
+  const createPuntoAcceso = async (payload: {
+    nombre: string;
+    mac: string;
+    ubicacion_id: string;
+  }) => {
     try {
       const response = await apiFetch(API_CONFIG.ENDPOINTS.PUNTOS_ACCESO, {
         method: "POST",
@@ -92,24 +96,35 @@ export const usePuntosAcceso = () => {
       setStatusModal({
         open: true,
         title: "Error",
-        message: error instanceof Error ? error.message : "No se pudo crear el punto de acceso.",
+        message:
+          error instanceof Error
+            ? error.message
+            : "No se pudo crear el punto de acceso.",
         isSuccess: false,
       });
       return false;
     }
   };
 
-  const updatePuntoAcceso = async (id: string, payload: { nombre: string; mac: string; ubicacion_id: string }) => {
+  const updatePuntoAcceso = async (
+    id: string,
+    payload: { nombre: string; mac: string; ubicacion_id: string },
+  ) => {
     try {
-      const response = await apiFetch(API_CONFIG.ENDPOINTS.PUNTO_ACCESO_DETAIL(id), {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      const response = await apiFetch(
+        API_CONFIG.ENDPOINTS.PUNTO_ACCESO_DETAIL(id),
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        },
+      );
 
       const resData = await response.json();
       if (!response.ok) {
-        throw new Error(resData.message || "Error al actualizar el punto de acceso");
+        throw new Error(
+          resData.message || "Error al actualizar el punto de acceso",
+        );
       }
 
       setStatusModal({
@@ -124,22 +139,33 @@ export const usePuntosAcceso = () => {
       setStatusModal({
         open: true,
         title: "Error",
-        message: error instanceof Error ? error.message : "No se pudo actualizar el punto de acceso.",
+        message:
+          error instanceof Error
+            ? error.message
+            : "No se pudo actualizar el punto de acceso.",
         isSuccess: false,
       });
       return false;
     }
   };
 
-  const toggleDeletePuntoAcceso = async (id: string, currentlyDeleted: boolean) => {
+  const toggleDeletePuntoAcceso = async (
+    id: string,
+    currentlyDeleted: boolean,
+  ) => {
     try {
-      const response = await apiFetch(API_CONFIG.ENDPOINTS.PUNTO_ACCESO_DETAIL(id), {
-        method: "DELETE",
-      });
+      const response = await apiFetch(
+        API_CONFIG.ENDPOINTS.PUNTO_ACCESO_DETAIL(id),
+        {
+          method: "DELETE",
+        },
+      );
 
       const resData = await response.json();
       if (!response.ok) {
-        throw new Error(resData.message || "Error al cambiar el estado del punto de acceso");
+        throw new Error(
+          resData.message || "Error al cambiar el estado del punto de acceso",
+        );
       }
 
       setStatusModal({
@@ -154,7 +180,10 @@ export const usePuntosAcceso = () => {
       setStatusModal({
         open: true,
         title: "Error",
-        message: error instanceof Error ? error.message : "No se pudo cambiar el estado del punto de acceso.",
+        message:
+          error instanceof Error
+            ? error.message
+            : "No se pudo cambiar el estado del punto de acceso.",
         isSuccess: false,
       });
       return false;

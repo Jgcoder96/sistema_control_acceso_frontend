@@ -130,7 +130,7 @@ export const UbicacionFormModal = ({
         </HStack>
       }
       onConfirm={handleSubmit(onSubmit)}
-      confirmText={isEditing ? "Guardar Cambios" : "Crear Ubicación"}
+      confirmText="Confirmar"
       confirmLoading={loading}
     >
       <VStack gap={4} align="stretch" pb={4}>

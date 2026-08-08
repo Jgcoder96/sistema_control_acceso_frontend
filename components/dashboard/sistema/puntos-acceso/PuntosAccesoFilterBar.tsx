@@ -1,5 +1,13 @@
 import React from "react";
-import { Input, Button, Flex, Box, Center, HStack, Text } from "@chakra-ui/react";
+import {
+  Input,
+  Button,
+  Flex,
+  Box,
+  Center,
+  HStack,
+  Text,
+} from "@chakra-ui/react";
 import { Search, X, Plus } from "lucide-react";
 import { PuntoAccesoQueryParams } from "@/app/(dashboard)/sistema/puntos-de-acceso/types/PuntoAcceso";
 import { useUbicaciones } from "@/app/(dashboard)/sistema/ubicaciones/hooks/useUbicaciones";
@@ -13,22 +21,26 @@ interface PuntosAccesoFilterBarProps {
 }
 
 const statusOptions = [
-  { value: "all", label: "Todos los Estados" },
+  { value: "all", label: "Todos" },
   { value: "active", label: "Activos" },
   { value: "deleted", label: "Eliminados" },
 ];
 
 /**
  * Barra de herramientas superior para la vista de Puntos de Acceso.
- * Contiene el input de búsqueda interactivo, selectores de estado (Filtros) 
+ * Contiene el input de búsqueda interactivo, selectores de estado (Filtros)
  * y el botón de acción principal para registrar nuevos puntos de acceso.
  */
-export const PuntosAccesoFilterBar = ({ filters, setFilters, onOpenCreate }: PuntosAccesoFilterBarProps) => {
+export const PuntosAccesoFilterBar = ({
+  filters,
+  setFilters,
+  onOpenCreate,
+}: PuntosAccesoFilterBarProps) => {
   const { data: ubicaciones } = useUbicaciones();
-  
+
   const ubicacionesOptions = [
-    { value: "all", label: "Todas las Ubicaciones" },
-    ...ubicaciones.map((u) => ({ value: u.id, label: u.nombre }))
+    { value: "all", label: "T. las Ubicaciones" },
+    ...ubicaciones.map((u) => ({ value: u.id, label: u.nombre })),
   ];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,7 +114,9 @@ export const PuntosAccesoFilterBar = ({ filters, setFilters, onOpenCreate }: Pun
         <AnimatedDropdown
           value={filters.locationId || "all"}
           options={ubicacionesOptions}
-          onChange={(val) => handleDropdownChange("locationId", val === "all" ? "" : val)}
+          onChange={(val) =>
+            handleDropdownChange("locationId", val === "all" ? "" : val)
+          }
         />
 
         <AnimatedDropdown
@@ -142,4 +156,3 @@ export const PuntosAccesoFilterBar = ({ filters, setFilters, onOpenCreate }: Pun
     </Flex>
   );
 };
-

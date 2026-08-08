@@ -23,7 +23,8 @@ export const useLogs = () => {
       if (filters.page) params.append("page", filters.page.toString());
       if (filters.limit) params.append("limit", filters.limit.toString());
       if (filters.ubicacion) params.append("ubicacionId", filters.ubicacion);
-      if (filters.punto_acceso) params.append("puntoDeAccesoId", filters.punto_acceso);
+      if (filters.punto_acceso)
+        params.append("puntoDeAccesoId", filters.punto_acceso);
       if (filters.cedula) params.append("cedula", filters.cedula);
       if (filters.tarjeta) params.append("tarjeta", filters.tarjeta);
 
@@ -34,7 +35,11 @@ export const useLogs = () => {
         const resData = await response.json();
         // Asumiendo que el backend retorna { data: Log[], metadata: { totalPages: number } }
         // Se ajusta a una estructura segura
-        const logs: Log[] = Array.isArray(resData.data) ? resData.data : (Array.isArray(resData) ? resData : []);
+        const logs: Log[] = Array.isArray(resData.data)
+          ? resData.data
+          : Array.isArray(resData)
+            ? resData
+            : [];
         setData(logs);
         setTotalPages(resData.metadata?.totalPages || 1);
       } else {

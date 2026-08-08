@@ -32,10 +32,12 @@ export const useFiltrosDinamicos = (locationId?: string) => {
             : Array.isArray(dataUbi)
               ? dataUbi
               : [];
-          const mapeoUbi = listaUbi.map((u: { id: string | number; nombre?: string; name?: string }) => ({
-            value: String(u.id),
-            label: u.nombre || u.name || `Ubicación ${u.id}`,
-          }));
+          const mapeoUbi = listaUbi.map(
+            (u: { id: string | number; nombre?: string; name?: string }) => ({
+              value: String(u.id),
+              label: u.nombre || u.name || `Ubicación ${u.id}`,
+            }),
+          );
           setUbicaciones([
             { value: "", label: "Todas las ubicaciones" },
             ...mapeoUbi,
@@ -70,10 +72,12 @@ export const useFiltrosDinamicos = (locationId?: string) => {
             : Array.isArray(dataPuntos)
               ? dataPuntos
               : [];
-          const mapeoPuntos = listaPuntos.map((p: { id: string | number; nombre?: string; name?: string }) => ({
-            value: String(p.id),
-            label: p.nombre || p.name || `Punto ${p.id}`,
-          }));
+          const mapeoPuntos = listaPuntos.map(
+            (p: { id: string | number; nombre?: string; name?: string }) => ({
+              value: String(p.id),
+              label: p.nombre || p.name || `Punto ${p.id}`,
+            }),
+          );
           setPuntosAcceso([
             { value: "", label: "Todos los puntos" },
             ...mapeoPuntos,

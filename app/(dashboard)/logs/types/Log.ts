@@ -6,21 +6,32 @@ export interface Log {
   codigo_tarjeta_raw?: string;
   evento: string;
   fecha: string; // ISO String
-  ubicacion?: string | { id?: string; nombre?: string; mesh_id?: string; [key: string]: unknown };
-  punto_acceso?: string | { id?: string; nombre?: string; mac?: string; [key: string]: unknown };
+  ubicacion?:
+    | string
+    | {
+        id?: string;
+        nombre?: string;
+        mesh_id?: string;
+        [key: string]: unknown;
+      };
+  punto_acceso?:
+    | string
+    | { id?: string; nombre?: string; mac?: string; [key: string]: unknown };
   cedula?: string;
-  tarjeta?: string | {
-    id?: string;
-    codigo?: string;
-    usuario?: {
-      id?: string;
-      nombre?: string;
-      apellido?: string;
-      cedula?: string;
-      foto?: string;
-      correo?: string;
-    }
-  };
+  tarjeta?:
+    | string
+    | {
+        id?: string;
+        codigo?: string;
+        usuario?: {
+          id?: string;
+          nombre?: string;
+          apellido?: string;
+          cedula?: string;
+          foto?: string;
+          correo?: string;
+        };
+      };
   estado?: string;
   autorizado?: boolean;
   // Campos adicionales que el backend pueda retornar

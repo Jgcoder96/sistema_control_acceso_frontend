@@ -6,7 +6,11 @@ import { AnimatedDropdown } from "@/components/ui/AnimatedDropdown";
 import { GlobalButton } from "@/components/ui/GlobalButton";
 
 interface PermisosFilterBarProps {
-  onSearchChange: (cedula: string, puntoAcceso: string, ubicacion: string) => void;
+  onSearchChange: (
+    cedula: string,
+    puntoAcceso: string,
+    ubicacion: string,
+  ) => void;
   onStatusChange: (status: PermisoFiltroEstado) => void;
   onOpenCreate: () => void;
 }
@@ -61,8 +65,19 @@ export const PermisosFilterBar = ({
         flex="1"
         flexDirection={{ base: "column", md: "row" }}
       >
-        <Box position="relative" flex={{ base: "1", md: "none" }} width={{ base: "full", md: "200px" }}>
-          <Center position="absolute" left="3" top="0" bottom="0" color="gray.400" zIndex="10">
+        <Box
+          position="relative"
+          flex={{ base: "1", md: "none" }}
+          width={{ base: "full", md: "200px" }}
+        >
+          <Center
+            position="absolute"
+            left="3"
+            top="0"
+            bottom="0"
+            color="gray.400"
+            zIndex="10"
+          >
             <Search size={16} />
           </Center>
           <Input
@@ -83,8 +98,19 @@ export const PermisosFilterBar = ({
             }}
           />
         </Box>
-        <Box position="relative" flex={{ base: "1", md: "none" }} width={{ base: "full", md: "200px" }}>
-          <Center position="absolute" left="3" top="0" bottom="0" color="gray.400" zIndex="10">
+        <Box
+          position="relative"
+          flex={{ base: "1", md: "none" }}
+          width={{ base: "full", md: "200px" }}
+        >
+          <Center
+            position="absolute"
+            left="3"
+            top="0"
+            bottom="0"
+            color="gray.400"
+            zIndex="10"
+          >
             <Search size={16} />
           </Center>
           <Input
@@ -105,8 +131,19 @@ export const PermisosFilterBar = ({
             }}
           />
         </Box>
-        <Box position="relative" flex={{ base: "1", md: "none" }} width={{ base: "full", md: "200px" }}>
-          <Center position="absolute" left="3" top="0" bottom="0" color="gray.400" zIndex="10">
+        <Box
+          position="relative"
+          flex={{ base: "1", md: "none" }}
+          width={{ base: "full", md: "200px" }}
+        >
+          <Center
+            position="absolute"
+            left="3"
+            top="0"
+            bottom="0"
+            color="gray.400"
+            zIndex="10"
+          >
             <Search size={16} />
           </Center>
           <Input
@@ -127,14 +164,11 @@ export const PermisosFilterBar = ({
             }}
           />
         </Box>
-        <Box flex={{ base: "1", md: "none" }} width={{ base: "full", md: "auto" }}>
-          <AnimatedDropdown
-            value={status}
-            options={statusOptions}
-            onChange={handleStatusChange}
-            width="full"
-          />
-        </Box>
+        <AnimatedDropdown
+          value={status}
+          options={statusOptions}
+          onChange={handleStatusChange}
+        />
       </Flex>
       <GlobalButton
         color="green.600"

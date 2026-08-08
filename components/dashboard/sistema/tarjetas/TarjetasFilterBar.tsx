@@ -128,17 +128,11 @@ export const TarjetasFilterBar = ({
             }}
           />
         </Box>
-        <Box
-          flex={{ base: "1", md: "none" }}
-          width={{ base: "full", md: "auto" }}
-        >
-          <AnimatedDropdown
-            value={status}
-            options={statusOptions}
-            onChange={handleStatusChange}
-            width="full"
-          />
-        </Box>
+        <AnimatedDropdown
+          value={status}
+          options={statusOptions}
+          onChange={handleStatusChange}
+        />
       </Flex>
       <GlobalButton
         color="green.600"

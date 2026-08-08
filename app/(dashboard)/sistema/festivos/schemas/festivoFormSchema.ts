@@ -1,5 +1,9 @@
 import { z } from "zod";
 
+/**
+ * Esquema de validación para los formularios de creación y edición de Días Festivos.
+ * Validado de manera estricta utilizando Zod para asegurar la integridad de fechas y descripciones.
+ */
 export const festivoFormSchema = z.object({
   nombre: z
     .string({ message: "El campo 'nombre' es obligatorio." })
@@ -22,4 +26,5 @@ export const festivoFormSchema = z.object({
     .optional(),
 });
 
+/** Tipo TypeScript inferido automáticamente del esquema de validación */
 export type FestivoFormValues = z.infer<typeof festivoFormSchema>;

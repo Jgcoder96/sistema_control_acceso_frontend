@@ -13,6 +13,11 @@ import { FestivoDetailModal } from "@/components/dashboard/sistema/festivos/Fest
 import { FestivoDeleteModal } from "@/components/dashboard/sistema/festivos/FestivoDeleteModal";
 import { FestivoFormValues } from "@/app/(dashboard)/sistema/festivos/schemas/festivoFormSchema";
 
+/**
+ * Página principal del módulo de Días Festivos.
+ * Orquesta la visualización, filtrado y las acciones CRUD (Crear, Leer, Actualizar, Eliminar)
+ * delegando la gestión del estado al hook `useFestivos` y la UI a los modales.
+ */
 export default function FestivosPage() {
   const {
     data,

@@ -41,6 +41,10 @@ const MESES_OPTIONS = [
   { value: "12", label: "Diciembre" },
 ];
 
+/**
+ * Modal polimórfico utilizado tanto para registrar como para editar un Día Festivo.
+ * Gestiona el formulario y las validaciones de fecha con Zod y React Hook Form.
+ */
 export const FestivoFormModal = ({
   isOpen,
   onClose,
@@ -219,7 +223,10 @@ export const FestivoFormModal = ({
 
             <Field.Root invalid={!!errors.anio} gridColumn={{ sm: "span 2" }}>
               <Field.Label fontSize="xs">
-                Año <Text as="span" color="gray.400" fontWeight="normal">(Opcional para feriados recurrentes)</Text>
+                Año{" "}
+                <Text as="span" color="gray.400" fontWeight="normal">
+                  (Opcional para feriados recurrentes)
+                </Text>
               </Field.Label>
               <Input
                 type="number"
@@ -227,8 +234,9 @@ export const FestivoFormModal = ({
                 max={2100}
                 bg="white"
                 placeholder="AAAA (Ej. 2026)"
-                {...register("anio", { 
-                  setValueAs: (v) => v === "" || isNaN(v) ? undefined : parseInt(v, 10) 
+                {...register("anio", {
+                  setValueAs: (v) =>
+                    v === "" || isNaN(v) ? undefined : parseInt(v, 10),
                 })}
               />
               <Field.ErrorText>{errors.anio?.message}</Field.ErrorText>

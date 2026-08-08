@@ -1,5 +1,13 @@
 import React from "react";
-import { Input, Flex, Box, Center, HStack, Text, Button } from "@chakra-ui/react";
+import {
+  Input,
+  Flex,
+  Box,
+  Center,
+  HStack,
+  Text,
+  Button,
+} from "@chakra-ui/react";
 import { Search, X, Plus } from "lucide-react";
 import { FestivoQueryParams } from "@/app/(dashboard)/sistema/festivos/types/Festivo";
 import { AnimatedDropdown } from "@/components/ui/AnimatedDropdown";
@@ -12,12 +20,21 @@ interface FestivosFilterBarProps {
 }
 
 const statusOptions = [
-  { value: "all", label: "Todos los Estados" },
+  { value: "all", label: "Todos" },
   { value: "active", label: "Activos" },
   { value: "deleted", label: "Eliminados" },
 ];
 
-export const FestivosFilterBar = ({ filters, setFilters, onOpenCreate }: FestivosFilterBarProps) => {
+/**
+ * Barra de filtrado avanzado para la tabla de Días Festivos.
+ * Gestiona el debounce de la búsqueda por texto y los filtros de estado (activos/inactivos),
+ * además de proveer el punto de entrada principal para crear un nuevo festivo.
+ */
+export const FestivosFilterBar = ({
+  filters,
+  setFilters,
+  onOpenCreate,
+}: FestivosFilterBarProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFilters((prev) => ({

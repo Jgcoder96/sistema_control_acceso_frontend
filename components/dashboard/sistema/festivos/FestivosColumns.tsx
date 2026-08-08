@@ -10,10 +10,28 @@ interface FestivosColumnsProps {
 }
 
 const meses = [
-  "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+  "Enero",
+  "Febrero",
+  "Marzo",
+  "Abril",
+  "Mayo",
+  "Junio",
+  "Julio",
+  "Agosto",
+  "Septiembre",
+  "Octubre",
+  "Noviembre",
+  "Diciembre",
 ];
 
+/**
+ * Construye y devuelve la configuración de columnas para la tabla de Días Festivos.
+ * Inyecta las acciones dinámicas permitiendo orquestar la apertura de modales desde la tabla.
+ *
+ * @param onDetail Acción disparada para visualizar detalles.
+ * @param onEdit Acción disparada para abrir el formulario de edición.
+ * @param onDeleteToggle Acción disparada para eliminar o restaurar el festivo lógicamente.
+ */
 export const getFestivosColumns = ({
   onDetail,
   onEdit,
@@ -49,7 +67,8 @@ export const getFestivosColumns = ({
       const mes = meses[item.mes - 1] || item.mes;
       return (
         <Text fontSize="sm" color="gray.600" fontWeight="medium">
-          {item.dia} de {mes}{item.anio ? ` de ${item.anio}` : " (Anual)"}
+          {item.dia} de {mes}
+          {item.anio ? ` de ${item.anio}` : " (Anual)"}
         </Text>
       );
     },

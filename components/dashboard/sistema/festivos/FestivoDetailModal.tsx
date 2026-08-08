@@ -34,6 +34,10 @@ const meses = [
   "Diciembre",
 ];
 
+/**
+ * Modal de sólo lectura (display-only) que presenta los detalles completos
+ * de un Día Festivo, incluyendo descripciones y el estado actual de eliminación lógica.
+ */
 export const FestivoDetailModal = ({
   isOpen,
   onClose,

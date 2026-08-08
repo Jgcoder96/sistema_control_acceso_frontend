@@ -3,6 +3,11 @@ import { Festivo, FestivoQueryParams } from "../types/Festivo";
 import { API_CONFIG } from "@/config/api";
 import { apiFetch } from "@/utils/apiClient";
 
+/**
+ * Hook personalizado que encapsula toda la lógica de negocio y comunicación con la API
+ * para la gestión de Días Festivos. Maneja el estado global de la tabla, paginación, filtros
+ * y las mutaciones principales (crear, actualizar, eliminar lógicamente).
+ */
 export const useFestivos = () => {
   const [data, setData] = useState<Festivo[]>([]);
   const [loading, setLoading] = useState<boolean>(true);

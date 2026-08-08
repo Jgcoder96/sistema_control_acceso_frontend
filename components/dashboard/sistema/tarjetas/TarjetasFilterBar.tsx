@@ -39,7 +39,7 @@ export const TarjetasFilterBar = ({
   };
 
   const statusOptions = [
-    { value: "all", label: "Todos los Estados" },
+    { value: "all", label: "Todos" },
     { value: "activable", label: "Activable" },
     { value: "activa", label: "Activa" },
     { value: "bloqueada", label: "Bloqueada" },

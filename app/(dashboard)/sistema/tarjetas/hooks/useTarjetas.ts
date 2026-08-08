@@ -17,39 +17,51 @@ export const useTarjetas = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
 
-  const fetchTarjetas = useCallback(
-    async (params: TarjetaQueryParams) => {
-      setIsLoading(true);
-      try {
-        const queryParams = new URLSearchParams();
-        if (params.page) queryParams.append("page", params.page.toString());
-        if (params.limit) queryParams.append("limit", params.limit.toString());
-        if (params.status && params.status !== "all") queryParams.append("status", params.status);
-        if (params.codigo) queryParams.append("codigo", params.codigo);
-        if (params.cedula) queryParams.append("cedula", params.cedula);
+  const fetchTarjetas = useCallback(async (params: TarjetaQueryParams) => {
+    setIsLoading(true);
+    try {
+      const queryParams = new URLSearchParams();
+      if (params.page) queryParams.append("page", params.page.toString());
+      if (params.limit) queryParams.append("limit", params.limit.toString());
+      if (params.status && params.status !== "all")
+        queryParams.append("status", params.status);
+      if (params.codigo) queryParams.append("codigo", params.codigo);
+      if (params.cedula) queryParams.append("cedula", params.cedula);
 
-        const response = await apiFetch(`${API_CONFIG.ENDPOINTS.TARJETAS}?${queryParams.toString()}`);
+      const response = await apiFetch(
+        `${API_CONFIG.ENDPOINTS.TARJETAS}?${queryParams.toString()}`,
+      );
 
-        if (response.ok) {
-          const resData = await response.json();
-          const items = Array.isArray(resData.data?.data) ? resData.data.data : Array.isArray(resData.data) ? resData.data : [];
-          setData(items);
-          setTotalPages(resData.metadata?.totalPages || resData.data?.metadata?.totalPages || 1);
-          setTotalItems(resData.metadata?.totalItems || resData.data?.metadata?.totalItems || 0);
-        } else {
-          setData([]);
-          setTotalPages(0);
-          setTotalItems(0);
-        }
-      } catch (error) {
-        console.error("Error fetching tarjetas:", error);
+      if (response.ok) {
+        const resData = await response.json();
+        const items = Array.isArray(resData.data?.data)
+          ? resData.data.data
+          : Array.isArray(resData.data)
+            ? resData.data
+            : [];
+        setData(items);
+        setTotalPages(
+          resData.metadata?.totalPages ||
+            resData.data?.metadata?.totalPages ||
+            1,
+        );
+        setTotalItems(
+          resData.metadata?.totalItems ||
+            resData.data?.metadata?.totalItems ||
+            0,
+        );
+      } else {
         setData([]);
-      } finally {
-        setIsLoading(false);
+        setTotalPages(0);
+        setTotalItems(0);
       }
-    },
-    [],
-  );
+    } catch (error) {
+      console.error("Error fetching tarjetas:", error);
+      setData([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
   const createTarjeta = async (codigo: string) => {
     const res = await apiFetch(API_CONFIG.ENDPOINTS.TARJETAS, {
@@ -58,7 +70,8 @@ export const useTarjetas = () => {
       body: JSON.stringify({ codigo }),
     });
     const result = await res.json();
-    if (!res.ok) throw new Error(result.message || "Error al registrar la tarjeta");
+    if (!res.ok)
+      throw new Error(result.message || "Error al registrar la tarjeta");
     return result;
   };
 
@@ -69,7 +82,8 @@ export const useTarjetas = () => {
       body: JSON.stringify({ usuario_id }),
     });
     const result = await res.json();
-    if (!res.ok) throw new Error(result.message || "Error al asignar la tarjeta");
+    if (!res.ok)
+      throw new Error(result.message || "Error al asignar la tarjeta");
     return result;
   };
 
@@ -79,14 +93,19 @@ export const useTarjetas = () => {
       headers: { "Content-Type": "application/json" },
     });
     const result = await res.json();
-    if (!res.ok) throw new Error(result.message || "Error al realizar la acción");
+    if (!res.ok)
+      throw new Error(result.message || "Error al realizar la acción");
     return result;
   };
 
-  const returnTarjeta = (id: string) => simpleAction(id, API_CONFIG.ENDPOINTS.TARJETAS_RETURN(id));
-  const blockTarjeta = (id: string) => simpleAction(id, API_CONFIG.ENDPOINTS.TARJETAS_BLOCK(id));
-  const reactivateTarjeta = (id: string) => simpleAction(id, API_CONFIG.ENDPOINTS.TARJETAS_REACTIVATE(id));
-  const reportLostTarjeta = (id: string) => simpleAction(id, API_CONFIG.ENDPOINTS.TARJETAS_LOST(id));
+  const returnTarjeta = (id: string) =>
+    simpleAction(id, API_CONFIG.ENDPOINTS.TARJETAS_RETURN(id));
+  const blockTarjeta = (id: string) =>
+    simpleAction(id, API_CONFIG.ENDPOINTS.TARJETAS_BLOCK(id));
+  const reactivateTarjeta = (id: string) =>
+    simpleAction(id, API_CONFIG.ENDPOINTS.TARJETAS_REACTIVATE(id));
+  const reportLostTarjeta = (id: string) =>
+    simpleAction(id, API_CONFIG.ENDPOINTS.TARJETAS_LOST(id));
 
   const deleteTarjeta = async (id: string) => {
     const res = await apiFetch(API_CONFIG.ENDPOINTS.TARJETAS_DELETE(id), {
@@ -94,7 +113,8 @@ export const useTarjetas = () => {
       headers: { "Content-Type": "application/json" },
     });
     const result = await res.json();
-    if (!res.ok) throw new Error(result.message || "Error al eliminar la tarjeta");
+    if (!res.ok)
+      throw new Error(result.message || "Error al eliminar la tarjeta");
     return result;
   };
 

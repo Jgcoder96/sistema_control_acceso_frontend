@@ -9,7 +9,10 @@ export const tarjetaCreateSchema = z.object({
     .string({ message: "El campo 'código' es obligatorio." })
     .min(5, "El código debe contener al menos 5 caracteres.")
     .max(20, "El código no puede exceder los 20 caracteres.")
-    .regex(/^[a-zA-Z0-9]+$/, "El código solo puede contener letras y números sin espacios.")
+    .regex(
+      /^[a-zA-Z0-9]+$/,
+      "El código solo puede contener letras y números sin espacios.",
+    )
     .trim(),
 });
 

@@ -26,6 +26,7 @@ import {
   UserFormValues,
 } from "@/app/(dashboard)/accesos/usuarios/schemas/userSchema";
 import { API_CONFIG } from "@/config/api";
+import { apiFetch } from "@/utils/apiClient";
 
 import { UserForm } from "./UserForm";
 import { UserDetailView } from "./UserDetailView";
@@ -169,10 +170,7 @@ export const UserActionModal = ({
     setLoadingRoles(true);
     setRoles([]);
     try {
-      const token = localStorage.getItem("access_token");
-      const res = await fetch(API_CONFIG.ENDPOINTS.USER_ROLES(userId), {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await apiFetch(API_CONFIG.ENDPOINTS.USER_ROLES(userId));
       const result: RolesApiResponse = await res.json();
       if (result.success) setRoles(result.data);
     } catch {
@@ -188,13 +186,9 @@ export const UserActionModal = ({
   const fetchAllRoles = async (search?: string) => {
     setLoadingAllRoles(true);
     try {
-      const token = localStorage.getItem("access_token");
       const searchParam = search ? `&search=${encodeURIComponent(search)}` : "";
-      const res = await fetch(
+      const res = await apiFetch(
         `${API_CONFIG.ENDPOINTS.ROLES}?limit=100&status=active${searchParam}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
       );
       const result = await res.json();
       if (result.success) {

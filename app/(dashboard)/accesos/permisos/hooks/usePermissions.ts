@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Permission, PermissionsApiResponse } from "../types/Permission";
 import { PermissionFormValues } from "../schemas/permissionSchema";
 import { API_CONFIG } from "@/config/api";
+import { apiFetch } from "@/utils/apiClient";
 import { toaster } from "@/components/ui/toaster";
 
 /**
@@ -10,11 +11,11 @@ import { toaster } from "@/components/ui/toaster";
  */
 export const usePermissions = () => {
   // --- Estados Principales ---
-  
+
   const [data, setData] = useState<Permission[]>([]);
   const [loading, setLoading] = useState(true);
   const [totalPages, setTotalPages] = useState(1);
-  
+
   // Filtros de búsqueda y paginación
   const [filters, setFilters] = useState<{
     page: number;
@@ -38,11 +39,12 @@ export const usePermissions = () => {
 
   // --- Utilidades Privadas ---
 
-  /** Obtiene el token de autenticación actual */
-  const getToken = () => localStorage.getItem("access_token");
-
   /** Muestra un modal de error estandarizado */
-  const handleError = (title: string, defaultMessage: string, error?: unknown) => {
+  const handleError = (
+    title: string,
+    defaultMessage: string,
+    error?: unknown,
+  ) => {
     if (error) console.error(error);
     setStatusModal({
       open: true,
@@ -59,7 +61,7 @@ export const usePermissions = () => {
    */
   const fetchPermissions = useCallback(async () => {
     setLoading(true);
-    
+
     try {
       const queryParams = new URLSearchParams({
         page: filters.page.toString(),
@@ -68,9 +70,9 @@ export const usePermissions = () => {
         ...(filters.status && { status: filters.status }),
       });
 
-      const res = await fetch(`${API_CONFIG.ENDPOINTS.APP_PERMISSIONS}?${queryParams}`, {
-        headers: { Authorization: `Bearer ${getToken()}` },
-      });
+      const res = await apiFetch(
+        `${API_CONFIG.ENDPOINTS.APP_PERMISSIONS}?${queryParams}`,
+      );
 
       const result: PermissionsApiResponse = await res.json();
 
@@ -102,17 +104,16 @@ export const usePermissions = () => {
    */
   const createPermission = async (payload: PermissionFormValues) => {
     try {
-      const res = await fetch(API_CONFIG.ENDPOINTS.APP_PERMISSIONS, {
+      const res = await apiFetch(API_CONFIG.ENDPOINTS.APP_PERMISSIONS, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${getToken()}`,
         },
         body: JSON.stringify(payload),
       });
 
       const result = await res.json();
-      
+
       if (result.success) {
         setStatusModal({
           open: true,
@@ -122,7 +123,10 @@ export const usePermissions = () => {
         });
         fetchPermissions();
       } else {
-        handleError("Error al crear", result.message || "No se pudo crear el permiso.");
+        handleError(
+          "Error al crear",
+          result.message || "No se pudo crear el permiso.",
+        );
       }
     } catch (error) {
       handleError("Error del servidor", "Hubo un problema de conexión.", error);
@@ -135,13 +139,15 @@ export const usePermissions = () => {
    */
   const deletePermission = async (id: string) => {
     try {
-      const res = await fetch(`${API_CONFIG.ENDPOINTS.APP_PERMISSIONS}/${id}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${getToken()}` },
-      });
+      const res = await apiFetch(
+        `${API_CONFIG.ENDPOINTS.APP_PERMISSIONS}/${id}`,
+        {
+          method: "DELETE",
+        },
+      );
 
       const result = await res.json();
-      
+
       if (result.success) {
         setStatusModal({
           open: true,
@@ -151,7 +157,10 @@ export const usePermissions = () => {
         });
         fetchPermissions();
       } else {
-        handleError("Error al eliminar", result.message || "No se pudo eliminar el permiso.");
+        handleError(
+          "Error al eliminar",
+          result.message || "No se pudo eliminar el permiso.",
+        );
       }
     } catch (error) {
       handleError("Error del servidor", "Hubo un problema de conexión.", error);

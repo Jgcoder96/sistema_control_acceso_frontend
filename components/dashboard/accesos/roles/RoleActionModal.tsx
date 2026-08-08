@@ -17,6 +17,7 @@ import {
   RoleFormValues,
 } from "@/app/(dashboard)/accesos/roles/schemas/roleSchema";
 import { API_CONFIG } from "@/config/api";
+import { apiFetch } from "@/utils/apiClient";
 
 import { RoleForm } from "./RoleForm";
 import { RoleDetailView } from "./RoleDetailView";
@@ -123,10 +124,7 @@ export const RoleActionModal = ({
     setLoadingPermissions(true);
     setRolePermissions([]);
     try {
-      const token = localStorage.getItem("access_token");
-      const res = await fetch(API_CONFIG.ENDPOINTS.ROLE_PERMISSIONS(roleId), {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await apiFetch(API_CONFIG.ENDPOINTS.ROLE_PERMISSIONS(roleId));
       const result: RolePermissionsApiResponse = await res.json();
       if (result.success) setRolePermissions(result.data.permisos);
     } catch {
@@ -140,13 +138,9 @@ export const RoleActionModal = ({
   const fetchAllPermissions = async (search?: string) => {
     setLoadingAllPermissions(true);
     try {
-      const token = localStorage.getItem("access_token");
       const searchParam = search ? `&search=${encodeURIComponent(search)}` : "";
-      const res = await fetch(
-        `${API_CONFIG.ENDPOINTS.APP_PERMISSIONS}?limit=100&status=active${searchParam}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
+      const res = await apiFetch(
+        `${API_CONFIG.ENDPOINTS.APP_PERMISSIONS}?limit=100&status=active${searchParam}`
       );
       const result: AppPermissionsApiResponse = await res.json();
       if (result.success) {

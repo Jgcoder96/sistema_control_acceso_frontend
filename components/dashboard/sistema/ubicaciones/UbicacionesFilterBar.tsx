@@ -60,14 +60,30 @@ export const UbicacionesFilterBar = ({
 
   return (
     <Flex
-      justify="space-between"
       align="center"
       gap={4}
       w="full"
       flexDirection={{ base: "column", md: "row" }}
       mb={2}
     >
-      <HStack gap={4} w={{ base: "full", md: "auto" }} flex="1">
+      <GlobalButton
+        color="green.600"
+        hoverColor="green.700"
+        size="sm"
+        height="36px"
+        px={5}
+        w={{ base: "full", md: "auto" }}
+        onClick={onOpenCreate}
+      >
+        <HStack gap={2} align="center">
+          <Plus size={16} strokeWidth={3} />
+          <Text fontSize="sm" fontWeight="bold">
+            Nueva Ubicación
+          </Text>
+        </HStack>
+      </GlobalButton>
+
+      <HStack gap={4} w={{ base: "full", md: "auto" }}>
         <Box
           position="relative"
           flex={{ base: "1", md: "none" }}
@@ -108,35 +124,18 @@ export const UbicacionesFilterBar = ({
           options={statusOptions}
           onChange={(val) => handleDropdownChange("status", val)}
         />
-
-        {hasFilters && (
-          <Button
-            size="sm"
-            variant="ghost"
-            colorPalette="gray"
-            onClick={handleClear}
-          >
-            <X size={16} /> Limpiar Filtros
-          </Button>
-        )}
       </HStack>
 
-      <GlobalButton
-        color="green.600"
-        hoverColor="green.700"
-        size="sm"
-        height="36px"
-        px={5}
-        w={{ base: "full", md: "auto" }}
-        onClick={onOpenCreate}
-      >
-        <HStack gap={2} align="center">
-          <Plus size={16} strokeWidth={3} />
-          <Text fontSize="sm" fontWeight="bold">
-            Nueva Ubicación
-          </Text>
-        </HStack>
-      </GlobalButton>
+      {hasFilters && (
+        <Button
+          size="sm"
+          variant="ghost"
+          colorPalette="gray"
+          onClick={handleClear}
+        >
+          <X size={16} /> Limpiar Filtros
+        </Button>
+      )}
     </Flex>
   );
 };

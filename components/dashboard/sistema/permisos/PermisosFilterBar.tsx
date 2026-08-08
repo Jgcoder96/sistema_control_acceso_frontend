@@ -1,5 +1,13 @@
 import React from "react";
-import { HStack, Input, Text, Flex, Box, Center, Button } from "@chakra-ui/react";
+import {
+  HStack,
+  Input,
+  Text,
+  Flex,
+  Box,
+  Center,
+  Button,
+} from "@chakra-ui/react";
 import { Search, Plus, X } from "lucide-react";
 import { PermisoFiltroEstado } from "@/app/(dashboard)/sistema/permisos/types/PermisoFisico";
 import { AnimatedDropdown } from "@/components/ui/AnimatedDropdown";
@@ -53,7 +61,8 @@ export const PermisosFilterBar = ({
     onSearchChange("", "", "");
   };
 
-  const hasFilters = !!cedula || !!puntoAcceso || !!ubicacion || status !== "all";
+  const hasFilters =
+    !!cedula || !!puntoAcceso || !!ubicacion || status !== "all";
 
   const statusOptions = [
     { value: "all", label: "Todos los Estados" },
@@ -63,17 +72,32 @@ export const PermisosFilterBar = ({
 
   return (
     <Flex
-      justify="space-between"
       align={{ base: "stretch", md: "center" }}
       gap={4}
       w="full"
       flexDirection={{ base: "column", md: "row" }}
       mb={2}
     >
+      <GlobalButton
+        color="green.600"
+        hoverColor="green.700"
+        size="sm"
+        height="36px"
+        px={5}
+        w={{ base: "full", md: "auto" }}
+        onClick={onOpenCreate}
+      >
+        <HStack gap={2} align="center">
+          <Plus size={16} strokeWidth={3} />
+          <Text fontSize="sm" fontWeight="bold">
+            Nuevo Permiso
+          </Text>
+        </HStack>
+      </GlobalButton>
+
       <Flex
         gap={4}
-        w="full"
-        flex="1"
+        w={{ base: "full", md: "auto" }}
         flexDirection={{ base: "column", md: "row" }}
       >
         <Box
@@ -180,35 +204,20 @@ export const PermisosFilterBar = ({
           options={statusOptions}
           onChange={handleStatusChange}
         />
-        {hasFilters && (
-          <Button
-            size="sm"
-            variant="ghost"
-            colorPalette="gray"
-            onClick={handleClear}
-            w={{ base: "full", md: "auto" }}
-            mt={{ base: 1, md: 0 }}
-          >
-            <X size={16} /> Limpiar Filtros
-          </Button>
-        )}
       </Flex>
-      <GlobalButton
-        color="green.600"
-        hoverColor="green.700"
-        size="sm"
-        height="36px"
-        px={5}
-        w={{ base: "full", md: "auto" }}
-        onClick={onOpenCreate}
-      >
-        <HStack gap={2} align="center">
-          <Plus size={16} strokeWidth={3} />
-          <Text fontSize="sm" fontWeight="bold">
-            Nuevo Permiso
-          </Text>
-        </HStack>
-      </GlobalButton>
+
+      {hasFilters && (
+        <Button
+          size="sm"
+          variant="ghost"
+          colorPalette="gray"
+          onClick={handleClear}
+          w={{ base: "full", md: "auto" }}
+          mt={{ base: 1, md: 0 }}
+        >
+          <X size={16} /> Limpiar Filtros
+        </Button>
+      )}
     </Flex>
   );
 };

@@ -1,7 +1,15 @@
 "use client";
 
 import React, { ChangeEvent } from "react";
-import { Flex, HStack, Box, Center, Input, Text, Button } from "@chakra-ui/react";
+import {
+  Flex,
+  HStack,
+  Box,
+  Center,
+  Input,
+  Text,
+  Button,
+} from "@chakra-ui/react";
 import { Search, Plus, X } from "lucide-react";
 import { GlobalButton } from "@/components/ui/GlobalButton";
 import { AnimatedDropdown } from "@/components/ui/AnimatedDropdown";
@@ -47,15 +55,32 @@ export const UserFilterBar = ({
 
   return (
     <Flex
-      justify="space-between"
       align="center"
       gap={4}
       w="full"
       flexDirection={{ base: "column", md: "row" }}
       mb={2}
     >
-      {/* Controles Izquierdos: Búsqueda y Dropdown de Estado */}
-      <HStack gap={4} w={{ base: "full", md: "auto" }} flex="1">
+      {/* Botón de Alta */}
+      <GlobalButton
+        color="green.600"
+        hoverColor="green.700"
+        size="sm"
+        height="36px"
+        px={5}
+        w={{ base: "full", md: "auto" }}
+        onClick={onAddClick}
+      >
+        <HStack gap={2} align="center">
+          <Plus size={16} strokeWidth={3} />
+          <Text fontSize="sm" fontWeight="bold">
+            Nuevo Usuario
+          </Text>
+        </HStack>
+      </GlobalButton>
+
+      {/* Controles: Búsqueda y Dropdown de Estado */}
+      <HStack gap={4} w={{ base: "full", md: "auto" }}>
         <Box
           position="relative"
           flex={{ base: "1", md: "none" }}
@@ -102,36 +127,18 @@ export const UserFilterBar = ({
             onFilterChange({ status: val as UserStatusFilter, page: 1 })
           }
         />
-
-        {hasFilters && (
-          <Button
-            size="sm"
-            variant="ghost"
-            colorPalette="gray"
-            onClick={handleClear}
-          >
-            <X size={16} /> Limpiar Filtros
-          </Button>
-        )}
       </HStack>
 
-      {/* Control Derecho: Botón de Alta de Usuario */}
-      <GlobalButton
-        color="green.600"
-        hoverColor="green.700"
-        size="sm"
-        height="36px"
-        px={5}
-        w={{ base: "full", md: "auto" }}
-        onClick={onAddClick}
-      >
-        <HStack gap={2} align="center">
-          <Plus size={16} strokeWidth={3} />
-          <Text fontSize="sm" fontWeight="bold">
-            Nuevo Usuario
-          </Text>
-        </HStack>
-      </GlobalButton>
+      {hasFilters && (
+        <Button
+          size="sm"
+          variant="ghost"
+          colorPalette="gray"
+          onClick={handleClear}
+        >
+          <X size={16} /> Limpiar Filtros
+        </Button>
+      )}
     </Flex>
   );
 };

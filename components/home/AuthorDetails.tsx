@@ -15,7 +15,7 @@ const InfoItem = ({ label, name }: { label: string; name: string }) => (
 );
 
 /**
- * Componente visual de presentación que muestra los créditos 
+ * Componente visual de presentación que muestra los créditos
  * del Trabajo Especial de Grado (Autor y Tutor).
  */
 export const AuthorDetails = () => (

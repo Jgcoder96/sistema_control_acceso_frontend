@@ -12,7 +12,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   House,
   Users,
@@ -32,8 +32,9 @@ const navItems = [
   { label: "Inicio", href: "/inicio", icon: House },
   {
     label: "Accesos",
-    href: "/accesos/usuarios",
+    href: "/accesos",
     icon: Users,
+    requiredRoles: ["adminUsuarios"],
     children: [
       { label: "Usuarios", href: "/accesos/usuarios" },
       { label: "Roles", href: "/accesos/roles" },
@@ -44,6 +45,7 @@ const navItems = [
     label: "Sistema",
     href: "/sistema",
     icon: MonitorCog,
+    requiredRoles: ["adminSistema"],
     children: [
       { label: "Ubicaciones", href: "/sistema/ubicaciones" },
       { label: "Puntos de acceso", href: "/sistema/puntos-de-acceso" },
@@ -53,7 +55,12 @@ const navItems = [
       { label: "Permisos", href: "/sistema/permisos" },
     ],
   },
-  { label: "Logs", href: "/logs", icon: FileText },
+  {
+    label: "Logs",
+    href: "/logs",
+    icon: FileText,
+    requiredRoles: ["lectorLogs"],
+  },
 ];
 
 /**
@@ -70,6 +77,50 @@ export default function ProtectedNavbar() {
     null,
   );
   const [prevPathname, setPrevPathname] = useState(pathname);
+  const [userRoles, setUserRoles] = useState<string[]>([]);
+
+  /**
+   * Carga los roles del usuario desde `localStorage` al montar el componente.
+   * Se utiliza setTimeout para evitar actualizaciones de estado síncronas que disparen
+   * advertencias del linter y problemas de renderizado en cascada (cascading renders).
+   */
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const timerId = setTimeout(() => {
+        const data = localStorage.getItem("user_data");
+        if (data) {
+          try {
+            const parsed = JSON.parse(data);
+            setUserRoles(parsed.roles || []);
+          } catch (e) {
+            console.error("Error leyendo user_data en ProtectedNavbar", e);
+          }
+        }
+      }, 0);
+
+      return () => clearTimeout(timerId);
+    }
+  }, []);
+
+  /**
+   * Verifica si el usuario actual posee al menos uno de los roles requeridos para ver un módulo.
+   * Si el usuario es "superAdmin", se le concede acceso irrestricto a todos los módulos.
+   * @param requiredRoles Array de roles permitidos para un ítem del menú.
+   * @returns `true` si tiene acceso o no hay restricciones, `false` en caso contrario.
+   */
+  const hasAccess = (requiredRoles?: string[]) => {
+    if (userRoles.includes("superAdmin")) return true; // Llave maestra
+    if (!requiredRoles || requiredRoles.length === 0) return true; // Ruta pública para logueados (ej. /inicio)
+    return requiredRoles.some((role) => userRoles.includes(role));
+  };
+
+  /**
+   * Filtra dinámicamente los ítems del menú basándose en los permisos del usuario.
+   * Los módulos para los que no tenga permiso simplemente no se renderizarán en el DOM.
+   */
+  const filteredNavItems = navItems.filter((item) =>
+    hasAccess(item.requiredRoles),
+  );
 
   // Sincronizar el estado del menú con la ruta actual (Derived State en fase de render)
   // Esto previene el error "Calling setState synchronously within an effect"
@@ -332,7 +383,7 @@ export default function ProtectedNavbar() {
             align="center"
             gap={2}
           >
-            {navItems.map((item) => renderDesktopItem(item))}
+            {filteredNavItems.map((item) => renderDesktopItem(item))}
           </Stack>
         </Flex>
 
@@ -383,7 +434,7 @@ export default function ProtectedNavbar() {
 
             <Drawer.Body>
               <Stack gap={3}>
-                {navItems.map((item) => renderMobileItem(item))}
+                {filteredNavItems.map((item) => renderMobileItem(item))}
               </Stack>
             </Drawer.Body>
 

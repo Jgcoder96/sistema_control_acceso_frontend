@@ -14,7 +14,10 @@ import {
 import { Search } from "lucide-react";
 import { RolUsuario } from "@/app/(dashboard)/accesos/usuarios/types/Usuario";
 
-/** Propiedades requeridas para renderizar y gestionar los roles del usuario */
+/**
+ * Interfaces requeridas para inyectar el catálogo de roles disponibles y
+ * controlar dinámicamente la lista de asignación en tiempo de ejecución.
+ */
 interface UserRolesFormProps {
   allRoles: RolUsuario[];
   loadingAllRoles: boolean;
@@ -24,7 +27,8 @@ interface UserRolesFormProps {
 }
 
 /**
- * Componente interactivo para asignar y desasignar roles a un Usuario.
+ * Sub-formulario interactivo que permite la búsqueda asíncrona local y
+ * la asignación o revocación de roles para el perfil de un usuario.
  * Implementa scroll propio y un buscador con técnica "debounce".
  */
 export const UserRolesForm = ({
@@ -37,7 +41,10 @@ export const UserRolesForm = ({
   const [searchTerm, setSearchTerm] = useState("");
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  /** Retrasa intencionalmente la búsqueda 400ms para evitar saturación */
+  /**
+   * Efecto colateral (Debounce) que difiere intencionalmente el evento de búsqueda
+   * durante 400ms tras la última interacción del teclado.
+   */
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
@@ -51,7 +58,11 @@ export const UserRolesForm = ({
     }, 400); // 400ms debounce
   };
 
-  /** Agrega o elimina un rol de la lista controlada por el padre */
+  /**
+   * Invierte el estado de vinculación de un rol con el usuario.
+   * Emite el nuevo arreglo de identificadores al componente superior (Padre).
+   * @param roleId - Identificador único del rol sobre el cual accionar.
+   */
   const handleToggle = (roleId: string, checked: boolean) => {
     if (checked) {
       onChange([...selectedRoleIds, roleId]);

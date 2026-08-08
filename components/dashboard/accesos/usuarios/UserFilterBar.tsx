@@ -10,7 +10,9 @@ import {
   UserStatusFilter,
 } from "@/app/(dashboard)/accesos/usuarios/types/Usuario";
 
-/** Parámetros para operar la barra superior de filtrado y búsqueda */
+/**
+ * Interfaz que define las dependencias y eventos emitidos por la barra de filtrado.
+ */
 interface UserFilterBarProps {
   search: string;
   status: UserStatusFilter;
@@ -19,8 +21,8 @@ interface UserFilterBarProps {
 }
 
 /**
- * Barra superior de controles para la tabla de Usuarios.
- * Proporciona un buscador de texto (por cédula/nombre), un selector de estados y el botón de creación.
+ * Componente superior que agrupa los controles de filtrado (Búsqueda por texto y Estado)
+ * y expone la acción principal de registro para el catálogo de usuarios.
  */
 export const UserFilterBar = ({
   search,
@@ -28,7 +30,11 @@ export const UserFilterBar = ({
   onFilterChange,
   onAddClick,
 }: UserFilterBarProps) => {
-  /** Actualiza la búsqueda y devuelve al usuario a la página 1 */
+  /**
+   * Invoca el evento del padre para sobreescribir los parámetros de búsqueda.
+   * Por convención, una nueva búsqueda reinicia la vista a la página 1.
+   * @param params - Fragmento de la entidad de query con los nuevos valores.
+   */
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     onFilterChange({ search: e.target.value, page: 1 });
   };

@@ -24,7 +24,7 @@ import {
   createUserSchema,
   updateUserSchema,
   UserFormValues,
-} from "@/app/(dashboard)/accesos/usuarios/schemas";
+} from "@/app/(dashboard)/accesos/usuarios/schemas/userSchema";
 import { API_CONFIG } from "@/config/api";
 
 import { UserForm } from "./UserForm";
@@ -34,14 +34,17 @@ import { UserRolesForm } from "./UserRolesForm";
 
 export type ModalMode = "view" | "create" | "edit" | "delete" | "assign_roles";
 
-/** Propiedades para la correcta orquestación del modal CRUD de Usuarios */
+/**
+ * Interfaz que define las propiedades para la orquestación del modal genérico de Usuarios.
+ * Soporta múltiples modos operativos (CRUD y roles) sobre un mismo componente base.
+ */
 interface UserActionModalProps {
   user: Usuario | null;
   mode: ModalMode;
   open: boolean;
   onClose: () => void;
   onAction: (
-    data: FormData | string | { userId: string; rolesIds: string[] }
+    data: FormData | string | { userId: string; rolesIds: string[] },
   ) => Promise<void>;
 }
 
@@ -158,7 +161,10 @@ export const UserActionModal = ({
     }
   }, [roles, mode]);
 
-  /** Obtiene únicamente los roles asociados al usuario actual */
+  /**
+   * Obtiene la colección de roles asociados de forma asíncrona para el usuario actual.
+   * Modifica el estado local para reflejar dichos roles en el componente UI.
+   */
   const fetchUserRoles = async (userId: string) => {
     setLoadingRoles(true);
     setRoles([]);
@@ -176,7 +182,9 @@ export const UserActionModal = ({
     }
   };
 
-  /** Consulta el catálogo completo de roles disponibles */
+  /**
+   * Obtiene de forma asíncrona el catálogo maestro de roles activos.
+   */
   const fetchAllRoles = async (search?: string) => {
     setLoadingAllRoles(true);
     try {
@@ -199,7 +207,11 @@ export const UserActionModal = ({
     }
   };
 
-  /** Despacha la acción de submit final hacia page.tsx (FormData o Payload directo) */
+  /**
+   * Intercepta la confirmación del formulario y delega la ejecución de la mutación de red
+   * hacia el componente controlador (page.tsx).
+   * @param payload - Datos formados según el modo operativo (FormData, string ID, etc.).
+   */
   const handleConfirm = async (data: UserFormValues | null) => {
     if (mode === "view") return;
     if (mode === "delete" && user) {

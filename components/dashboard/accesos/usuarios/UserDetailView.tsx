@@ -17,7 +17,10 @@ import {
   RolUsuario,
 } from "@/app/(dashboard)/accesos/usuarios/types/Usuario";
 
-/** Parámetros inyectados para visualizar los metadatos y roles del usuario */
+/**
+ * Parámetros inyectados para visualizar el perfil de un usuario, incluyendo
+ * su metadata primaria y la colección de roles (permisos) asociados.
+ */
 interface UserDetailViewProps {
   formData: Partial<Usuario>;
   loadingRoles: boolean;
@@ -29,7 +32,11 @@ export const UserDetailView = ({
   loadingRoles,
   roles,
 }: UserDetailViewProps) => {
-  /** Convierte la fecha ISO devuelta por el servidor a un formato local amigable */
+  /**
+   * Mapea y formatea fechas ISO devueltas por la API hacia un string legible localizado.
+   * @param dateString - Representación de la fecha en formato ISO 8601.
+   * @returns String localizado de la fecha, o un indicador si no existe.
+   */
   const formatDate = (dateStr?: string) => {
     if (!dateStr) return "-";
     try {

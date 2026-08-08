@@ -4,13 +4,16 @@ import React from "react";
 import { VStack, Text, Center } from "@chakra-ui/react";
 import { AlertTriangle } from "lucide-react";
 
-/** Atributos para configurar el mensaje de confirmación de eliminación */
+/**
+ * Atributos inyectados para configurar la confirmación visual de eliminación.
+ */
 interface UserDeleteConfirmProps {
   nombre: string;
 }
 
 /**
- * Componente de confirmación visual antes de realizar un borrado lógico de un Usuario.
+ * Componente funcional de advertencia crítica para la eliminación de usuarios.
+ * Muestra información relevante del usuario objetivo antes de proceder con el borrado.
  */
 export const UserDeleteConfirm = ({ nombre }: UserDeleteConfirmProps) => {
   return (
@@ -21,7 +24,7 @@ export const UserDeleteConfirm = ({ nombre }: UserDeleteConfirmProps) => {
 
       <VStack gap={1} textAlign="center">
         <Text fontSize="lg" fontWeight="bold" color="gray.800">
-          ¿Deseas eliminar "{nombre}"?
+          ¿Deseas eliminar a {nombre}?
         </Text>
       </VStack>
     </VStack>

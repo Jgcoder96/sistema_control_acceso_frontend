@@ -14,8 +14,9 @@ import { useUsers } from "./hooks/useUsers";
 import { Usuario, UserQueryParams } from "./types/Usuario";
 
 /**
- * Pantalla principal para la gestión de Usuarios del sistema.
- * Coordina la tabla, filtros, modales y paginación delegando la lógica al hook useUsers.
+ * Controlador principal (Smart Component) para la vista de gestión de Usuarios.
+ * Orquesta la tabla de datos, la barra de filtros, y los modales dinámicos (CRUD)
+ * delegando la gestión de estado y peticiones a red al custom hook `useUsers`.
  */
 export default function UsuariosPage() {
   // Hook central que administra los datos remotos y los parámetros
@@ -39,7 +40,9 @@ export default function UsuariosPage() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   /**
-   * Inicializa y despliega el modal dinámico.
+   * Prepara y despliega el modal dinámico con el contexto del usuario seleccionado.
+   * @param user - Entidad del usuario a operar o null si es creación.
+   * @param mode - Modo de operación (crear, editar, ver, eliminar, asignar roles).
    */
   const handleOpenModal = (user: Usuario | null, mode: ModalMode): void => {
     setSelectedUser(user);
@@ -48,7 +51,9 @@ export default function UsuariosPage() {
   };
 
   /**
-   * Orquesta la ejecución del submit del modal dependiendo del modo activo.
+   * Intercepta el submit del modal y enruta la petición hacia la función del hook
+   * correspondiente basándose en el modo de operación activo.
+   * @param payload - Datos del formulario (FormData, ID de usuario, o payload de roles).
    */
   const handleModalAction = async (
     payload: FormData | string | { userId: string; rolesIds: string[] },
@@ -70,7 +75,8 @@ export default function UsuariosPage() {
   };
 
   /**
-   * Sincroniza cambios en el input de búsqueda o dropdown y resetea a la página 1.
+   * Actualiza el estado de los filtros y reinicia la paginación a la primera hoja.
+   * @param newParams - Objeto con los parámetros de búsqueda o estado actualizados.
    */
   const handleFilterChange = (newParams: Partial<UserQueryParams>): void => {
     setFilters((prev) => ({ ...prev, ...newParams, page: 1 }));

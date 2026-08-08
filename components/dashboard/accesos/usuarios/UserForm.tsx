@@ -4,9 +4,11 @@ import React from "react";
 import { Grid, Text, Field } from "@chakra-ui/react";
 import { FormInput } from "@/components";
 import { UseFormRegister, FieldErrors } from "react-hook-form";
-import { UserFormValues } from "@/app/(dashboard)/accesos/usuarios/schemas";
+import { UserFormValues } from "@/app/(dashboard)/accesos/usuarios/schemas/userSchema";
 
-/** Propiedades para inicializar el formulario de usuario */
+/**
+ * Propiedades inyectadas para la manipulación y renderizado del formulario de Usuario.
+ */
 interface UserFormProps {
   register: UseFormRegister<UserFormValues>;
   errors: FieldErrors<UserFormValues>;
@@ -15,8 +17,8 @@ interface UserFormProps {
 }
 
 /**
- * Formulario estandarizado para la creación y edición de usuarios.
- * Gestiona el mapeo visual de campos de texto y el label para el input de tipo archivo.
+ * Componente que encapsula la matriz de campos de texto (Inputs) para la creación
+ * y edición de la información básica de un usuario.
  */
 export const UserForm = ({
   register,

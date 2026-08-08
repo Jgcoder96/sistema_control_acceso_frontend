@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { apiFetch } from '@/utils/apiClient';
+import { apiFetch } from "@/utils/apiClient";
 import {
   Usuario,
   UsuariosApiResponse,
@@ -26,7 +26,7 @@ export function useUsers() {
   const [data, setData] = useState<Usuario[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [totalPages, setTotalPages] = useState<number>(1);
-  
+
   const [filters, setFilters] = useState<UserQueryParams>({
     status: "all",
     search: "",
@@ -76,11 +76,14 @@ export function useUsers() {
       });
       if (filters.search) params.append("search", filters.search);
 
-      const response = await apiFetch(`${API_CONFIG.ENDPOINTS.USERS}?${params.toString()}`);
-      
+      const response = await apiFetch(
+        `${API_CONFIG.ENDPOINTS.USERS}?${params.toString()}`,
+      );
+
       // Combinamos interfaces de forma segura en lugar de usar 'any'
-      const result = (await response.json()) as UsuariosApiResponse & GenericApiResponse;
-      
+      const result = (await response.json()) as UsuariosApiResponse &
+        GenericApiResponse;
+
       if (result.success) {
         setData(result.data);
         setTotalPages(result.metadata?.totalPages || 1);

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { HStack, VStack, Text, Badge, Button } from "@chakra-ui/react";
+import { HStack, VStack, Text, Badge, Button, Box } from "@chakra-ui/react";
 import { Eye, Pencil, Trash2, Plus, ShieldCheck } from "lucide-react";
 import { BaseModal } from "@/components";
 import {
@@ -37,7 +37,7 @@ interface RoleActionModalProps {
   open: boolean;
   onClose: () => void;
   onAction: (
-    data: RoleFormValues | string | { roleId: string; permisosIds: string[] }
+    data: RoleFormValues | string | { roleId: string; permisosIds: string[] },
   ) => Promise<void>;
 }
 
@@ -140,7 +140,7 @@ export const RoleActionModal = ({
     try {
       const searchParam = search ? `&search=${encodeURIComponent(search)}` : "";
       const res = await apiFetch(
-        `${API_CONFIG.ENDPOINTS.APP_PERMISSIONS}?limit=100&status=active${searchParam}`
+        `${API_CONFIG.ENDPOINTS.APP_PERMISSIONS}?limit=100&status=active${searchParam}`,
       );
       const result: AppPermissionsApiResponse = await res.json();
       if (result.success) {
@@ -189,6 +189,16 @@ export const RoleActionModal = ({
           flexDirection={{ base: "column", sm: "row" }}
           textAlign={{ base: "center", sm: "left" }}
         >
+          <Box
+            p={3}
+            borderRadius="xl"
+            bg={`${currentConfig.color}.100`}
+            color={`${currentConfig.color}.600`}
+            flexShrink={0}
+            display={{ base: "none", sm: "block" }}
+          >
+            {currentConfig.icon}
+          </Box>
           <VStack align={{ base: "center", sm: "start" }} gap={1}>
             <Text
               fontSize="xs"

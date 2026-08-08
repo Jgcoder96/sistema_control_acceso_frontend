@@ -21,7 +21,7 @@ export const PermissionDeleteConfirm = ({
 
       <VStack gap={1} textAlign="center">
         <Text fontSize="lg" fontWeight="bold" color="gray.800">
-          ¿Deseas eliminar "{slug}"?
+          ¿Deseas eliminar {slug}?
         </Text>
       </VStack>
     </VStack>

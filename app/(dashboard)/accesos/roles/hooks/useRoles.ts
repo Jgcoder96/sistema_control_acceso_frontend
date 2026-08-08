@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { apiFetch } from '@/utils/apiClient';
+import { apiFetch } from "@/utils/apiClient";
 import { Role, RolesApiResponse } from "../types/Role";
 import { API_CONFIG } from "@/config/api";
 
@@ -25,11 +25,11 @@ interface GenericApiResponse {
  */
 export function useRoles() {
   // --- Estados Principales ---
-  
+
   const [data, setData] = useState<Role[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [totalPages, setTotalPages] = useState<number>(1);
-  
+
   const [filters, setFilters] = useState<RoleQueryParams>({
     status: "all",
     search: "",
@@ -81,11 +81,14 @@ export function useRoles() {
       });
       if (filters.search) params.append("search", filters.search);
 
-      const response = await apiFetch(`${API_CONFIG.ENDPOINTS.ROLES}?${params.toString()}`);
-      
+      const response = await apiFetch(
+        `${API_CONFIG.ENDPOINTS.ROLES}?${params.toString()}`,
+      );
+
       // Combinamos ambas interfaces de forma segura en lugar de usar 'any'
-      const result = (await response.json()) as RolesApiResponse & GenericApiResponse;
-      
+      const result = (await response.json()) as RolesApiResponse &
+        GenericApiResponse;
+
       if (result.success) {
         setData(result.data);
         setTotalPages(result.metadata?.totalPages || 1);
@@ -106,7 +109,10 @@ export function useRoles() {
   /**
    * Registra un nuevo rol en la base de datos.
    */
-  const createRole = async (formData: { nombre: string; descripcion?: string }) => {
+  const createRole = async (formData: {
+    nombre: string;
+    descripcion?: string;
+  }) => {
     try {
       const res = await apiFetch(API_CONFIG.ENDPOINTS.ROLES, {
         method: "POST",
@@ -122,7 +128,10 @@ export function useRoles() {
   /**
    * Actualiza la información (nombre, descripción) de un rol existente.
    */
-  const updateRole = async (id: string, formData: { nombre?: string; descripcion?: string }) => {
+  const updateRole = async (
+    id: string,
+    formData: { nombre?: string; descripcion?: string },
+  ) => {
     try {
       const res = await apiFetch(`${API_CONFIG.ENDPOINTS.ROLES}/${id}`, {
         method: "PUT",
@@ -154,11 +163,14 @@ export function useRoles() {
    */
   const assignPermissions = async (roleId: string, permisosIds: string[]) => {
     try {
-      const res = await apiFetch(API_CONFIG.ENDPOINTS.ROLE_PERMISSIONS(roleId), {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ permisosIds }),
-      });
+      const res = await apiFetch(
+        API_CONFIG.ENDPOINTS.ROLE_PERMISSIONS(roleId),
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ permisosIds }),
+        },
+      );
       await handleApiResponse(res, "Permisos asignados correctamente");
     } catch {
       showStatus("Error", "Error de red", false);

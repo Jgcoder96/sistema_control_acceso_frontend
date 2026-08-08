@@ -95,7 +95,7 @@ export const getRoleColumns = (
           >
             <Eye size={16} />
           </IconButton>
-          
+
           {/* Modificar Rol */}
           <IconButton
             variant="ghost"
@@ -107,7 +107,7 @@ export const getRoleColumns = (
           >
             <Pencil size={16} />
           </IconButton>
-          
+
           {/* Asignación de Permisos */}
           <IconButton
             variant="ghost"
@@ -119,7 +119,7 @@ export const getRoleColumns = (
           >
             <ShieldCheck size={16} />
           </IconButton>
-          
+
           {/* Eliminación Lógica */}
           <IconButton
             variant="ghost"

@@ -62,7 +62,7 @@ export default function RolesPage() {
     } else if (modalMode === "assign_permissions" && selectedRole) {
       await assignPermissions(
         selectedRole.id,
-        (data as { permisosIds: string[] }).permisosIds
+        (data as { permisosIds: string[] }).permisosIds,
       );
     }
   };
@@ -98,7 +98,7 @@ export default function RolesPage() {
           onPageChange: (page) => setFilters({ ...filters, page }),
         }}
       />
-      
+
       {/* Modal que muta visualmente dependiendo del modalMode (CRUD) */}
       <RoleActionModal
         role={selectedRole}

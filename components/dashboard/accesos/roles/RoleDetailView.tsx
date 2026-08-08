@@ -1,8 +1,25 @@
 import React from "react";
-import { Grid, VStack, HStack, Text, Box, Separator, Spinner } from "@chakra-ui/react";
-import { Calendar, Clock, Text as TextIcon, Fingerprint, ShieldCheck } from "lucide-react";
+import {
+  Grid,
+  VStack,
+  HStack,
+  Text,
+  Box,
+  Separator,
+  Spinner,
+} from "@chakra-ui/react";
+import {
+  Calendar,
+  Clock,
+  Text as TextIcon,
+  Fingerprint,
+  ShieldCheck,
+} from "lucide-react";
 import { DetailItem } from "@/components";
-import { Role, AppPermission } from "@/app/(dashboard)/accesos/roles/types/Role";
+import {
+  Role,
+  AppPermission,
+} from "@/app/(dashboard)/accesos/roles/types/Role";
 
 interface RoleDetailViewProps {
   formData: Partial<Role>;
@@ -19,7 +36,6 @@ export const RoleDetailView = ({
   loadingPermissions,
   permissions,
 }: RoleDetailViewProps) => {
-
   /** Convierte la fecha ISO a formato local y legible */
   const formatDate = (dateStr?: string) => {
     if (!dateStr) return "-";
@@ -41,7 +57,11 @@ export const RoleDetailView = ({
   return (
     <VStack align="start" gap={6} w="full" h="full" overflow="hidden">
       {/* Metadatos y detalles de creación del rol */}
-      <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={6} w="full">
+      <Grid
+        templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
+        gap={6}
+        w="full"
+      >
         <DetailItem
           icon={<Fingerprint size={18} />}
           label="Nombre del Rol"
@@ -63,9 +83,9 @@ export const RoleDetailView = ({
           value={formatDate(formData.actualizado_el)}
         />
       </Grid>
-      
+
       <Separator />
-      
+
       {/* Contenedor escrolleable para visualizar permisos asignados */}
       <VStack align="start" w="full" flex="1" minH={0} overflow="hidden">
         <HStack color="green.500">

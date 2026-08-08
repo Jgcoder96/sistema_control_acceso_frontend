@@ -7,13 +7,13 @@ import { ColumnConfig } from "@/components/dashboard/DataTable";
 /**
  * Construye y devuelve la configuración de columnas para la tabla de Permisos.
  * Permite inyectar las acciones dinámicas (Ver y Eliminar) desde la vista principal.
- * 
+ *
  * @param onView Acción disparada al hacer clic en el botón de visualizar.
  * @param onDelete Acción disparada al hacer clic en el botón de eliminar.
  */
 export const getPermissionColumns = (
   onView: (perm: Permission) => void,
-  onDelete: (perm: Permission) => void
+  onDelete: (perm: Permission) => void,
 ): ColumnConfig<Permission>[] => [
   {
     key: "id",

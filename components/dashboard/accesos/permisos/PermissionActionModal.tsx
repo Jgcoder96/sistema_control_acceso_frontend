@@ -43,8 +43,16 @@ export const PermissionActionModal = ({
     { title: string; color: string; icon: React.ReactNode }
   > = {
     view: { title: "Detalles", color: "blue", icon: <Eye size={20} /> },
-    create: { title: "Nuevo Permiso", color: "green", icon: <Plus size={20} /> },
-    delete: { title: "Eliminar Permiso", color: "red", icon: <Trash2 size={20} /> },
+    create: {
+      title: "Nuevo Permiso",
+      color: "green",
+      icon: <Plus size={20} />,
+    },
+    delete: {
+      title: "Eliminar Permiso",
+      color: "red",
+      icon: <Trash2 size={20} />,
+    },
   };
 
   // Inicialización de validaciones con React Hook Form + Zod
@@ -70,7 +78,7 @@ export const PermissionActionModal = ({
    */
   const handleConfirm = async (data: PermissionFormValues | null) => {
     if (mode === "view") return;
-    
+
     setLoadingAction(true);
     try {
       if (mode === "delete" && permission) {
@@ -90,29 +98,55 @@ export const PermissionActionModal = ({
     <BaseModal
       open={open}
       onClose={onClose}
-      title={mode === "create" ? "Crear Permiso" : permission?.slug || "Detalles"}
+      title={
+        mode === "create" ? "Crear Permiso" : permission?.slug || "Detalles"
+      }
       colorPalette={currentConfig.color}
       size="md"
-      
       // Personalización del encabezado del modal con íconos e identificadores de estado
       headerExtra={
         <HStack gap={4} align="center">
-          <Box p={3} borderRadius="xl" bg={`${currentConfig.color}.100`} color={`${currentConfig.color}.600`}>
+          <Box
+            p={3}
+            borderRadius="xl"
+            bg={`${currentConfig.color}.100`}
+            color={`${currentConfig.color}.600`}
+          >
             {currentConfig.icon}
           </Box>
           <VStack align="start" gap={1}>
-            <Text fontSize="xs" fontWeight="bold" textTransform="uppercase" letterSpacing="wider" color={`${currentConfig.color}.600`}>
+            <Text
+              fontSize="xs"
+              fontWeight="bold"
+              textTransform="uppercase"
+              letterSpacing="wider"
+              color={`${currentConfig.color}.600`}
+            >
               {currentConfig.title}
             </Text>
-            <Text fontSize="xl" fontWeight="bold" color="gray.800" lineHeight="1.2">
+            <Text
+              fontSize="xl"
+              fontWeight="bold"
+              color="gray.800"
+              lineHeight="1.2"
+            >
               {mode === "create" ? "Registrar Permiso" : permission?.slug}
             </Text>
             {mode !== "create" && permission && (
               <HStack gap={2} mt={1}>
-                <Badge colorPalette={!permission.eliminado_el ? "green" : "red"} variant="solid" borderRadius="full">
+                <Badge
+                  colorPalette={!permission.eliminado_el ? "green" : "red"}
+                  variant="solid"
+                  borderRadius="full"
+                >
                   {!permission.eliminado_el ? "activo" : "inactivo"}
                 </Badge>
-                <Badge colorPalette="gray" variant="subtle" borderRadius="full" textTransform="none">
+                <Badge
+                  colorPalette="gray"
+                  variant="subtle"
+                  borderRadius="full"
+                  textTransform="none"
+                >
                   <Text as="span" display={{ base: "none", sm: "inline" }}>
                     ID: {permission.id}
                   </Text>
@@ -128,16 +162,23 @@ export const PermissionActionModal = ({
       showFooter={true}
       confirmText={mode === "delete" ? "Eliminar" : "Confirmar"}
       cancelText="Cancelar"
-      
       // En modo creación valida con hook-form antes de invocar handleConfirm
-      onConfirm={mode === "delete" ? () => handleConfirm(null) : handleSubmit(handleConfirm)}
+      onConfirm={
+        mode === "delete"
+          ? () => handleConfirm(null)
+          : handleSubmit(handleConfirm)
+      }
       confirmLoading={loadingAction}
-      
       // Oculta los botones por defecto en modo lectura ("view") y provee un botón único de Cerrar
       customFooter={
         mode === "view" ? (
           <HStack justify="end" w="full">
-            <Button colorPalette="blue" borderRadius="full" px={8} onClick={onClose}>
+            <Button
+              colorPalette="blue"
+              borderRadius="full"
+              px={8}
+              onClick={onClose}
+            >
               Cerrar
             </Button>
           </HStack>

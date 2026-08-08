@@ -20,7 +20,7 @@ export const RoleDeleteConfirm = ({ nombre }: RoleDeleteConfirmProps) => {
 
       <VStack gap={1} textAlign="center">
         <Text fontSize="lg" fontWeight="bold" color="gray.800">
-          ¿Deseas eliminar "{nombre}"?
+          ¿Deseas eliminar {nombre}?
         </Text>
       </VStack>
     </VStack>

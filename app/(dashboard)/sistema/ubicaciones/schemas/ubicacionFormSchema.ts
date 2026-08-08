@@ -12,7 +12,7 @@ export const ubicacionFormSchema = z.object({
     .string({ message: "El campo 'mesh_id' es obligatorio." })
     .regex(
       meshIdRegex,
-      "El 'mesh_id' debe ser un formato hexadecimal válido (ej: 77:77:77:77:77:77)."
+      "El 'mesh_id' debe ser un formato hexadecimal válido (ej: 77:77:77:77:77:77).",
     )
     .toUpperCase()
     .trim(),

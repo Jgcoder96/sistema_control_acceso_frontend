@@ -18,7 +18,7 @@ interface UbicacionFormModalProps {
 
 /**
  * Modal polimórfico utilizado tanto para registrar como para editar una Ubicación.
- * Gestiona el formulario, las validaciones con Zod y React Hook Form y 
+ * Gestiona el formulario, las validaciones con Zod y React Hook Form y
  * delega el guardado a la función `onSave`.
  */
 export const UbicacionFormModal = ({
@@ -92,15 +92,23 @@ export const UbicacionFormModal = ({
               color="gray.850"
               lineHeight="1.2"
             >
-              {isEditing ? (ubicacion?.nombre || "Editar") : "Registrar Ubicación"}
+              {isEditing
+                ? ubicacion?.nombre || "Editar"
+                : "Registrar Ubicación"}
             </Text>
             <HStack gap={2} mt={1}>
               <Badge
-                colorPalette={isEditing && ubicacion?.eliminado_el ? "red" : "green"}
+                colorPalette={
+                  isEditing && ubicacion?.eliminado_el ? "red" : "green"
+                }
                 variant="solid"
                 borderRadius="full"
               >
-                {!isEditing ? "activo" : (ubicacion?.eliminado_el ? "inactivo" : "activo")}
+                {!isEditing
+                  ? "activo"
+                  : ubicacion?.eliminado_el
+                    ? "inactivo"
+                    : "activo"}
               </Badge>
               {isEditing && ubicacion?.id && (
                 <Badge
@@ -135,7 +143,9 @@ export const UbicacionFormModal = ({
             borderRadius="lg"
             bg="gray.50"
           />
-          {errors.nombre && <Field.ErrorText>{errors.nombre.message}</Field.ErrorText>}
+          {errors.nombre && (
+            <Field.ErrorText>{errors.nombre.message}</Field.ErrorText>
+          )}
         </Field.Root>
 
         <Field.Root invalid={!!errors.mesh_id}>
@@ -147,7 +157,9 @@ export const UbicacionFormModal = ({
             borderRadius="lg"
             bg="gray.50"
           />
-          {errors.mesh_id && <Field.ErrorText>{errors.mesh_id.message}</Field.ErrorText>}
+          {errors.mesh_id && (
+            <Field.ErrorText>{errors.mesh_id.message}</Field.ErrorText>
+          )}
         </Field.Root>
       </VStack>
     </BaseModal>

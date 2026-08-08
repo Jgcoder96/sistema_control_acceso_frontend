@@ -1,5 +1,13 @@
 import React from "react";
-import { Input, Button, Flex, Box, Center, HStack, Text } from "@chakra-ui/react";
+import {
+  Input,
+  Button,
+  Flex,
+  Box,
+  Center,
+  HStack,
+  Text,
+} from "@chakra-ui/react";
 import { Search, X, Plus } from "lucide-react";
 import { UbicacionQueryParams } from "@/app/(dashboard)/sistema/ubicaciones/types/Ubicacion";
 import { AnimatedDropdown } from "@/components/ui/AnimatedDropdown";
@@ -12,17 +20,21 @@ interface UbicacionesFilterBarProps {
 }
 
 const statusOptions = [
-  { value: "all", label: "Todos los Estados" },
+  { value: "all", label: "Todos" },
   { value: "active", label: "Activos" },
   { value: "deleted", label: "Eliminados" },
 ];
 
 /**
  * Barra de herramientas superior para la vista de Ubicaciones.
- * Contiene el input de búsqueda interactivo, selectores de estado (Filtros) 
+ * Contiene el input de búsqueda interactivo, selectores de estado (Filtros)
  * y el botón de acción principal para registrar nuevas ubicaciones.
  */
-export const UbicacionesFilterBar = ({ filters, setFilters, onOpenCreate }: UbicacionesFilterBarProps) => {
+export const UbicacionesFilterBar = ({
+  filters,
+  setFilters,
+  onOpenCreate,
+}: UbicacionesFilterBarProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFilters((prev) => ({

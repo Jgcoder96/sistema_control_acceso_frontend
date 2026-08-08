@@ -39,7 +39,7 @@ export const useUbicaciones = () => {
       if (filters.limit) params.append("limit", filters.limit.toString());
       if (filters.search) params.append("search", filters.search);
       if (filters.status) params.append("status", filters.status);
-      
+
       const url = `${API_CONFIG.ENDPOINTS.UBICACIONES}?${params.toString()}`;
       const response = await apiFetch(url);
 
@@ -66,7 +66,10 @@ export const useUbicaciones = () => {
     fetchUbicaciones();
   }, [fetchUbicaciones]);
 
-  const createUbicacion = async (payload: { nombre: string; mesh_id: string }) => {
+  const createUbicacion = async (payload: {
+    nombre: string;
+    mesh_id: string;
+  }) => {
     try {
       const response = await apiFetch(API_CONFIG.ENDPOINTS.UBICACIONES, {
         method: "POST",
@@ -91,20 +94,29 @@ export const useUbicaciones = () => {
       setStatusModal({
         open: true,
         title: "Error",
-        message: error instanceof Error ? error.message : "No se pudo crear la ubicación.",
+        message:
+          error instanceof Error
+            ? error.message
+            : "No se pudo crear la ubicación.",
         isSuccess: false,
       });
       return false;
     }
   };
 
-  const updateUbicacion = async (id: string, payload: { nombre: string; mesh_id: string }) => {
+  const updateUbicacion = async (
+    id: string,
+    payload: { nombre: string; mesh_id: string },
+  ) => {
     try {
-      const response = await apiFetch(API_CONFIG.ENDPOINTS.UBICACION_DETAIL(id), {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      const response = await apiFetch(
+        API_CONFIG.ENDPOINTS.UBICACION_DETAIL(id),
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        },
+      );
 
       const resData = await response.json();
       if (!response.ok) {
@@ -123,24 +135,35 @@ export const useUbicaciones = () => {
       setStatusModal({
         open: true,
         title: "Error",
-        message: error instanceof Error ? error.message : "No se pudo actualizar la ubicación.",
+        message:
+          error instanceof Error
+            ? error.message
+            : "No se pudo actualizar la ubicación.",
         isSuccess: false,
       });
       return false;
     }
   };
 
-  const toggleDeleteUbicacion = async (id: string, currentlyDeleted: boolean) => {
+  const toggleDeleteUbicacion = async (
+    id: string,
+    currentlyDeleted: boolean,
+  ) => {
     try {
       // Si el backend soporta toggle en el DELETE (soft delete / restore)
       // O enviaremos DELETE siempre
-      const response = await apiFetch(API_CONFIG.ENDPOINTS.UBICACION_DETAIL(id), {
-        method: "DELETE",
-      });
+      const response = await apiFetch(
+        API_CONFIG.ENDPOINTS.UBICACION_DETAIL(id),
+        {
+          method: "DELETE",
+        },
+      );
 
       const resData = await response.json();
       if (!response.ok) {
-        throw new Error(resData.message || "Error al cambiar el estado de la ubicación");
+        throw new Error(
+          resData.message || "Error al cambiar el estado de la ubicación",
+        );
       }
 
       setStatusModal({
@@ -155,7 +178,10 @@ export const useUbicaciones = () => {
       setStatusModal({
         open: true,
         title: "Error",
-        message: error instanceof Error ? error.message : "No se pudo cambiar el estado de la ubicación.",
+        message:
+          error instanceof Error
+            ? error.message
+            : "No se pudo cambiar el estado de la ubicación.",
         isSuccess: false,
       });
       return false;

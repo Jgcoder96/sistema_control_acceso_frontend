@@ -48,17 +48,37 @@ export const UbicacionDeleteModal = ({
             <Trash2 size={20} />
           </Box>
           <VStack align="start" gap={1}>
-            <Text fontSize="xs" fontWeight="bold" textTransform="uppercase" letterSpacing="wider" color={isDeleted ? "blue.600" : "red.600"}>
+            <Text
+              fontSize="xs"
+              fontWeight="bold"
+              textTransform="uppercase"
+              letterSpacing="wider"
+              color={isDeleted ? "blue.600" : "red.600"}
+            >
               {isDeleted ? "Restaurar Ubicación" : "Eliminar Ubicación"}
             </Text>
-            <Text fontSize="xl" fontWeight="bold" color="gray.800" lineHeight="1.2">
+            <Text
+              fontSize="xl"
+              fontWeight="bold"
+              color="gray.800"
+              lineHeight="1.2"
+            >
               {ubicacion.nombre}
             </Text>
             <HStack gap={2} mt={1}>
-              <Badge colorPalette={!ubicacion.eliminado_el ? "green" : "red"} variant="solid" borderRadius="full">
+              <Badge
+                colorPalette={!ubicacion.eliminado_el ? "green" : "red"}
+                variant="solid"
+                borderRadius="full"
+              >
                 {!ubicacion.eliminado_el ? "activo" : "inactivo"}
               </Badge>
-              <Badge colorPalette="gray" variant="subtle" borderRadius="full" textTransform="none">
+              <Badge
+                colorPalette="gray"
+                variant="subtle"
+                borderRadius="full"
+                textTransform="none"
+              >
                 <Text as="span" display={{ base: "none", sm: "inline" }}>
                   ID: {ubicacion.id}
                 </Text>
@@ -76,7 +96,13 @@ export const UbicacionDeleteModal = ({
       confirmLoading={loading}
     >
       <VStack align="center" gap={4} py={4}>
-        <Center w="16" h="16" bg={isDeleted ? "blue.50" : "red.50"} borderRadius="full" color={isDeleted ? "blue.500" : "red.500"}>
+        <Center
+          w="16"
+          h="16"
+          bg={isDeleted ? "blue.50" : "red.50"}
+          borderRadius="full"
+          color={isDeleted ? "blue.500" : "red.500"}
+        >
           <AlertTriangle size={32} />
         </Center>
 

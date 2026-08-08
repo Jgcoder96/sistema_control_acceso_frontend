@@ -13,7 +13,7 @@ interface UbicacionesColumnsProps {
 /**
  * Construye y devuelve la configuración de columnas para la tabla de Ubicaciones.
  * Permite inyectar acciones dinámicas desde la vista principal para orquestar la apertura de modales.
- * 
+ *
  * @param onEdit Acción disparada para abrir el formulario de edición.
  * @param onView Acción disparada para visualizar detalles.
  * @param onToggleDelete Acción disparada para eliminar lógicamente o restaurar la ubicación.
@@ -29,7 +29,14 @@ export const getUbicacionesColumns = ({
     width: "15%",
     textAlign: "center",
     render: (item) => (
-      <Text fontSize="xs" color="gray.500" truncate maxW="120px" textAlign="center" mx="auto">
+      <Text
+        fontSize="xs"
+        color="gray.500"
+        truncate
+        maxW="120px"
+        textAlign="center"
+        mx="auto"
+      >
         {item.id}
       </Text>
     ),
@@ -89,7 +96,7 @@ export const getUbicacionesColumns = ({
           >
             <Eye size={16} />
           </IconButton>
-          
+
           <IconButton
             size="sm"
             variant="ghost"
@@ -100,7 +107,7 @@ export const getUbicacionesColumns = ({
           >
             <Pencil size={16} />
           </IconButton>
-          
+
           <IconButton
             size="sm"
             variant="ghost"

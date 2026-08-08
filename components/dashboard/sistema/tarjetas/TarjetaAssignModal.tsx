@@ -184,7 +184,7 @@ export const TarjetaAssignModal = ({
           </VStack>
         </HStack>
       }
-      confirmText="Confirmar Asignación"
+      confirmText="Confirmar"
       cancelText="Cancelar"
       onConfirm={submitHandler}
       confirmLoading={isSubmitting}

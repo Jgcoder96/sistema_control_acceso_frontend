@@ -1,5 +1,13 @@
 import React from "react";
-import { VStack, Grid, HStack, Text, Button, Badge, Box } from "@chakra-ui/react";
+import {
+  VStack,
+  Grid,
+  HStack,
+  Text,
+  Button,
+  Badge,
+  Box,
+} from "@chakra-ui/react";
 import { Calendar, Clock, CheckCircle2, XCircle } from "lucide-react";
 import { DetailItem } from "@/components";
 import { BaseModal } from "@/components/dashboard/BaseModal";
@@ -13,10 +21,14 @@ interface HorarioDetailModalProps {
 
 /**
  * Modal de sólo lectura para previsualizar todos los detalles de un Horario.
- * Muestra las fechas de registro, el estado actual, y desglosa en una lista 
+ * Muestra las fechas de registro, el estado actual, y desglosa en una lista
  * scrollable cada una de las configuraciones de días y rangos horarios asociados.
  */
-export const HorarioDetailModal = ({ isOpen, onClose, horario }: HorarioDetailModalProps) => {
+export const HorarioDetailModal = ({
+  isOpen,
+  onClose,
+  horario,
+}: HorarioDetailModalProps) => {
   if (!horario) return null;
 
   const formatDate = (dateStr?: string | null) => {
@@ -45,7 +57,12 @@ export const HorarioDetailModal = ({ isOpen, onClose, horario }: HorarioDetailMo
       size="xl"
       customFooter={
         <HStack justify="end" w="full">
-          <Button colorPalette="blue" borderRadius="full" onClick={onClose} px={8}>
+          <Button
+            colorPalette="blue"
+            borderRadius="full"
+            onClick={onClose}
+            px={8}
+          >
             Cerrar
           </Button>
         </HStack>
@@ -53,17 +70,37 @@ export const HorarioDetailModal = ({ isOpen, onClose, horario }: HorarioDetailMo
       headerExtra={
         <HStack gap={4} align="center">
           <VStack align="start" gap={1}>
-            <Text fontSize="xs" fontWeight="bold" textTransform="uppercase" letterSpacing="wider" color="blue.600">
+            <Text
+              fontSize="xs"
+              fontWeight="bold"
+              textTransform="uppercase"
+              letterSpacing="wider"
+              color="blue.600"
+            >
               Información del Horario
             </Text>
-            <Text fontSize="2xl" fontWeight="bold" color="gray.850" lineHeight="1.2">
+            <Text
+              fontSize="2xl"
+              fontWeight="bold"
+              color="gray.850"
+              lineHeight="1.2"
+            >
               {horario.nombre}
             </Text>
             <HStack gap={2} mt={1}>
-              <Badge colorPalette={!horario.eliminado_el ? "green" : "red"} variant="solid" borderRadius="full">
+              <Badge
+                colorPalette={!horario.eliminado_el ? "green" : "red"}
+                variant="solid"
+                borderRadius="full"
+              >
                 {!horario.eliminado_el ? "activo" : "inactivo"}
               </Badge>
-              <Badge colorPalette="gray" variant="subtle" borderRadius="full" textTransform="none">
+              <Badge
+                colorPalette="gray"
+                variant="subtle"
+                borderRadius="full"
+                textTransform="none"
+              >
                 <Text as="span" display={{ base: "none", sm: "inline" }}>
                   ID: {horario.id}
                 </Text>
@@ -78,13 +115,41 @@ export const HorarioDetailModal = ({ isOpen, onClose, horario }: HorarioDetailMo
       bodyScroll={false}
     >
       <VStack align="start" gap={6} w="full" flex="1" minH="0" pt={2}>
-        <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={6} w="full" flexShrink={0}>
-          <DetailItem icon={<Calendar size={18} />} label="Registro" value={formatDate(horario.creado_el)} />
-          <DetailItem icon={<Clock size={18} />} label="Última Act." value={formatDate(horario.actualizado_el)} />
+        <Grid
+          templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
+          gap={6}
+          w="full"
+          flexShrink={0}
+        >
+          <DetailItem
+            icon={<Calendar size={18} />}
+            label="Registro"
+            value={formatDate(horario.creado_el)}
+          />
+          <DetailItem
+            icon={<Clock size={18} />}
+            label="Última Act."
+            value={formatDate(horario.actualizado_el)}
+          />
         </Grid>
 
-        <Box w="full" borderTopWidth="1px" borderColor="gray.200" pt={4} display="flex" flexDirection="column" flex="1" minH="0">
-          <Text fontSize="sm" fontWeight="bold" color="gray.700" mb={4} flexShrink={0}>
+        <Box
+          w="full"
+          borderTopWidth="1px"
+          borderColor="gray.200"
+          pt={4}
+          display="flex"
+          flexDirection="column"
+          flex="1"
+          minH="0"
+        >
+          <Text
+            fontSize="sm"
+            fontWeight="bold"
+            color="gray.700"
+            mb={4}
+            flexShrink={0}
+          >
             Detalles por Día
           </Text>
           <VStack
@@ -97,7 +162,10 @@ export const HorarioDetailModal = ({ isOpen, onClose, horario }: HorarioDetailMo
             css={{
               "&::-webkit-scrollbar": { width: "6px" },
               "&::-webkit-scrollbar-track": { background: "transparent" },
-              "&::-webkit-scrollbar-thumb": { background: "#CBD5E1", borderRadius: "10px" },
+              "&::-webkit-scrollbar-thumb": {
+                background: "#CBD5E1",
+                borderRadius: "10px",
+              },
             }}
           >
             {horario.horario_detalles.map((det) => (
@@ -111,7 +179,15 @@ export const HorarioDetailModal = ({ isOpen, onClose, horario }: HorarioDetailMo
                 justify="space-between"
               >
                 <HStack gap={3}>
-                  <Badge colorPalette="blue" variant="subtle" px={2} py={1} borderRadius="md" w="90px" textAlign="center">
+                  <Badge
+                    colorPalette="blue"
+                    variant="subtle"
+                    px={2}
+                    py={1}
+                    borderRadius="md"
+                    w="90px"
+                    textAlign="center"
+                  >
                     {det.dia_semana || "Festivo"}
                   </Badge>
                   <HStack gap={1} color="gray.600" fontSize="sm">
@@ -122,7 +198,12 @@ export const HorarioDetailModal = ({ isOpen, onClose, horario }: HorarioDetailMo
                   </HStack>
                 </HStack>
                 {det.es_festivo ? (
-                  <HStack gap={1} color="orange.500" fontSize="xs" fontWeight="semibold">
+                  <HStack
+                    gap={1}
+                    color="orange.500"
+                    fontSize="xs"
+                    fontWeight="semibold"
+                  >
                     <CheckCircle2 size={14} /> <Text>Aplica a Festivos</Text>
                   </HStack>
                 ) : (

@@ -1,5 +1,13 @@
 import React from "react";
-import { Input, Button, Flex, Box, Center, HStack, Text } from "@chakra-ui/react";
+import {
+  Input,
+  Button,
+  Flex,
+  Box,
+  Center,
+  HStack,
+  Text,
+} from "@chakra-ui/react";
 import { Search, X, Plus } from "lucide-react";
 import { HorarioQueryParams } from "@/app/(dashboard)/sistema/horarios/types/Horario";
 import { AnimatedDropdown } from "@/components/ui/AnimatedDropdown";
@@ -12,17 +20,21 @@ interface HorariosFilterBarProps {
 }
 
 const statusOptions = [
-  { value: "all", label: "Todos los Estados" },
+  { value: "all", label: "Todos" },
   { value: "active", label: "Activos" },
   { value: "deleted", label: "Eliminados" },
 ];
 
 /**
  * Barra de filtrado superior para la vista de Horarios.
- * Permite buscar horarios por nombre, filtrar por estado (Activos/Inactivos) y 
+ * Permite buscar horarios por nombre, filtrar por estado (Activos/Inactivos) y
  * expone el botón principal para la creación de un nuevo registro.
  */
-export const HorariosFilterBar = ({ filters, setFilters, onOpenCreate }: HorariosFilterBarProps) => {
+export const HorariosFilterBar = ({
+  filters,
+  setFilters,
+  onOpenCreate,
+}: HorariosFilterBarProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFilters((prev) => ({

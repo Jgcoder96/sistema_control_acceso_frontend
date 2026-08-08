@@ -67,7 +67,7 @@ export const FestivoDeleteModal = ({
         </HStack>
       }
       onConfirm={handleConfirm}
-      confirmText={isDeleted ? "Restaurar" : "Eliminar"}
+      confirmText="Confirmar"
       cancelText="Cancelar"
       confirmLoading={loading}
     >

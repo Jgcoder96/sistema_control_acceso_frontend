@@ -12,7 +12,12 @@ import {
   Badge,
 } from "@chakra-ui/react";
 import { Plus, Trash2 } from "lucide-react";
-import { useForm, useFieldArray, Controller, SubmitHandler } from "react-hook-form";
+import {
+  useForm,
+  useFieldArray,
+  Controller,
+  SubmitHandler,
+} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BaseModal } from "@/components/dashboard/BaseModal";
 import { AnimatedDropdown } from "@/components/ui/AnimatedDropdown";
@@ -139,7 +144,7 @@ export const HorarioFormModal = ({
       colorPalette={isEditing ? "orange" : "blue"}
       size="xl"
       onConfirm={handleSubmit(onFormSubmit)}
-      confirmText={isEditing ? "Guardar Cambios" : "Guardar"}
+      confirmText="Confirmar"
       confirmLoading={loading}
       headerExtra={
         <HStack

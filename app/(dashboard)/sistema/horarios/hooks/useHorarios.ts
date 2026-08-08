@@ -6,7 +6,7 @@ import { apiFetch } from "@/utils/apiClient";
 /**
  * Hook personalizado para la gestión de Horarios.
  * Encapsula toda la lógica de obtención, creación, edición y eliminación (soft-delete) de horarios.
- * 
+ *
  * Además, provee el estado local para la paginación, los filtros de búsqueda y el control
  * del modal de estados (StatusModal) para notificar al usuario sobre el éxito o fracaso de las operaciones.
  */
@@ -86,7 +86,10 @@ export const useHorarios = () => {
           errorMsg +=
             ": " +
             resData.errors
-              .map((e: { path: string[]; message: string }) => `${e.path.join(".")}: ${e.message}`)
+              .map(
+                (e: { path: string[]; message: string }) =>
+                  `${e.path.join(".")}: ${e.message}`,
+              )
               .join(", ");
         }
         throw new Error(errorMsg);
@@ -132,7 +135,10 @@ export const useHorarios = () => {
           errorMsg +=
             ": " +
             resData.errors
-              .map((e: { path: string[]; message: string }) => `${e.path.join(".")}: ${e.message}`)
+              .map(
+                (e: { path: string[]; message: string }) =>
+                  `${e.path.join(".")}: ${e.message}`,
+              )
               .join(", ");
         }
         throw new Error(errorMsg);

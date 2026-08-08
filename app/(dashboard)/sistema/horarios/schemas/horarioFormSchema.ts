@@ -17,7 +17,16 @@ export const horarioFormSchema = z.object({
     .array(
       z.object({
         dia_semana: z
-          .enum(["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo", "festivo"])
+          .enum([
+            "lunes",
+            "martes",
+            "miercoles",
+            "jueves",
+            "viernes",
+            "sabado",
+            "domingo",
+            "festivo",
+          ])
           .optional()
           .nullable(),
         hora_inicio: z
@@ -27,7 +36,7 @@ export const horarioFormSchema = z.object({
           .string({ message: "Obligatorio" })
           .regex(hourRegex, "Inválido (HH:mm)"),
         es_festivo: z.boolean(),
-      })
+      }),
     )
     .min(1, "Debe agregar al menos un día al horario."),
 });

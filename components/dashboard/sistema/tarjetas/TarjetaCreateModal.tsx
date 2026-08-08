@@ -87,7 +87,7 @@ export const TarjetaCreateModal = ({
           </VStack>
         </HStack>
       }
-      confirmText="Guardar Tarjeta"
+      confirmText="Confirmar"
       cancelText="Cancelar"
       onConfirm={handleSubmit(submitHandler)}
       confirmLoading={isSubmitting}

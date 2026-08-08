@@ -78,7 +78,7 @@ export const PermisoDeleteModal = ({
           </VStack>
         </HStack>
       }
-      confirmText="Revocar Permiso"
+      confirmText="Confirmar"
       cancelText="Cancelar"
       onConfirm={handleConfirm}
       confirmLoading={isSubmitting}

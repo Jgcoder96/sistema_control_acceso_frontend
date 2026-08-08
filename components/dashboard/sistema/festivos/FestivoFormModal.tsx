@@ -104,7 +104,7 @@ export const FestivoFormModal = ({
       colorPalette={isEditing ? "orange" : "blue"}
       size="md"
       onConfirm={handleSubmit(onFormSubmit)}
-      confirmText={isEditing ? "Guardar Cambios" : "Guardar"}
+      confirmText="Confirmar"
       confirmLoading={loading}
       headerExtra={
         <HStack

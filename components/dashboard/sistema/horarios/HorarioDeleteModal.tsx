@@ -48,17 +48,37 @@ export const HorarioDeleteModal = ({
             <Trash2 size={20} />
           </Box>
           <VStack align="start" gap={1}>
-            <Text fontSize="xs" fontWeight="bold" textTransform="uppercase" letterSpacing="wider" color={isDeleted ? "blue.600" : "red.600"}>
+            <Text
+              fontSize="xs"
+              fontWeight="bold"
+              textTransform="uppercase"
+              letterSpacing="wider"
+              color={isDeleted ? "blue.600" : "red.600"}
+            >
               {isDeleted ? "Restaurar Horario" : "Eliminar Horario"}
             </Text>
-            <Text fontSize="xl" fontWeight="bold" color="gray.800" lineHeight="1.2">
+            <Text
+              fontSize="xl"
+              fontWeight="bold"
+              color="gray.800"
+              lineHeight="1.2"
+            >
               {horario.nombre}
             </Text>
             <HStack gap={2} mt={1}>
-              <Badge colorPalette={!horario.eliminado_el ? "green" : "red"} variant="solid" borderRadius="full">
+              <Badge
+                colorPalette={!horario.eliminado_el ? "green" : "red"}
+                variant="solid"
+                borderRadius="full"
+              >
                 {!horario.eliminado_el ? "activo" : "inactivo"}
               </Badge>
-              <Badge colorPalette="gray" variant="subtle" borderRadius="full" textTransform="none">
+              <Badge
+                colorPalette="gray"
+                variant="subtle"
+                borderRadius="full"
+                textTransform="none"
+              >
                 <Text as="span" display={{ base: "none", sm: "inline" }}>
                   ID: {horario.id}
                 </Text>
@@ -71,12 +91,18 @@ export const HorarioDeleteModal = ({
         </HStack>
       }
       onConfirm={handleConfirm}
-      confirmText={isDeleted ? "Restaurar" : "Eliminar"}
+      confirmText="Confirmar"
       cancelText="Cancelar"
       confirmLoading={loading}
     >
       <VStack align="center" gap={4} py={4}>
-        <Center w="16" h="16" bg={isDeleted ? "blue.50" : "red.50"} borderRadius="full" color={isDeleted ? "blue.500" : "red.500"}>
+        <Center
+          w="16"
+          h="16"
+          bg={isDeleted ? "blue.50" : "red.50"}
+          borderRadius="full"
+          color={isDeleted ? "blue.500" : "red.500"}
+        >
           <AlertTriangle size={32} />
         </Center>
 

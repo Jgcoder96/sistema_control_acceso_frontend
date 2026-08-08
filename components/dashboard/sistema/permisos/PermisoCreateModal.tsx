@@ -186,7 +186,7 @@ export const PermisoCreateModal = ({
           </VStack>
         </HStack>
       }
-      confirmText="Crear Permiso"
+      confirmText="Confirmar"
       cancelText="Cancelar"
       onConfirm={handleSubmit}
       confirmLoading={isSubmitting}

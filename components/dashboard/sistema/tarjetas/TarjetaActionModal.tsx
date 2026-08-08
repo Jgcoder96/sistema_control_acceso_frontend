@@ -159,7 +159,7 @@ export const TarjetaActionModal = ({
           </VStack>
         </HStack>
       }
-      confirmText={config.btnLabel}
+      confirmText="Confirmar"
       cancelText="Cancelar"
       onConfirm={handleConfirm}
       confirmLoading={isSubmitting}

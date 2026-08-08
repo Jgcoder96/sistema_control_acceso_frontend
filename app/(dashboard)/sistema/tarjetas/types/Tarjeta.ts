@@ -1,3 +1,6 @@
+/**
+ * Posibles estados lógicos o físicos por los que puede atravesar una tarjeta RFID.
+ */
 export type TarjetaEstado = "activable" | "activa" | "bloqueada" | "perdida" | "eliminada";
 export type TarjetaFiltroEstado = TarjetaEstado | "all";
 
@@ -23,6 +26,10 @@ export interface TarjetaHistorial {
   usuario: TarjetaUsuario;
 }
 
+/**
+ * Estructura de la entidad principal Tarjeta, incluyendo la información de estado, 
+ * auditoría de cambios y, opcionalmente, datos sobre el usuario y el historial.
+ */
 export interface Tarjeta {
   id: string;
   codigo: string;

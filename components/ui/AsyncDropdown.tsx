@@ -1,45 +1,66 @@
 "use client";
 
-import React, { useState } from "react";
-import { Box, Button, Text, Input, HStack } from "@chakra-ui/react";
+import React, { useState, useEffect } from "react";
+import { Box, Button, Text, Input, HStack, Spinner } from "@chakra-ui/react";
 import { ChevronDown, Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-export interface AnimatedDropdownOption {
+export interface AsyncDropdownOption {
   value: string;
   label: string;
 }
 
-/** Propiedades para inicializar y controlar el AnimatedDropdown */
-interface AnimatedDropdownProps {
+interface AsyncDropdownProps {
   value: string;
-  options: AnimatedDropdownOption[];
+  fetchOptions: (search: string) => Promise<AsyncDropdownOption[]>;
   onChange: (value: string) => void;
+  placeholder?: string;
   width?: string | Record<string, string | number>;
   isDisabled?: boolean;
 }
 
-/**
- * Selector desplegable (Dropdown) animado y estilizado a medida.
- * Alternativa altamente personalizable al clásico componente `<select>` HTML.
- */
-export const AnimatedDropdown = ({
+export const AsyncDropdown = ({
   value,
-  options,
+  fetchOptions,
   onChange,
+  placeholder = "Seleccione una opción...",
   width = { base: "120px", md: "180px" },
   isDisabled = false,
-}: AnimatedDropdownProps) => {
+}: AsyncDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [options, setOptions] = useState<AsyncDropdownOption[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  
+  // Store the selected label so we can display it even if options list changes
+  const [selectedLabel, setSelectedLabel] = useState(placeholder);
 
-  const selectedOption = options.find((opt) => opt.value === value);
-  const displayLabel = selectedOption ? selectedOption.label : value;
+  // Debounced search
+  useEffect(() => {
+    if (!isOpen) return; // Only fetch when open
 
-  const filteredOptions = options.filter(
-    (opt) =>
-      opt.label.toLowerCase().includes(searchTerm.toLowerCase()) || opt.value === "" // Always keep the "All/Select" option
-  );
+    const handler = setTimeout(async () => {
+      setIsLoading(true);
+      try {
+        const results = await fetchOptions(searchTerm);
+        setOptions(results);
+      } catch (error) {
+        console.error("Error fetching async options:", error);
+        setOptions([]);
+      } finally {
+        setIsLoading(false);
+      }
+    }, 400);
+
+    return () => clearTimeout(handler);
+  }, [searchTerm, isOpen, fetchOptions]);
+
+  // When value changes from outside (e.g., cleared), reset the label
+  useEffect(() => {
+    if (!value) {
+      setSelectedLabel(placeholder);
+    }
+  }, [value, placeholder]);
 
   return (
     <Box width={width} position="relative">
@@ -65,7 +86,7 @@ export const AnimatedDropdown = ({
         opacity={isDisabled ? 0.6 : 1}
         cursor={isDisabled ? "not-allowed" : "pointer"}
       >
-        <Text>{displayLabel}</Text>
+        <Text truncate>{selectedLabel}</Text>
         <motion.span
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.2, ease: "easeOut" }}
@@ -125,13 +146,18 @@ export const AnimatedDropdown = ({
                       px={1}
                       _focus={{ outline: "none" }}
                     />
+                    {isLoading && <Spinner size="xs" color="blue.500" />}
                   </HStack>
                 </Box>
 
                 {/* Lista de Opciones con Scroll */}
                 <Box p={1.5} maxH="160px" overflowY="auto" className="custom-scrollbar">
-                  {filteredOptions.length > 0 ? (
-                    filteredOptions.map((option, index) => (
+                  {!isLoading && options.length === 0 ? (
+                    <Text fontSize="sm" color="gray.500" textAlign="center" py={4}>
+                      No se encontraron resultados
+                    </Text>
+                  ) : (
+                    options.map((option) => (
                       <Button
                         key={option.value}
                         width="full"
@@ -146,9 +172,10 @@ export const AnimatedDropdown = ({
                         color={value === option.value ? "blue.700" : "gray.700"}
                         bg={value === option.value ? "blue.50" : "transparent"}
                         _hover={{ bg: "blue.50", color: "blue.700" }}
-                        mt={index === 0 ? 0 : 1}
+                        mt={1}
                         onClick={() => {
                           onChange(option.value);
+                          setSelectedLabel(option.label);
                           setIsOpen(false);
                           setSearchTerm("");
                         }}
@@ -156,10 +183,6 @@ export const AnimatedDropdown = ({
                         {option.label}
                       </Button>
                     ))
-                  ) : (
-                    <Text fontSize="sm" color="gray.500" textAlign="center" py={4}>
-                      No se encontraron resultados
-                    </Text>
                   )}
                 </Box>
               </Box>

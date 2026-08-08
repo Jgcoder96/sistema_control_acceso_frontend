@@ -1,5 +1,9 @@
 import { z } from "zod";
 
+/**
+ * Esquema de validación para la creación de una nueva Tarjeta RFID.
+ * Exige un formato específico (8-20 caracteres alfanuméricos) para asegurar integridad física.
+ */
 export const tarjetaCreateSchema = z.object({
   codigo: z
     .string({ message: "El campo 'código' es obligatorio." })
@@ -11,6 +15,9 @@ export const tarjetaCreateSchema = z.object({
 
 export type TarjetaCreateValues = z.infer<typeof tarjetaCreateSchema>;
 
+/**
+ * Esquema de validación para la asignación de una tarjeta a un usuario.
+ */
 export const tarjetaAssignSchema = z.object({
   usuario_id: z
     .string({ message: "El campo 'usuario' es obligatorio." })

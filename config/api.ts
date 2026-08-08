@@ -1,5 +1,5 @@
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "http://192.168.0.183:3000";
+  process.env.NEXT_PUBLIC_API_BASE_URL || "http://192.168.18.221:3000";
 
 export const API_CONFIG = {
   BASE_URL: API_BASE_URL,
@@ -41,5 +41,8 @@ export const API_CONFIG = {
       `${API_BASE_URL}/api/firmware/cards/${id}/lost`,
     TARJETAS_DELETE: (id: string) =>
       `${API_BASE_URL}/api/firmware/cards/${id}/delete`,
+    PHYSICAL_PERMITS: `${API_BASE_URL}/api/firmware/permissions`,
+    PHYSICAL_PERMITS_DETAIL: (id: string) =>
+      `${API_BASE_URL}/api/firmware/permissions/${id}`,
   },
 };

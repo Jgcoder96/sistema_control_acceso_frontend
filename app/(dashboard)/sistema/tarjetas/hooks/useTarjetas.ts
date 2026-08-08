@@ -6,6 +6,11 @@ import {
   TarjetaQueryParams,
 } from "@/app/(dashboard)/sistema/tarjetas/types/Tarjeta";
 
+/**
+ * Custom hook principal para la gestión completa del ciclo de vida de Tarjetas RFID.
+ * Coordina peticiones de listado con filtros, así como todas las acciones (crear,
+ * asignar, bloquear, retornar, eliminar, etc.) con sus debidos manejos de errores.
+ */
 export const useTarjetas = () => {
   const [data, setData] = useState<Tarjeta[]>([]);
   const [isLoading, setIsLoading] = useState(false);

@@ -20,6 +20,12 @@ import {
 } from "@/app/(dashboard)/sistema/tarjetas/types/Tarjeta";
 import { TarjetaCreateValues } from "@/app/(dashboard)/sistema/tarjetas/schemas/tarjetaSchemas";
 
+/**
+ * Controlador principal (Smart Component) de la vista de Tarjetas RFID.
+ * Coordina la inyección de datos provenientes del hook central hacia la tabla, 
+ * maneja los estados de apertura de todos los modales de acción, 
+ * y gestiona las notificaciones flotantes (Toasts) de la UI.
+ */
 export default function TarjetasPage() {
   const {
     data,

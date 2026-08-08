@@ -11,6 +11,10 @@ import {
 import { BaseModal } from "@/components/dashboard/BaseModal";
 import { Tarjeta } from "@/app/(dashboard)/sistema/tarjetas/types/Tarjeta";
 
+/**
+ * Tipos de acción rápida que pueden ejecutarse sobre una tarjeta RFID
+ * desde la lista, requiriendo confirmación mediante este modal.
+ */
 export type TarjetaActionType =
   | "block"
   | "reactivate"
@@ -26,6 +30,11 @@ interface TarjetaActionModalProps {
   onConfirm: (id: string, action: TarjetaActionType) => Promise<void>;
 }
 
+/**
+ * Modal genérico premium para confirmación de acciones rápidas sobre tarjetas
+ * (bloqueo, desbloqueo, devolución, reporte de pérdida, etc.).
+ * Centraliza la UI para no duplicar código por cada botón de la tabla.
+ */
 export const TarjetaActionModal = ({
   isOpen,
   onClose,

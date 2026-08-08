@@ -1,50 +1,49 @@
 import React from "react";
 import { HStack, Input, Text, Flex, Box, Center } from "@chakra-ui/react";
 import { Search, Plus } from "lucide-react";
-import { TarjetaFiltroEstado } from "@/app/(dashboard)/sistema/tarjetas/types/Tarjeta";
+import { PermisoFiltroEstado } from "@/app/(dashboard)/sistema/permisos/types/PermisoFisico";
 import { AnimatedDropdown } from "@/components/ui/AnimatedDropdown";
 import { GlobalButton } from "@/components/ui/GlobalButton";
 
-interface TarjetasFilterBarProps {
-  onSearchChange: (codigo: string, cedula: string) => void;
-  onStatusChange: (status: TarjetaFiltroEstado) => void;
+interface PermisosFilterBarProps {
+  onSearchChange: (cedula: string, puntoAcceso: string, ubicacion: string) => void;
+  onStatusChange: (status: PermisoFiltroEstado) => void;
   onOpenCreate: () => void;
 }
 
 /**
- * Barra superior de búsqueda y filtrado para la sección de Tarjetas.
- * Captura y emite los términos de búsqueda que el padre usa para recargar los datos.
+ * Componente de barra de filtros para la tabla de Permisos Físicos.
+ * Incluye campos de búsqueda por texto y selectores de estado, junto con
+ * el botón de acción principal para crear nuevos registros.
  */
-export const TarjetasFilterBar = ({
+export const PermisosFilterBar = ({
   onSearchChange,
   onStatusChange,
   onOpenCreate,
-}: TarjetasFilterBarProps) => {
-  const [codigo, setCodigo] = React.useState("");
+}: PermisosFilterBarProps) => {
   const [cedula, setCedula] = React.useState("");
-  const [status, setStatus] = React.useState<TarjetaFiltroEstado>("all");
+  const [puntoAcceso, setPuntoAcceso] = React.useState("");
+  const [ubicacion, setUbicacion] = React.useState("");
+  const [status, setStatus] = React.useState<PermisoFiltroEstado>("all");
 
   React.useEffect(() => {
     const handler = setTimeout(() => {
-      onSearchChange(codigo, cedula);
+      onSearchChange(cedula, puntoAcceso, ubicacion);
     }, 400);
     return () => clearTimeout(handler);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [codigo, cedula]);
+  }, [cedula, puntoAcceso, ubicacion]);
 
   const handleStatusChange = (val: string) => {
-    const newStatus = val as TarjetaFiltroEstado;
+    const newStatus = val as PermisoFiltroEstado;
     setStatus(newStatus);
     onStatusChange(newStatus);
   };
 
   const statusOptions = [
     { value: "all", label: "Todos los Estados" },
-    { value: "activable", label: "Activable" },
-    { value: "activa", label: "Activa" },
-    { value: "bloqueada", label: "Bloqueada" },
-    { value: "perdida", label: "Perdida" },
-    { value: "eliminada", label: "Eliminada" },
+    { value: "active", label: "Activos" },
+    { value: "deleted", label: "Eliminados" },
   ];
 
   return (
@@ -62,52 +61,8 @@ export const TarjetasFilterBar = ({
         flex="1"
         flexDirection={{ base: "column", md: "row" }}
       >
-        <Box
-          position="relative"
-          flex={{ base: "1", md: "none" }}
-          width={{ base: "full", md: "250px" }}
-        >
-          <Center
-            position="absolute"
-            left="3"
-            top="0"
-            bottom="0"
-            color="gray.400"
-            zIndex="10"
-          >
-            <Search size={16} />
-          </Center>
-          <Input
-            placeholder="Buscar por código..."
-            value={codigo}
-            onChange={(e) => setCodigo(e.target.value)}
-            pl="10"
-            h="36px"
-            bg="white"
-            borderRadius="full"
-            border="1px solid"
-            borderColor="gray.200"
-            fontSize="sm"
-            _focus={{
-              borderColor: "brand.500",
-              ring: "1px",
-              ringColor: "brand.500",
-            }}
-          />
-        </Box>
-        <Box
-          position="relative"
-          flex={{ base: "1", md: "none" }}
-          width={{ base: "full", md: "200px" }}
-        >
-          <Center
-            position="absolute"
-            left="3"
-            top="0"
-            bottom="0"
-            color="gray.400"
-            zIndex="10"
-          >
+        <Box position="relative" flex={{ base: "1", md: "none" }} width={{ base: "full", md: "200px" }}>
+          <Center position="absolute" left="3" top="0" bottom="0" color="gray.400" zIndex="10">
             <Search size={16} />
           </Center>
           <Input
@@ -128,10 +83,51 @@ export const TarjetasFilterBar = ({
             }}
           />
         </Box>
-        <Box
-          flex={{ base: "1", md: "none" }}
-          width={{ base: "full", md: "auto" }}
-        >
+        <Box position="relative" flex={{ base: "1", md: "none" }} width={{ base: "full", md: "200px" }}>
+          <Center position="absolute" left="3" top="0" bottom="0" color="gray.400" zIndex="10">
+            <Search size={16} />
+          </Center>
+          <Input
+            placeholder="Punto de acceso..."
+            value={puntoAcceso}
+            onChange={(e) => setPuntoAcceso(e.target.value)}
+            pl="10"
+            h="36px"
+            bg="white"
+            borderRadius="full"
+            border="1px solid"
+            borderColor="gray.200"
+            fontSize="sm"
+            _focus={{
+              borderColor: "brand.500",
+              ring: "1px",
+              ringColor: "brand.500",
+            }}
+          />
+        </Box>
+        <Box position="relative" flex={{ base: "1", md: "none" }} width={{ base: "full", md: "200px" }}>
+          <Center position="absolute" left="3" top="0" bottom="0" color="gray.400" zIndex="10">
+            <Search size={16} />
+          </Center>
+          <Input
+            placeholder="Ubicación..."
+            value={ubicacion}
+            onChange={(e) => setUbicacion(e.target.value)}
+            pl="10"
+            h="36px"
+            bg="white"
+            borderRadius="full"
+            border="1px solid"
+            borderColor="gray.200"
+            fontSize="sm"
+            _focus={{
+              borderColor: "brand.500",
+              ring: "1px",
+              ringColor: "brand.500",
+            }}
+          />
+        </Box>
+        <Box flex={{ base: "1", md: "none" }} width={{ base: "full", md: "auto" }}>
           <AnimatedDropdown
             value={status}
             options={statusOptions}
@@ -152,7 +148,7 @@ export const TarjetasFilterBar = ({
         <HStack gap={2} align="center">
           <Plus size={16} strokeWidth={3} />
           <Text fontSize="sm" fontWeight="bold">
-            Registrar Tarjeta
+            Nuevo Permiso
           </Text>
         </HStack>
       </GlobalButton>

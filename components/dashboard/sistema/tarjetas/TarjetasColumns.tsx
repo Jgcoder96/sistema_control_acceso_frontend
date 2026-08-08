@@ -25,6 +25,10 @@ interface TarjetasColumnsProps {
   onDeleteToggle: (t: Tarjeta) => void;
 }
 
+/**
+ * Constructor de configuración para la tabla de Tarjetas RFID.
+ * Retorna la matriz de columnas inyectando las acciones delegadas a los botones (callbacks).
+ */
 export const getTarjetasColumns = ({
   onDetail,
   onAssign,

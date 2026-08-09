@@ -371,9 +371,12 @@ export default function ProtectedNavbar() {
             <IconButton
               aria-label="Abrir menú"
               variant="outline"
+              size="lg"
+              h="48px"
+              w="48px"
               onClick={() => setIsDrawerOpen(true)}
             >
-              <MenuIcon size={18} />
+              <MenuIcon size={28} />
             </IconButton>
           </Box>
 

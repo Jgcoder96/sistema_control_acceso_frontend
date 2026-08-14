@@ -1,5 +1,5 @@
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "http://192.168.18.221:3000";
+  process.env.NEXT_PUBLIC_API_BASE_URL || "";
 
 export const API_CONFIG = {
   BASE_URL: API_BASE_URL,

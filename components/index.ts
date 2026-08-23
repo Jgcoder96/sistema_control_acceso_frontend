@@ -4,3 +4,6 @@ export { GlobalButton } from "./ui/GlobalButton";
 export { BaseModal } from "./dashboard/BaseModal";
 export { FormInput } from "./ui/FormInput";
 export { DetailItem } from "./ui/DetailItem";
+export { AccessEventCard } from "./dashboard/inicio/AccessEventCard";
+export { ConnectionBadge } from "./dashboard/inicio/ConnectionBadge";
+export { EmptyEventsState } from "./dashboard/inicio/EmptyEventsState";

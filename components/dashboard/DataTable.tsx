@@ -62,11 +62,18 @@ export function DataTable<T>({
   }
 
   const isServer = !!serverPagination;
-  const actualCurrentPage = isServer ? serverPagination.currentPage : currentPage;
-  const totalPages = isServer ? serverPagination.totalPages : Math.ceil(data.length / pageSize);
+  const actualCurrentPage = isServer
+    ? serverPagination.currentPage
+    : currentPage;
+  const totalPages = isServer
+    ? serverPagination.totalPages
+    : Math.ceil(data.length / pageSize);
   const currentData = isServer
     ? data
-    : data.slice((actualCurrentPage - 1) * pageSize, actualCurrentPage * pageSize);
+    : data.slice(
+        (actualCurrentPage - 1) * pageSize,
+        actualCurrentPage * pageSize,
+      );
 
   const handlePageChange = (p: number) => {
     if (isServer) {
@@ -225,7 +232,13 @@ export function DataTable<T>({
         </Box>
 
         {totalPages > 0 && (
-          <Box borderTop="1px solid" borderColor="gray.100" py={3} bg="white" mt="auto">
+          <Box
+            borderTop="1px solid"
+            borderColor="gray.100"
+            py={3}
+            bg="white"
+            mt="auto"
+          >
             <Center>
               <HStack
                 gap={2}
@@ -245,22 +258,55 @@ export function DataTable<T>({
                   <ChevronLeft size={18} />
                 </IconButton>
                 <HStack gap={1} px={2}>
-                  {Array.from({ length: totalPages }).map((_, i) => (
-                    <Button
-                      key={i}
-                      size="sm"
-                      variant={actualCurrentPage === i + 1 ? "solid" : "ghost"}
-                      bg={actualCurrentPage === i + 1 ? "brand.500" : "transparent"}
-                      color={actualCurrentPage === i + 1 ? "white" : "gray.600"}
-                      borderRadius="full"
-                      minW="32px"
-                      h="32px"
-                      fontSize="xs"
-                      onClick={() => handlePageChange(i + 1)}
-                    >
-                      {i + 1}
-                    </Button>
-                  ))}
+                  {((): (number | string)[] => {
+                    const current = actualCurrentPage;
+                    const total = totalPages;
+                    if (total <= 7)
+                      return Array.from({ length: total }, (_, i) => i + 1);
+                    if (current <= 4) return [1, 2, 3, 4, 5, "...", total];
+                    if (current >= total - 3)
+                      return [
+                        1,
+                        "...",
+                        total - 4,
+                        total - 3,
+                        total - 2,
+                        total - 1,
+                        total,
+                      ];
+                    return [
+                      1,
+                      "...",
+                      current - 1,
+                      current,
+                      current + 1,
+                      "...",
+                      total,
+                    ];
+                  })().map((p, i) =>
+                    typeof p === "number" ? (
+                      <Button
+                        key={i}
+                        size="sm"
+                        variant={actualCurrentPage === p ? "solid" : "ghost"}
+                        bg={
+                          actualCurrentPage === p ? "brand.500" : "transparent"
+                        }
+                        color={actualCurrentPage === p ? "white" : "gray.600"}
+                        borderRadius="full"
+                        minW="32px"
+                        h="32px"
+                        fontSize="xs"
+                        onClick={() => handlePageChange(p)}
+                      >
+                        {p}
+                      </Button>
+                    ) : (
+                      <Text key={i} px={2} color="gray.500" fontSize="sm">
+                        {p}
+                      </Text>
+                    ),
+                  )}
                 </HStack>
                 <IconButton
                   variant="ghost"

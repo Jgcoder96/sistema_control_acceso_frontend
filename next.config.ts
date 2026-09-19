@@ -15,6 +15,10 @@ const nextConfig: NextConfig = {
         source: "/api/:path*",
         destination: "http://api:3000/api/:path*", // Proxy interno al backend
       },
+      {
+        source: "/socket.io/:path*",
+        destination: "http://api:3000/socket.io/:path*", // Proxy interno de WebSockets al backend
+      },
     ];
   },
 };

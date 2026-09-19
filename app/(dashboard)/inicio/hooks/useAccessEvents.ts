@@ -39,7 +39,7 @@ export const useAccessEvents = () => {
       try {
         const token = localStorage.getItem("access_token");
         const baseUrl =
-          process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3000";
+          process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000";
 
         // Pedimos los últimos 20 registros con timestamp para evitar caché
         const res = await fetch(
@@ -95,10 +95,15 @@ export const useAccessEvents = () => {
       }
     };
 
+    let socket: Socket | null = null;
+
     fetchHistory().then(() => {
       // 2. Conectar el socket una vez cargado el historial
-      const socket: Socket = io(
-        process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3000",
+      socket = io(
+        process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000",
+        {
+          transports: ["websocket", "polling"],
+        }
       );
 
       socket.on("connect", () => {
@@ -110,17 +115,20 @@ export const useAccessEvents = () => {
       });
 
       socket.on("access_event", (data: AccessEventData) => {
+        console.log("EVENTO RECIBIDO POR WEBSOCKET:", data);
         setEvents((prev) => {
           // Prevenir duplicados si el socket empuja algo que ya vino por REST
           if (prev.some((e) => e.id === data.id)) return prev;
           return [...prev, data];
         });
       });
-
-      return () => {
-        socket.disconnect();
-      };
     });
+
+    return () => {
+      if (socket) {
+        socket.disconnect();
+      }
+    };
   }, []);
 
   return { events, isConnected };
